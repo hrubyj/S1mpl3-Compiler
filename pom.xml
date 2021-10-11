@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>cz.zcu.kiv</groupId>
+    <artifactId>s1mpl3</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>S1mpl3 grammar</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>13</maven.compiler.target>
+        <maven.compiler.source>13</maven.compiler.source>
+        <antlr.version>4.9.2</antlr.version>
+        <antlr4test-maven-plugin.version>1.18</antlr4test-maven-plugin.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>${antlr.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.antlr</groupId>
+                    <artifactId>antlr4-maven-plugin</artifactId>
+                    <version>${antlr.version}</version>
+                    <configuration>
+                        <sourceDirectory>${basedir}</sourceDirectory>
+                        <includes>
+                            <include>test.g4</include>
+                        </includes>
+                        <visitor>true</visitor>
+                        <listener>true</listener>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>antlr4</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>com.khubla.antlr</groupId>
+                    <artifactId>antlr4test-maven-plugin</artifactId>
+                    <version>${antlr4test-maven-plugin.version}</version>
+                    <configuration>
+                        <verbose>false</verbose>
+                        <showTree>false</showTree>
+                        <entryPoint>compilationUnit</entryPoint>
+                        <grammarName>test</grammarName>
+                        <packageName></packageName>
+                        <exampleFiles>examples/</exampleFiles>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
