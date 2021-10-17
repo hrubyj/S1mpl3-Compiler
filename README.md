@@ -33,3 +33,15 @@ __________________________________________
    const int b = 10;
    int c = +(+(a, b), c);
    ```
+#### zvolená rozšíření
+Za jeden bod:
+    -> další typ cyklu for, while .. do, foreach pro pole)
+    -> else větev
+    -> datový typ boolean a logické operace s ním
+    -> rozvětvená podmínka (switch, case)
+    -> ternární operátor
+    -> příkazy pro vstup a výstup
+Za dva body:
+    -> pole a práce s jeho prvky
+    -> parametry předávané hodnotou
+    -> návratová hodnota podprogramu
