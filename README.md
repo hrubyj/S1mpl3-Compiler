@@ -14,8 +14,8 @@ __________________________________________
 #### základní aritmetiku a logiku (+, -, *, /, AND, OR, negace a závorky, operátory pro porovnání čísel)
    -> `<operator> (<hodnota>, <hodnota>);`
    -> `<operator> (<identifikator>, <identifikator>);`
-   - AND - `^` 
-   - OR - `ˇ`
+   - AND - `AND` 
+   - OR - `OR`
    - negace - `!`
 
 #### cyklus (libovolný)
