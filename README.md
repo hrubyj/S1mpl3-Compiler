@@ -62,3 +62,7 @@ Za dva body:
     -> parametry předávané hodnotou
     
     -> návratová hodnota podprogramu
+    
+Za tři body:
+
+    -> instanceOf
