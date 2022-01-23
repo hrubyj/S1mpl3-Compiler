@@ -41,7 +41,7 @@
                     <configuration>
                         <sourceDirectory>${basedir}</sourceDirectory>
                         <includes>
-                            <include>test.g4</include>
+                            <include>simple.g4</include>
                         </includes>
                         <visitor>true</visitor>
                         <listener>true</listener>

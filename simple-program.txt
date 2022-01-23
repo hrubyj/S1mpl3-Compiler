@@ -1,0 +1,64 @@
+
+func bool fnc(){
+
+do {
+    int a = a[15];
+}   while(true);
+
+return true;
+}
+
+
+func void main() {
+
+const int a = 15;
+bool[25] pole;
+
+if ((< a, pole)) {
+    pole[0] = 1;
+} else {
+    (* a,b);
+}
+
+for a in 15 {
+    const int c = 5;
+}
+
+switch(true) {
+    case 15: {
+        return 15;
+     }
+    default: {
+    
+   } 
+}
+ 
+(instanceof a, int);
+
+return;
+}
+
+func int test(int a, bool[] pole) {
+
+return 1;
+}
+
+
+func void main() {
+
+const int a = 5;
+const bool c = true;
+ int b = 1 ;
+for a in 15 {
+    const int b = 1 ;
+    int b = (< a, 10) ? 1 : 13; 
+}
+
+(!(* c,b));
+
+(instanceof c, bool);
+a[(fnc 1, 2)] = -10;
+a[(< a, b) ? 1 : 15] = (fnc 15, full);
+return;
+
+}
