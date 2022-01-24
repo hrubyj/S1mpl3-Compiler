@@ -155,6 +155,7 @@ typeQualifier
 
 unaryOperator
     : '!'
+    | Minus
     ;
 
 comparisonOperator
