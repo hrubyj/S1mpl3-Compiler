@@ -1,4 +1,5 @@
-// Generated from /home/markovda/Skola/repos/simple/simple.g4 by ANTLR 4.9.2
+// Generated from /home/markovda/Skola/repos/simple/src/main/simple.g4 by ANTLR 4.9.2
+package cz.zcu.kiv.gen;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -36,6 +37,16 @@ public interface simpleListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssignment(simpleParser.AssignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link simpleParser#arrayAccess}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayAccess(simpleParser.ArrayAccessContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link simpleParser#arrayAccess}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayAccess(simpleParser.ArrayAccessContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link simpleParser#statement}.
 	 * @param ctx the parse tree
@@ -77,15 +88,15 @@ public interface simpleListener extends ParseTreeListener {
 	 */
 	void exitLabeledStatement(simpleParser.LabeledStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link simpleParser#jumpStatement}.
+	 * Enter a parse tree produced by {@link simpleParser#returnStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterJumpStatement(simpleParser.JumpStatementContext ctx);
+	void enterReturnStatement(simpleParser.ReturnStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link simpleParser#jumpStatement}.
+	 * Exit a parse tree produced by {@link simpleParser#returnStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitJumpStatement(simpleParser.JumpStatementContext ctx);
+	void exitReturnStatement(simpleParser.ReturnStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link simpleParser#selectionStatement}.
 	 * @param ctx the parse tree
@@ -136,6 +147,46 @@ public interface simpleListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNonVoidReturnValue(simpleParser.NonVoidReturnValueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link simpleParser#scope}.
+	 * @param ctx the parse tree
+	 */
+	void enterScope(simpleParser.ScopeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link simpleParser#scope}.
+	 * @param ctx the parse tree
+	 */
+	void exitScope(simpleParser.ScopeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link simpleParser#functionScope}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionScope(simpleParser.FunctionScopeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link simpleParser#functionScope}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionScope(simpleParser.FunctionScopeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link simpleParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition(simpleParser.ConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link simpleParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition(simpleParser.ConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link simpleParser#whileCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileCondition(simpleParser.WhileConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link simpleParser#whileCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileCondition(simpleParser.WhileConditionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link simpleParser#conditionalExpression}.
 	 * @param ctx the parse tree
@@ -286,6 +337,26 @@ public interface simpleListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitComparisonOperator(simpleParser.ComparisonOperatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link simpleParser#arithmeticOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterArithmeticOperator(simpleParser.ArithmeticOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link simpleParser#arithmeticOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitArithmeticOperator(simpleParser.ArithmeticOperatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link simpleParser#logicalOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalOperator(simpleParser.LogicalOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link simpleParser#logicalOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalOperator(simpleParser.LogicalOperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link simpleParser#signedConstant}.
 	 * @param ctx the parse tree

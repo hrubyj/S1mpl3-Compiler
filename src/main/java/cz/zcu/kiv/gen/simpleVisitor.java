@@ -1,4 +1,5 @@
-// Generated from /home/markovda/Skola/repos/simple/simple.g4 by ANTLR 4.9.2
+// Generated from /home/markovda/Skola/repos/simple/src/main/simple.g4 by ANTLR 4.9.2
+package cz.zcu.kiv.gen;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -28,6 +29,12 @@ public interface simpleVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignment(simpleParser.AssignmentContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link simpleParser#arrayAccess}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayAccess(simpleParser.ArrayAccessContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link simpleParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -52,11 +59,11 @@ public interface simpleVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLabeledStatement(simpleParser.LabeledStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link simpleParser#jumpStatement}.
+	 * Visit a parse tree produced by {@link simpleParser#returnStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitJumpStatement(simpleParser.JumpStatementContext ctx);
+	T visitReturnStatement(simpleParser.ReturnStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link simpleParser#selectionStatement}.
 	 * @param ctx the parse tree
@@ -87,6 +94,30 @@ public interface simpleVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNonVoidReturnValue(simpleParser.NonVoidReturnValueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link simpleParser#scope}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScope(simpleParser.ScopeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link simpleParser#functionScope}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionScope(simpleParser.FunctionScopeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link simpleParser#condition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCondition(simpleParser.ConditionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link simpleParser#whileCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileCondition(simpleParser.WhileConditionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link simpleParser#conditionalExpression}.
 	 * @param ctx the parse tree
@@ -177,6 +208,18 @@ public interface simpleVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitComparisonOperator(simpleParser.ComparisonOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link simpleParser#arithmeticOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArithmeticOperator(simpleParser.ArithmeticOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link simpleParser#logicalOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicalOperator(simpleParser.LogicalOperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link simpleParser#signedConstant}.
 	 * @param ctx the parse tree

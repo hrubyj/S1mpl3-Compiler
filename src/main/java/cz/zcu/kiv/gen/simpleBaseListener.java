@@ -1,5 +1,5 @@
-// Generated from /home/markovda/Skola/repos/simple/simple.g4 by ANTLR 4.9.2
-
+// Generated from /home/markovda/Skola/repos/simple/src/main/simple.g4 by ANTLR 4.9.2
+package cz.zcu.kiv.gen;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -46,6 +46,18 @@ public class simpleBaseListener implements simpleListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssignment(simpleParser.AssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayAccess(simpleParser.ArrayAccessContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayAccess(simpleParser.ArrayAccessContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -99,13 +111,13 @@ public class simpleBaseListener implements simpleListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterJumpStatement(simpleParser.JumpStatementContext ctx) { }
+	@Override public void enterReturnStatement(simpleParser.ReturnStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitJumpStatement(simpleParser.JumpStatementContext ctx) { }
+	@Override public void exitReturnStatement(simpleParser.ReturnStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -166,6 +178,54 @@ public class simpleBaseListener implements simpleListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNonVoidReturnValue(simpleParser.NonVoidReturnValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterScope(simpleParser.ScopeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitScope(simpleParser.ScopeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionScope(simpleParser.FunctionScopeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionScope(simpleParser.FunctionScopeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCondition(simpleParser.ConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCondition(simpleParser.ConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterWhileCondition(simpleParser.WhileConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitWhileCondition(simpleParser.WhileConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -346,6 +406,30 @@ public class simpleBaseListener implements simpleListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitComparisonOperator(simpleParser.ComparisonOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArithmeticOperator(simpleParser.ArithmeticOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArithmeticOperator(simpleParser.ArithmeticOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLogicalOperator(simpleParser.LogicalOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicalOperator(simpleParser.LogicalOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
