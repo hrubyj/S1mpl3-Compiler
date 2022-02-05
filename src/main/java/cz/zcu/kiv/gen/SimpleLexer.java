@@ -1,4 +1,4 @@
-// Generated from /home/markovda/Skola/repos/simple/src/main/simple.g4 by ANTLR 4.9.2
+// Generated from /home/markovda/Skola/repos/simple/src/main/resources/Simple.g4 by ANTLR 4.9.2
 package cz.zcu.kiv.gen;
 
 import org.antlr.v4.runtime.CharStream;
@@ -13,7 +13,7 @@ import org.antlr.v4.runtime.atn.PredictionContextCache;
 import org.antlr.v4.runtime.dfa.DFA;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class simpleLexer extends Lexer {
+public class SimpleLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.9.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -106,13 +106,13 @@ public class simpleLexer extends Lexer {
 	}
 
 
-	public simpleLexer(CharStream input) {
+	public SimpleLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "simple.g4"; }
+	public String getGrammarFileName() { return "Simple.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

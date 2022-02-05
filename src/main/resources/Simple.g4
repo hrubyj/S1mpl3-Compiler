@@ -1,6 +1,6 @@
 // test file
 
-grammar simple;
+grammar Simple;
 
 program
     : functionDeclaration*

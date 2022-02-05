@@ -1,459 +1,459 @@
-// Generated from /home/markovda/Skola/repos/simple/src/main/simple.g4 by ANTLR 4.9.2
-package cz.zcu.kiv.gen;
+package cz.zcu.kiv.gen;// Generated from /home/markovda/Skola/repos/simple/src/main/resources/Simple.g4 by ANTLR 4.9.2
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
- * This class provides an empty implementation of {@link simpleListener},
+ * This class provides an empty implementation of {@link SimpleListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
-public class simpleBaseListener implements simpleListener {
+public class SimpleBaseListener implements SimpleListener {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProgram(simpleParser.ProgramContext ctx) { }
+	@Override public void enterProgram(SimpleParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProgram(simpleParser.ProgramContext ctx) { }
+	@Override public void exitProgram(SimpleParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDeclaration(simpleParser.DeclarationContext ctx) { }
+	@Override public void enterDeclaration(SimpleParser.DeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDeclaration(simpleParser.DeclarationContext ctx) { }
+	@Override public void exitDeclaration(SimpleParser.DeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssignment(simpleParser.AssignmentContext ctx) { }
+	@Override public void enterAssignment(SimpleParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssignment(simpleParser.AssignmentContext ctx) { }
+	@Override public void exitAssignment(SimpleParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArrayAccess(simpleParser.ArrayAccessContext ctx) { }
+	@Override public void enterArrayAccess(SimpleParser.ArrayAccessContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArrayAccess(simpleParser.ArrayAccessContext ctx) { }
+	@Override public void exitArrayAccess(SimpleParser.ArrayAccessContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatement(simpleParser.StatementContext ctx) { }
+	@Override public void enterStatement(SimpleParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatement(simpleParser.StatementContext ctx) { }
+	@Override public void exitStatement(SimpleParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIterationStatement(simpleParser.IterationStatementContext ctx) { }
+	@Override public void enterIterationStatement(SimpleParser.IterationStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIterationStatement(simpleParser.IterationStatementContext ctx) { }
+	@Override public void exitIterationStatement(SimpleParser.IterationStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpressionStatement(simpleParser.ExpressionStatementContext ctx) { }
+	@Override public void enterExpressionStatement(SimpleParser.ExpressionStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpressionStatement(simpleParser.ExpressionStatementContext ctx) { }
+	@Override public void exitExpressionStatement(SimpleParser.ExpressionStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLabeledStatement(simpleParser.LabeledStatementContext ctx) { }
+	@Override public void enterLabeledStatement(SimpleParser.LabeledStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLabeledStatement(simpleParser.LabeledStatementContext ctx) { }
+	@Override public void exitLabeledStatement(SimpleParser.LabeledStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReturnStatement(simpleParser.ReturnStatementContext ctx) { }
+	@Override public void enterReturnStatement(SimpleParser.ReturnStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReturnStatement(simpleParser.ReturnStatementContext ctx) { }
+	@Override public void exitReturnStatement(SimpleParser.ReturnStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSelectionStatement(simpleParser.SelectionStatementContext ctx) { }
+	@Override public void enterSelectionStatement(SimpleParser.SelectionStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSelectionStatement(simpleParser.SelectionStatementContext ctx) { }
+	@Override public void exitSelectionStatement(SimpleParser.SelectionStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBlockItemList(simpleParser.BlockItemListContext ctx) { }
+	@Override public void enterBlockItemList(SimpleParser.BlockItemListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBlockItemList(simpleParser.BlockItemListContext ctx) { }
+	@Override public void exitBlockItemList(SimpleParser.BlockItemListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBlockItem(simpleParser.BlockItemContext ctx) { }
+	@Override public void enterBlockItem(SimpleParser.BlockItemContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBlockItem(simpleParser.BlockItemContext ctx) { }
+	@Override public void exitBlockItem(SimpleParser.BlockItemContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression(simpleParser.ExpressionContext ctx) { }
+	@Override public void enterExpression(SimpleParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression(simpleParser.ExpressionContext ctx) { }
+	@Override public void exitExpression(SimpleParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNonVoidReturnValue(simpleParser.NonVoidReturnValueContext ctx) { }
+	@Override public void enterNonVoidReturnValue(SimpleParser.NonVoidReturnValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNonVoidReturnValue(simpleParser.NonVoidReturnValueContext ctx) { }
+	@Override public void exitNonVoidReturnValue(SimpleParser.NonVoidReturnValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterScope(simpleParser.ScopeContext ctx) { }
+	@Override public void enterScope(SimpleParser.ScopeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitScope(simpleParser.ScopeContext ctx) { }
+	@Override public void exitScope(SimpleParser.ScopeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionScope(simpleParser.FunctionScopeContext ctx) { }
+	@Override public void enterFunctionScope(SimpleParser.FunctionScopeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionScope(simpleParser.FunctionScopeContext ctx) { }
+	@Override public void exitFunctionScope(SimpleParser.FunctionScopeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCondition(simpleParser.ConditionContext ctx) { }
+	@Override public void enterCondition(SimpleParser.ConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCondition(simpleParser.ConditionContext ctx) { }
+	@Override public void exitCondition(SimpleParser.ConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWhileCondition(simpleParser.WhileConditionContext ctx) { }
+	@Override public void enterWhileCondition(SimpleParser.WhileConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitWhileCondition(simpleParser.WhileConditionContext ctx) { }
+	@Override public void exitWhileCondition(SimpleParser.WhileConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConditionalExpression(simpleParser.ConditionalExpressionContext ctx) { }
+	@Override public void enterConditionalExpression(SimpleParser.ConditionalExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitConditionalExpression(simpleParser.ConditionalExpressionContext ctx) { }
+	@Override public void exitConditionalExpression(SimpleParser.ConditionalExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionDeclaration(simpleParser.FunctionDeclarationContext ctx) { }
+	@Override public void enterFunctionDeclaration(SimpleParser.FunctionDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionDeclaration(simpleParser.FunctionDeclarationContext ctx) { }
+	@Override public void exitFunctionDeclaration(SimpleParser.FunctionDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionDeclParams(simpleParser.FunctionDeclParamsContext ctx) { }
+	@Override public void enterFunctionDeclParams(SimpleParser.FunctionDeclParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionDeclParams(simpleParser.FunctionDeclParamsContext ctx) { }
+	@Override public void exitFunctionDeclParams(SimpleParser.FunctionDeclParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionDeclParam(simpleParser.FunctionDeclParamContext ctx) { }
+	@Override public void enterFunctionDeclParam(SimpleParser.FunctionDeclParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionDeclParam(simpleParser.FunctionDeclParamContext ctx) { }
+	@Override public void exitFunctionDeclParam(SimpleParser.FunctionDeclParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionCall(simpleParser.FunctionCallContext ctx) { }
+	@Override public void enterFunctionCall(SimpleParser.FunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionCall(simpleParser.FunctionCallContext ctx) { }
+	@Override public void exitFunctionCall(SimpleParser.FunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionCallParams(simpleParser.FunctionCallParamsContext ctx) { }
+	@Override public void enterFunctionCallParams(SimpleParser.FunctionCallParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionCallParams(simpleParser.FunctionCallParamsContext ctx) { }
+	@Override public void exitFunctionCallParams(SimpleParser.FunctionCallParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionCallParam(simpleParser.FunctionCallParamContext ctx) { }
+	@Override public void enterFunctionCallParam(SimpleParser.FunctionCallParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionCallParam(simpleParser.FunctionCallParamContext ctx) { }
+	@Override public void exitFunctionCallParam(SimpleParser.FunctionCallParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionIdentifier(simpleParser.FunctionIdentifierContext ctx) { }
+	@Override public void enterFunctionIdentifier(SimpleParser.FunctionIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionIdentifier(simpleParser.FunctionIdentifierContext ctx) { }
+	@Override public void exitFunctionIdentifier(SimpleParser.FunctionIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArrayFunctionParamTypeSpecifier(simpleParser.ArrayFunctionParamTypeSpecifierContext ctx) { }
+	@Override public void enterArrayFunctionParamTypeSpecifier(SimpleParser.ArrayFunctionParamTypeSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArrayFunctionParamTypeSpecifier(simpleParser.ArrayFunctionParamTypeSpecifierContext ctx) { }
+	@Override public void exitArrayFunctionParamTypeSpecifier(SimpleParser.ArrayFunctionParamTypeSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArrayTypeSpecifier(simpleParser.ArrayTypeSpecifierContext ctx) { }
+	@Override public void enterArrayTypeSpecifier(SimpleParser.ArrayTypeSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArrayTypeSpecifier(simpleParser.ArrayTypeSpecifierContext ctx) { }
+	@Override public void exitArrayTypeSpecifier(SimpleParser.ArrayTypeSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBaseTypeSpecifier(simpleParser.BaseTypeSpecifierContext ctx) { }
+	@Override public void enterBaseTypeSpecifier(SimpleParser.BaseTypeSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBaseTypeSpecifier(simpleParser.BaseTypeSpecifierContext ctx) { }
+	@Override public void exitBaseTypeSpecifier(SimpleParser.BaseTypeSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNonVoidTypeSpecifier(simpleParser.NonVoidTypeSpecifierContext ctx) { }
+	@Override public void enterNonVoidTypeSpecifier(SimpleParser.NonVoidTypeSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNonVoidTypeSpecifier(simpleParser.NonVoidTypeSpecifierContext ctx) { }
+	@Override public void exitNonVoidTypeSpecifier(SimpleParser.NonVoidTypeSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTypeQualifier(simpleParser.TypeQualifierContext ctx) { }
+	@Override public void enterTypeQualifier(SimpleParser.TypeQualifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTypeQualifier(simpleParser.TypeQualifierContext ctx) { }
+	@Override public void exitTypeQualifier(SimpleParser.TypeQualifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUnaryOperator(simpleParser.UnaryOperatorContext ctx) { }
+	@Override public void enterUnaryOperator(SimpleParser.UnaryOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitUnaryOperator(simpleParser.UnaryOperatorContext ctx) { }
+	@Override public void exitUnaryOperator(SimpleParser.UnaryOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterComparisonOperator(simpleParser.ComparisonOperatorContext ctx) { }
+	@Override public void enterComparisonOperator(SimpleParser.ComparisonOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitComparisonOperator(simpleParser.ComparisonOperatorContext ctx) { }
+	@Override public void exitComparisonOperator(SimpleParser.ComparisonOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArithmeticOperator(simpleParser.ArithmeticOperatorContext ctx) { }
+	@Override public void enterArithmeticOperator(SimpleParser.ArithmeticOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArithmeticOperator(simpleParser.ArithmeticOperatorContext ctx) { }
+	@Override public void exitArithmeticOperator(SimpleParser.ArithmeticOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogicalOperator(simpleParser.LogicalOperatorContext ctx) { }
+	@Override public void enterLogicalOperator(SimpleParser.LogicalOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLogicalOperator(simpleParser.LogicalOperatorContext ctx) { }
+	@Override public void exitLogicalOperator(SimpleParser.LogicalOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSignedConstant(simpleParser.SignedConstantContext ctx) { }
+	@Override public void enterSignedConstant(SimpleParser.SignedConstantContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSignedConstant(simpleParser.SignedConstantContext ctx) { }
+	@Override public void exitSignedConstant(SimpleParser.SignedConstantContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDecimalConstant(simpleParser.DecimalConstantContext ctx) { }
+	@Override public void enterDecimalConstant(SimpleParser.DecimalConstantContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDecimalConstant(simpleParser.DecimalConstantContext ctx) { }
+	@Override public void exitDecimalConstant(SimpleParser.DecimalConstantContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

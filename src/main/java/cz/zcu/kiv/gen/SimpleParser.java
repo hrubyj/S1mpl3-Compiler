@@ -1,4 +1,4 @@
-// Generated from /home/markovda/Skola/repos/simple/src/main/simple.g4 by ANTLR 4.9.2
+// Generated from /home/markovda/Skola/repos/simple/src/main/resources/Simple.g4 by ANTLR 4.9.2
 package cz.zcu.kiv.gen;
 
 import org.antlr.v4.runtime.NoViableAltException;
@@ -22,7 +22,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.List;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class simpleParser extends Parser {
+public class SimpleParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.9.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -121,7 +121,7 @@ public class simpleParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "simple.g4"; }
+	public String getGrammarFileName() { return "Simple.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -132,7 +132,7 @@ public class simpleParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public simpleParser(TokenStream input) {
+	public SimpleParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
@@ -150,15 +150,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_program; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterProgram(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterProgram(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitProgram(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitProgram(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitProgram(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitProgram(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -201,11 +201,11 @@ public class simpleParser extends Parser {
 		public NonVoidTypeSpecifierContext nonVoidTypeSpecifier() {
 			return getRuleContext(NonVoidTypeSpecifierContext.class,0);
 		}
-		public TerminalNode Identifier() { return getToken(simpleParser.Identifier, 0); }
+		public TerminalNode Identifier() { return getToken(SimpleParser.Identifier, 0); }
 		public TypeQualifierContext typeQualifier() {
 			return getRuleContext(TypeQualifierContext.class,0);
 		}
-		public TerminalNode EqualSign() { return getToken(simpleParser.EqualSign, 0); }
+		public TerminalNode EqualSign() { return getToken(SimpleParser.EqualSign, 0); }
 		public ConditionalExpressionContext conditionalExpression() {
 			return getRuleContext(ConditionalExpressionContext.class,0);
 		}
@@ -218,15 +218,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_declaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterDeclaration(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitDeclaration(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitDeclaration(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -293,8 +293,8 @@ public class simpleParser extends Parser {
 	}
 
 	public static class AssignmentContext extends ParserRuleContext {
-		public TerminalNode Identifier() { return getToken(simpleParser.Identifier, 0); }
-		public TerminalNode EqualSign() { return getToken(simpleParser.EqualSign, 0); }
+		public TerminalNode Identifier() { return getToken(SimpleParser.Identifier, 0); }
+		public TerminalNode EqualSign() { return getToken(SimpleParser.EqualSign, 0); }
 		public ConditionalExpressionContext conditionalExpression() {
 			return getRuleContext(ConditionalExpressionContext.class,0);
 		}
@@ -307,15 +307,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_assignment; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterAssignment(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterAssignment(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitAssignment(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitAssignment(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitAssignment(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitAssignment(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -363,27 +363,27 @@ public class simpleParser extends Parser {
 	}
 
 	public static class ArrayAccessContext extends ParserRuleContext {
-		public TerminalNode Identifier() { return getToken(simpleParser.Identifier, 0); }
-		public TerminalNode LeftBracket() { return getToken(simpleParser.LeftBracket, 0); }
+		public TerminalNode Identifier() { return getToken(SimpleParser.Identifier, 0); }
+		public TerminalNode LeftBracket() { return getToken(SimpleParser.LeftBracket, 0); }
 		public ConditionalExpressionContext conditionalExpression() {
 			return getRuleContext(ConditionalExpressionContext.class,0);
 		}
-		public TerminalNode RightBracket() { return getToken(simpleParser.RightBracket, 0); }
+		public TerminalNode RightBracket() { return getToken(SimpleParser.RightBracket, 0); }
 		public ArrayAccessContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arrayAccess; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterArrayAccess(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterArrayAccess(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitArrayAccess(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitArrayAccess(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitArrayAccess(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitArrayAccess(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -431,15 +431,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitStatement(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -504,30 +504,30 @@ public class simpleParser extends Parser {
 		public ScopeContext scope() {
 			return getRuleContext(ScopeContext.class,0);
 		}
-		public TerminalNode Do() { return getToken(simpleParser.Do, 0); }
-		public TerminalNode Semi() { return getToken(simpleParser.Semi, 0); }
-		public TerminalNode For() { return getToken(simpleParser.For, 0); }
-		public List<TerminalNode> Identifier() { return getTokens(simpleParser.Identifier); }
+		public TerminalNode Do() { return getToken(SimpleParser.Do, 0); }
+		public TerminalNode Semi() { return getToken(SimpleParser.Semi, 0); }
+		public TerminalNode For() { return getToken(SimpleParser.For, 0); }
+		public List<TerminalNode> Identifier() { return getTokens(SimpleParser.Identifier); }
 		public TerminalNode Identifier(int i) {
-			return getToken(simpleParser.Identifier, i);
+			return getToken(SimpleParser.Identifier, i);
 		}
-		public TerminalNode In() { return getToken(simpleParser.In, 0); }
-		public TerminalNode NonzeroConstant() { return getToken(simpleParser.NonzeroConstant, 0); }
+		public TerminalNode In() { return getToken(SimpleParser.In, 0); }
+		public TerminalNode NonzeroConstant() { return getToken(SimpleParser.NonzeroConstant, 0); }
 		public IterationStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_iterationStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterIterationStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterIterationStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitIterationStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitIterationStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitIterationStatement(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitIterationStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -601,7 +601,7 @@ public class simpleParser extends Parser {
 	}
 
 	public static class ExpressionStatementContext extends ParserRuleContext {
-		public TerminalNode Semi() { return getToken(simpleParser.Semi, 0); }
+		public TerminalNode Semi() { return getToken(SimpleParser.Semi, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -611,15 +611,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expressionStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterExpressionStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterExpressionStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitExpressionStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitExpressionStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitExpressionStatement(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitExpressionStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -657,30 +657,30 @@ public class simpleParser extends Parser {
 	}
 
 	public static class LabeledStatementContext extends ParserRuleContext {
-		public TerminalNode Case() { return getToken(simpleParser.Case, 0); }
+		public TerminalNode Case() { return getToken(SimpleParser.Case, 0); }
 		public ConditionalExpressionContext conditionalExpression() {
 			return getRuleContext(ConditionalExpressionContext.class,0);
 		}
-		public TerminalNode Colon() { return getToken(simpleParser.Colon, 0); }
+		public TerminalNode Colon() { return getToken(SimpleParser.Colon, 0); }
 		public ScopeContext scope() {
 			return getRuleContext(ScopeContext.class,0);
 		}
-		public TerminalNode Default() { return getToken(simpleParser.Default, 0); }
+		public TerminalNode Default() { return getToken(SimpleParser.Default, 0); }
 		public LabeledStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_labeledStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterLabeledStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterLabeledStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitLabeledStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitLabeledStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitLabeledStatement(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitLabeledStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -732,8 +732,8 @@ public class simpleParser extends Parser {
 	}
 
 	public static class ReturnStatementContext extends ParserRuleContext {
-		public TerminalNode Return() { return getToken(simpleParser.Return, 0); }
-		public TerminalNode Semi() { return getToken(simpleParser.Semi, 0); }
+		public TerminalNode Return() { return getToken(SimpleParser.Return, 0); }
+		public TerminalNode Semi() { return getToken(SimpleParser.Semi, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -743,15 +743,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_returnStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterReturnStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterReturnStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitReturnStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitReturnStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitReturnStatement(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitReturnStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -791,7 +791,7 @@ public class simpleParser extends Parser {
 	}
 
 	public static class SelectionStatementContext extends ParserRuleContext {
-		public TerminalNode If() { return getToken(simpleParser.If, 0); }
+		public TerminalNode If() { return getToken(SimpleParser.If, 0); }
 		public ConditionContext condition() {
 			return getRuleContext(ConditionContext.class,0);
 		}
@@ -801,10 +801,10 @@ public class simpleParser extends Parser {
 		public ScopeContext scope(int i) {
 			return getRuleContext(ScopeContext.class,i);
 		}
-		public TerminalNode Else() { return getToken(simpleParser.Else, 0); }
-		public TerminalNode Switch() { return getToken(simpleParser.Switch, 0); }
-		public TerminalNode LeftBrace() { return getToken(simpleParser.LeftBrace, 0); }
-		public TerminalNode RightBrace() { return getToken(simpleParser.RightBrace, 0); }
+		public TerminalNode Else() { return getToken(SimpleParser.Else, 0); }
+		public TerminalNode Switch() { return getToken(SimpleParser.Switch, 0); }
+		public TerminalNode LeftBrace() { return getToken(SimpleParser.LeftBrace, 0); }
+		public TerminalNode RightBrace() { return getToken(SimpleParser.RightBrace, 0); }
 		public List<LabeledStatementContext> labeledStatement() {
 			return getRuleContexts(LabeledStatementContext.class);
 		}
@@ -817,15 +817,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_selectionStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterSelectionStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterSelectionStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitSelectionStatement(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitSelectionStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitSelectionStatement(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitSelectionStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -916,15 +916,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_blockItemList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterBlockItemList(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterBlockItemList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitBlockItemList(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitBlockItemList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitBlockItemList(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitBlockItemList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -985,15 +985,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_blockItem; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterBlockItem(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterBlockItem(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitBlockItem(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitBlockItem(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitBlockItem(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitBlockItem(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1065,22 +1065,22 @@ public class simpleParser extends Parser {
 		public SignedConstantContext signedConstant() {
 			return getRuleContext(SignedConstantContext.class,0);
 		}
-		public TerminalNode BooleanLiteral() { return getToken(simpleParser.BooleanLiteral, 0); }
+		public TerminalNode BooleanLiteral() { return getToken(SimpleParser.BooleanLiteral, 0); }
 		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterExpression(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitExpression(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitExpression(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1137,11 +1137,11 @@ public class simpleParser extends Parser {
 		public FunctionCallContext functionCall() {
 			return getRuleContext(FunctionCallContext.class,0);
 		}
-		public TerminalNode BooleanLiteral() { return getToken(simpleParser.BooleanLiteral, 0); }
+		public TerminalNode BooleanLiteral() { return getToken(SimpleParser.BooleanLiteral, 0); }
 		public SignedConstantContext signedConstant() {
 			return getRuleContext(SignedConstantContext.class,0);
 		}
-		public TerminalNode Identifier() { return getToken(simpleParser.Identifier, 0); }
+		public TerminalNode Identifier() { return getToken(SimpleParser.Identifier, 0); }
 		public ArrayAccessContext arrayAccess() {
 			return getRuleContext(ArrayAccessContext.class,0);
 		}
@@ -1151,15 +1151,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_nonVoidReturnValue; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterNonVoidReturnValue(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterNonVoidReturnValue(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitNonVoidReturnValue(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitNonVoidReturnValue(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitNonVoidReturnValue(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitNonVoidReturnValue(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1220,8 +1220,8 @@ public class simpleParser extends Parser {
 	}
 
 	public static class ScopeContext extends ParserRuleContext {
-		public TerminalNode LeftBrace() { return getToken(simpleParser.LeftBrace, 0); }
-		public TerminalNode RightBrace() { return getToken(simpleParser.RightBrace, 0); }
+		public TerminalNode LeftBrace() { return getToken(SimpleParser.LeftBrace, 0); }
+		public TerminalNode RightBrace() { return getToken(SimpleParser.RightBrace, 0); }
 		public BlockItemListContext blockItemList() {
 			return getRuleContext(BlockItemListContext.class,0);
 		}
@@ -1231,15 +1231,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_scope; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterScope(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterScope(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitScope(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitScope(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitScope(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitScope(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1279,11 +1279,11 @@ public class simpleParser extends Parser {
 	}
 
 	public static class FunctionScopeContext extends ParserRuleContext {
-		public TerminalNode LeftBrace() { return getToken(simpleParser.LeftBrace, 0); }
+		public TerminalNode LeftBrace() { return getToken(SimpleParser.LeftBrace, 0); }
 		public ReturnStatementContext returnStatement() {
 			return getRuleContext(ReturnStatementContext.class,0);
 		}
-		public TerminalNode RightBrace() { return getToken(simpleParser.RightBrace, 0); }
+		public TerminalNode RightBrace() { return getToken(SimpleParser.RightBrace, 0); }
 		public BlockItemListContext blockItemList() {
 			return getRuleContext(BlockItemListContext.class,0);
 		}
@@ -1293,15 +1293,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_functionScope; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterFunctionScope(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterFunctionScope(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitFunctionScope(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitFunctionScope(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitFunctionScope(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionScope(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1342,26 +1342,26 @@ public class simpleParser extends Parser {
 	}
 
 	public static class ConditionContext extends ParserRuleContext {
-		public TerminalNode LeftParen() { return getToken(simpleParser.LeftParen, 0); }
+		public TerminalNode LeftParen() { return getToken(SimpleParser.LeftParen, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode RightParen() { return getToken(simpleParser.RightParen, 0); }
+		public TerminalNode RightParen() { return getToken(SimpleParser.RightParen, 0); }
 		public ConditionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_condition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterCondition(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterCondition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitCondition(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitCondition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitCondition(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitCondition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1392,7 +1392,7 @@ public class simpleParser extends Parser {
 	}
 
 	public static class WhileConditionContext extends ParserRuleContext {
-		public TerminalNode While() { return getToken(simpleParser.While, 0); }
+		public TerminalNode While() { return getToken(SimpleParser.While, 0); }
 		public ConditionContext condition() {
 			return getRuleContext(ConditionContext.class,0);
 		}
@@ -1402,15 +1402,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_whileCondition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterWhileCondition(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterWhileCondition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitWhileCondition(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitWhileCondition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitWhileCondition(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitWhileCondition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1442,29 +1442,29 @@ public class simpleParser extends Parser {
 		public NonVoidReturnValueContext nonVoidReturnValue() {
 			return getRuleContext(NonVoidReturnValueContext.class,0);
 		}
-		public TerminalNode Question() { return getToken(simpleParser.Question, 0); }
+		public TerminalNode Question() { return getToken(SimpleParser.Question, 0); }
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode Colon() { return getToken(simpleParser.Colon, 0); }
+		public TerminalNode Colon() { return getToken(SimpleParser.Colon, 0); }
 		public ConditionalExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_conditionalExpression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterConditionalExpression(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterConditionalExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitConditionalExpression(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitConditionalExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitConditionalExpression(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitConditionalExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1508,13 +1508,13 @@ public class simpleParser extends Parser {
 	}
 
 	public static class FunctionDeclarationContext extends ParserRuleContext {
-		public TerminalNode Func() { return getToken(simpleParser.Func, 0); }
+		public TerminalNode Func() { return getToken(SimpleParser.Func, 0); }
 		public BaseTypeSpecifierContext baseTypeSpecifier() {
 			return getRuleContext(BaseTypeSpecifierContext.class,0);
 		}
-		public TerminalNode Identifier() { return getToken(simpleParser.Identifier, 0); }
-		public TerminalNode LeftParen() { return getToken(simpleParser.LeftParen, 0); }
-		public TerminalNode RightParen() { return getToken(simpleParser.RightParen, 0); }
+		public TerminalNode Identifier() { return getToken(SimpleParser.Identifier, 0); }
+		public TerminalNode LeftParen() { return getToken(SimpleParser.LeftParen, 0); }
+		public TerminalNode RightParen() { return getToken(SimpleParser.RightParen, 0); }
 		public FunctionScopeContext functionScope() {
 			return getRuleContext(FunctionScopeContext.class,0);
 		}
@@ -1527,15 +1527,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_functionDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterFunctionDeclaration(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterFunctionDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitFunctionDeclaration(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitFunctionDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitFunctionDeclaration(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1589,9 +1589,9 @@ public class simpleParser extends Parser {
 		public FunctionDeclParamContext functionDeclParam(int i) {
 			return getRuleContext(FunctionDeclParamContext.class,i);
 		}
-		public List<TerminalNode> Comma() { return getTokens(simpleParser.Comma); }
+		public List<TerminalNode> Comma() { return getTokens(SimpleParser.Comma); }
 		public TerminalNode Comma(int i) {
-			return getToken(simpleParser.Comma, i);
+			return getToken(SimpleParser.Comma, i);
 		}
 		public FunctionDeclParamsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1599,15 +1599,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_functionDeclParams; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterFunctionDeclParams(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterFunctionDeclParams(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitFunctionDeclParams(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitFunctionDeclParams(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitFunctionDeclParams(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionDeclParams(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1651,7 +1651,7 @@ public class simpleParser extends Parser {
 	}
 
 	public static class FunctionDeclParamContext extends ParserRuleContext {
-		public TerminalNode Identifier() { return getToken(simpleParser.Identifier, 0); }
+		public TerminalNode Identifier() { return getToken(SimpleParser.Identifier, 0); }
 		public NonVoidTypeSpecifierContext nonVoidTypeSpecifier() {
 			return getRuleContext(NonVoidTypeSpecifierContext.class,0);
 		}
@@ -1664,15 +1664,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_functionDeclParam; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterFunctionDeclParam(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterFunctionDeclParam(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitFunctionDeclParam(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitFunctionDeclParam(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitFunctionDeclParam(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionDeclParam(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1715,19 +1715,19 @@ public class simpleParser extends Parser {
 	}
 
 	public static class FunctionCallContext extends ParserRuleContext {
-		public TerminalNode LeftParen() { return getToken(simpleParser.LeftParen, 0); }
+		public TerminalNode LeftParen() { return getToken(SimpleParser.LeftParen, 0); }
 		public FunctionIdentifierContext functionIdentifier() {
 			return getRuleContext(FunctionIdentifierContext.class,0);
 		}
-		public TerminalNode RightParen() { return getToken(simpleParser.RightParen, 0); }
+		public TerminalNode RightParen() { return getToken(SimpleParser.RightParen, 0); }
 		public FunctionCallParamsContext functionCallParams() {
 			return getRuleContext(FunctionCallParamsContext.class,0);
 		}
-		public TerminalNode Instanceof() { return getToken(simpleParser.Instanceof, 0); }
+		public TerminalNode Instanceof() { return getToken(SimpleParser.Instanceof, 0); }
 		public FunctionCallParamContext functionCallParam() {
 			return getRuleContext(FunctionCallParamContext.class,0);
 		}
-		public TerminalNode Comma() { return getToken(simpleParser.Comma, 0); }
+		public TerminalNode Comma() { return getToken(SimpleParser.Comma, 0); }
 		public BaseTypeSpecifierContext baseTypeSpecifier() {
 			return getRuleContext(BaseTypeSpecifierContext.class,0);
 		}
@@ -1743,15 +1743,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_functionCall; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterFunctionCall(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterFunctionCall(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitFunctionCall(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitFunctionCall(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitFunctionCall(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionCall(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1849,9 +1849,9 @@ public class simpleParser extends Parser {
 		public FunctionCallParamContext functionCallParam(int i) {
 			return getRuleContext(FunctionCallParamContext.class,i);
 		}
-		public List<TerminalNode> Comma() { return getTokens(simpleParser.Comma); }
+		public List<TerminalNode> Comma() { return getTokens(SimpleParser.Comma); }
 		public TerminalNode Comma(int i) {
-			return getToken(simpleParser.Comma, i);
+			return getToken(SimpleParser.Comma, i);
 		}
 		public FunctionCallParamsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1859,15 +1859,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_functionCallParams; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterFunctionCallParams(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterFunctionCallParams(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitFunctionCallParams(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitFunctionCallParams(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitFunctionCallParams(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionCallParams(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1911,11 +1911,11 @@ public class simpleParser extends Parser {
 	}
 
 	public static class FunctionCallParamContext extends ParserRuleContext {
-		public TerminalNode Identifier() { return getToken(simpleParser.Identifier, 0); }
+		public TerminalNode Identifier() { return getToken(SimpleParser.Identifier, 0); }
 		public FunctionCallContext functionCall() {
 			return getRuleContext(FunctionCallContext.class,0);
 		}
-		public TerminalNode BooleanLiteral() { return getToken(simpleParser.BooleanLiteral, 0); }
+		public TerminalNode BooleanLiteral() { return getToken(SimpleParser.BooleanLiteral, 0); }
 		public DecimalConstantContext decimalConstant() {
 			return getRuleContext(DecimalConstantContext.class,0);
 		}
@@ -1925,15 +1925,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_functionCallParam; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterFunctionCallParam(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterFunctionCallParam(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitFunctionCallParam(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitFunctionCallParam(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitFunctionCallParam(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionCallParam(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1990,7 +1990,7 @@ public class simpleParser extends Parser {
 	}
 
 	public static class FunctionIdentifierContext extends ParserRuleContext {
-		public TerminalNode Identifier() { return getToken(simpleParser.Identifier, 0); }
+		public TerminalNode Identifier() { return getToken(SimpleParser.Identifier, 0); }
 		public ComparisonOperatorContext comparisonOperator() {
 			return getRuleContext(ComparisonOperatorContext.class,0);
 		}
@@ -2006,15 +2006,15 @@ public class simpleParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_functionIdentifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterFunctionIdentifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterFunctionIdentifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitFunctionIdentifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitFunctionIdentifier(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitFunctionIdentifier(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionIdentifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2082,23 +2082,23 @@ public class simpleParser extends Parser {
 		public NonVoidTypeSpecifierContext nonVoidTypeSpecifier() {
 			return getRuleContext(NonVoidTypeSpecifierContext.class,0);
 		}
-		public TerminalNode LeftBracket() { return getToken(simpleParser.LeftBracket, 0); }
-		public TerminalNode RightBracket() { return getToken(simpleParser.RightBracket, 0); }
+		public TerminalNode LeftBracket() { return getToken(SimpleParser.LeftBracket, 0); }
+		public TerminalNode RightBracket() { return getToken(SimpleParser.RightBracket, 0); }
 		public ArrayFunctionParamTypeSpecifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arrayFunctionParamTypeSpecifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterArrayFunctionParamTypeSpecifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterArrayFunctionParamTypeSpecifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitArrayFunctionParamTypeSpecifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitArrayFunctionParamTypeSpecifier(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitArrayFunctionParamTypeSpecifier(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitArrayFunctionParamTypeSpecifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2132,24 +2132,24 @@ public class simpleParser extends Parser {
 		public NonVoidTypeSpecifierContext nonVoidTypeSpecifier() {
 			return getRuleContext(NonVoidTypeSpecifierContext.class,0);
 		}
-		public TerminalNode LeftBracket() { return getToken(simpleParser.LeftBracket, 0); }
-		public TerminalNode NonzeroConstant() { return getToken(simpleParser.NonzeroConstant, 0); }
-		public TerminalNode RightBracket() { return getToken(simpleParser.RightBracket, 0); }
+		public TerminalNode LeftBracket() { return getToken(SimpleParser.LeftBracket, 0); }
+		public TerminalNode NonzeroConstant() { return getToken(SimpleParser.NonzeroConstant, 0); }
+		public TerminalNode RightBracket() { return getToken(SimpleParser.RightBracket, 0); }
 		public ArrayTypeSpecifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arrayTypeSpecifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterArrayTypeSpecifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterArrayTypeSpecifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitArrayTypeSpecifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitArrayTypeSpecifier(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitArrayTypeSpecifier(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitArrayTypeSpecifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2185,22 +2185,22 @@ public class simpleParser extends Parser {
 		public NonVoidTypeSpecifierContext nonVoidTypeSpecifier() {
 			return getRuleContext(NonVoidTypeSpecifierContext.class,0);
 		}
-		public TerminalNode Void() { return getToken(simpleParser.Void, 0); }
+		public TerminalNode Void() { return getToken(SimpleParser.Void, 0); }
 		public BaseTypeSpecifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_baseTypeSpecifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterBaseTypeSpecifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterBaseTypeSpecifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitBaseTypeSpecifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitBaseTypeSpecifier(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitBaseTypeSpecifier(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitBaseTypeSpecifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2243,23 +2243,23 @@ public class simpleParser extends Parser {
 	}
 
 	public static class NonVoidTypeSpecifierContext extends ParserRuleContext {
-		public TerminalNode Int() { return getToken(simpleParser.Int, 0); }
-		public TerminalNode Bool() { return getToken(simpleParser.Bool, 0); }
+		public TerminalNode Int() { return getToken(SimpleParser.Int, 0); }
+		public TerminalNode Bool() { return getToken(SimpleParser.Bool, 0); }
 		public NonVoidTypeSpecifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_nonVoidTypeSpecifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterNonVoidTypeSpecifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterNonVoidTypeSpecifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitNonVoidTypeSpecifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitNonVoidTypeSpecifier(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitNonVoidTypeSpecifier(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitNonVoidTypeSpecifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2295,22 +2295,22 @@ public class simpleParser extends Parser {
 	}
 
 	public static class TypeQualifierContext extends ParserRuleContext {
-		public TerminalNode Const() { return getToken(simpleParser.Const, 0); }
+		public TerminalNode Const() { return getToken(SimpleParser.Const, 0); }
 		public TypeQualifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_typeQualifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterTypeQualifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterTypeQualifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitTypeQualifier(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitTypeQualifier(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitTypeQualifier(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitTypeQualifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2337,22 +2337,22 @@ public class simpleParser extends Parser {
 	}
 
 	public static class UnaryOperatorContext extends ParserRuleContext {
-		public TerminalNode Minus() { return getToken(simpleParser.Minus, 0); }
+		public TerminalNode Minus() { return getToken(SimpleParser.Minus, 0); }
 		public UnaryOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_unaryOperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterUnaryOperator(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterUnaryOperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitUnaryOperator(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitUnaryOperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitUnaryOperator(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitUnaryOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2388,26 +2388,26 @@ public class simpleParser extends Parser {
 	}
 
 	public static class ComparisonOperatorContext extends ParserRuleContext {
-		public TerminalNode Less() { return getToken(simpleParser.Less, 0); }
-		public TerminalNode LessEqual() { return getToken(simpleParser.LessEqual, 0); }
-		public TerminalNode Greater() { return getToken(simpleParser.Greater, 0); }
-		public TerminalNode GreaterEqual() { return getToken(simpleParser.GreaterEqual, 0); }
-		public TerminalNode Equal() { return getToken(simpleParser.Equal, 0); }
+		public TerminalNode Less() { return getToken(SimpleParser.Less, 0); }
+		public TerminalNode LessEqual() { return getToken(SimpleParser.LessEqual, 0); }
+		public TerminalNode Greater() { return getToken(SimpleParser.Greater, 0); }
+		public TerminalNode GreaterEqual() { return getToken(SimpleParser.GreaterEqual, 0); }
+		public TerminalNode Equal() { return getToken(SimpleParser.Equal, 0); }
 		public ComparisonOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comparisonOperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterComparisonOperator(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterComparisonOperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitComparisonOperator(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitComparisonOperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitComparisonOperator(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitComparisonOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2443,26 +2443,26 @@ public class simpleParser extends Parser {
 	}
 
 	public static class ArithmeticOperatorContext extends ParserRuleContext {
-		public TerminalNode Plus() { return getToken(simpleParser.Plus, 0); }
-		public TerminalNode Minus() { return getToken(simpleParser.Minus, 0); }
-		public TerminalNode Div() { return getToken(simpleParser.Div, 0); }
-		public TerminalNode Star() { return getToken(simpleParser.Star, 0); }
-		public TerminalNode Mod() { return getToken(simpleParser.Mod, 0); }
+		public TerminalNode Plus() { return getToken(SimpleParser.Plus, 0); }
+		public TerminalNode Minus() { return getToken(SimpleParser.Minus, 0); }
+		public TerminalNode Div() { return getToken(SimpleParser.Div, 0); }
+		public TerminalNode Star() { return getToken(SimpleParser.Star, 0); }
+		public TerminalNode Mod() { return getToken(SimpleParser.Mod, 0); }
 		public ArithmeticOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arithmeticOperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterArithmeticOperator(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterArithmeticOperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitArithmeticOperator(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitArithmeticOperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitArithmeticOperator(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitArithmeticOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2498,23 +2498,23 @@ public class simpleParser extends Parser {
 	}
 
 	public static class LogicalOperatorContext extends ParserRuleContext {
-		public TerminalNode And() { return getToken(simpleParser.And, 0); }
-		public TerminalNode Or() { return getToken(simpleParser.Or, 0); }
+		public TerminalNode And() { return getToken(SimpleParser.And, 0); }
+		public TerminalNode Or() { return getToken(SimpleParser.Or, 0); }
 		public LogicalOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_logicalOperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterLogicalOperator(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterLogicalOperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitLogicalOperator(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitLogicalOperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitLogicalOperator(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitLogicalOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2553,23 +2553,23 @@ public class simpleParser extends Parser {
 		public DecimalConstantContext decimalConstant() {
 			return getRuleContext(DecimalConstantContext.class,0);
 		}
-		public TerminalNode Plus() { return getToken(simpleParser.Plus, 0); }
-		public TerminalNode Minus() { return getToken(simpleParser.Minus, 0); }
+		public TerminalNode Plus() { return getToken(SimpleParser.Plus, 0); }
+		public TerminalNode Minus() { return getToken(SimpleParser.Minus, 0); }
 		public SignedConstantContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_signedConstant; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterSignedConstant(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterSignedConstant(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitSignedConstant(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitSignedConstant(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitSignedConstant(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitSignedConstant(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2615,22 +2615,22 @@ public class simpleParser extends Parser {
 	}
 
 	public static class DecimalConstantContext extends ParserRuleContext {
-		public TerminalNode NonzeroConstant() { return getToken(simpleParser.NonzeroConstant, 0); }
+		public TerminalNode NonzeroConstant() { return getToken(SimpleParser.NonzeroConstant, 0); }
 		public DecimalConstantContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_decimalConstant; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).enterDecimalConstant(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).enterDecimalConstant(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof simpleListener ) ((simpleListener)listener).exitDecimalConstant(this);
+			if ( listener instanceof SimpleListener ) ((SimpleListener)listener).exitDecimalConstant(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof simpleVisitor ) return ((simpleVisitor<? extends T>)visitor).visitDecimalConstant(this);
+			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitDecimalConstant(this);
 			else return visitor.visitChildren(this);
 		}
 	}

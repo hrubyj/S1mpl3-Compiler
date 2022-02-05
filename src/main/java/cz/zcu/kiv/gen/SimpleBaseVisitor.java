@@ -1,274 +1,272 @@
-// Generated from /home/markovda/Skola/repos/simple/src/main/simple.g4 by ANTLR 4.9.2
-package cz.zcu.kiv.gen;
-
+package cz.zcu.kiv.gen;// Generated from /home/markovda/Skola/repos/simple/src/main/resources/Simple.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
- * This class provides an empty implementation of {@link simpleVisitor},
+ * This class provides an empty implementation of {@link SimpleVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
  * of the available methods.
  *
  * @param <T> The return type of the visit operation. Use {@link Void} for
  * operations with no return type.
  */
-public class simpleBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements simpleVisitor<T> {
+public class SimpleBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements SimpleVisitor<T> {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProgram(simpleParser.ProgramContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProgram(SimpleParser.ProgramContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDeclaration(simpleParser.DeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDeclaration(SimpleParser.DeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAssignment(simpleParser.AssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAssignment(SimpleParser.AssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArrayAccess(simpleParser.ArrayAccessContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArrayAccess(SimpleParser.ArrayAccessContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatement(simpleParser.StatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStatement(SimpleParser.StatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIterationStatement(simpleParser.IterationStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIterationStatement(SimpleParser.IterationStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionStatement(simpleParser.ExpressionStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpressionStatement(SimpleParser.ExpressionStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLabeledStatement(simpleParser.LabeledStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLabeledStatement(SimpleParser.LabeledStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitReturnStatement(simpleParser.ReturnStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitReturnStatement(SimpleParser.ReturnStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSelectionStatement(simpleParser.SelectionStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSelectionStatement(SimpleParser.SelectionStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBlockItemList(simpleParser.BlockItemListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBlockItemList(SimpleParser.BlockItemListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBlockItem(simpleParser.BlockItemContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBlockItem(SimpleParser.BlockItemContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpression(simpleParser.ExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpression(SimpleParser.ExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNonVoidReturnValue(simpleParser.NonVoidReturnValueContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNonVoidReturnValue(SimpleParser.NonVoidReturnValueContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitScope(simpleParser.ScopeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitScope(SimpleParser.ScopeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionScope(simpleParser.FunctionScopeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionScope(SimpleParser.FunctionScopeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCondition(simpleParser.ConditionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCondition(SimpleParser.ConditionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWhileCondition(simpleParser.WhileConditionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWhileCondition(SimpleParser.WhileConditionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConditionalExpression(simpleParser.ConditionalExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConditionalExpression(SimpleParser.ConditionalExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionDeclaration(simpleParser.FunctionDeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionDeclaration(SimpleParser.FunctionDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionDeclParams(simpleParser.FunctionDeclParamsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionDeclParams(SimpleParser.FunctionDeclParamsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionDeclParam(simpleParser.FunctionDeclParamContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionDeclParam(SimpleParser.FunctionDeclParamContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionCall(simpleParser.FunctionCallContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionCall(SimpleParser.FunctionCallContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionCallParams(simpleParser.FunctionCallParamsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionCallParams(SimpleParser.FunctionCallParamsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionCallParam(simpleParser.FunctionCallParamContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionCallParam(SimpleParser.FunctionCallParamContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionIdentifier(simpleParser.FunctionIdentifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionIdentifier(SimpleParser.FunctionIdentifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArrayFunctionParamTypeSpecifier(simpleParser.ArrayFunctionParamTypeSpecifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArrayFunctionParamTypeSpecifier(SimpleParser.ArrayFunctionParamTypeSpecifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArrayTypeSpecifier(simpleParser.ArrayTypeSpecifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArrayTypeSpecifier(SimpleParser.ArrayTypeSpecifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBaseTypeSpecifier(simpleParser.BaseTypeSpecifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBaseTypeSpecifier(SimpleParser.BaseTypeSpecifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNonVoidTypeSpecifier(simpleParser.NonVoidTypeSpecifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNonVoidTypeSpecifier(SimpleParser.NonVoidTypeSpecifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeQualifier(simpleParser.TypeQualifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeQualifier(SimpleParser.TypeQualifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnaryOperator(simpleParser.UnaryOperatorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnaryOperator(SimpleParser.UnaryOperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitComparisonOperator(simpleParser.ComparisonOperatorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitComparisonOperator(SimpleParser.ComparisonOperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArithmeticOperator(simpleParser.ArithmeticOperatorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArithmeticOperator(SimpleParser.ArithmeticOperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicalOperator(simpleParser.LogicalOperatorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLogicalOperator(SimpleParser.LogicalOperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSignedConstant(simpleParser.SignedConstantContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSignedConstant(SimpleParser.SignedConstantContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDecimalConstant(simpleParser.DecimalConstantContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDecimalConstant(SimpleParser.DecimalConstantContext ctx) { return visitChildren(ctx); }
 }
