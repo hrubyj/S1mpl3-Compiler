@@ -1,11 +1,17 @@
 package cz.zcu.kiv;
 
+import cz.zcu.kiv.antlr.impl.ErrorListenerImpl;
+import cz.zcu.kiv.antlr.impl.SimpleListenerImpl;
 import cz.zcu.kiv.gen.SimpleLexer;
+import cz.zcu.kiv.gen.SimpleListener;
 import cz.zcu.kiv.gen.SimpleParser;
 import cz.zcu.kiv.utils.ExitCode;
+import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +29,7 @@ public class Simple {
 
         try {
             compileSourceFile(args[0], args[1]);
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             System.out.format("Compilation error:\n" +
                     "\t%s", e.getMessage());
             System.exit(ExitCode.COMPILATION_ERROR.getValue());
@@ -36,7 +42,12 @@ public class Simple {
         SimpleLexer lexer = new SimpleLexer(inputStream);
         CommonTokenStream token_stream = new CommonTokenStream(lexer);
         SimpleParser parser = new SimpleParser(token_stream);
-
+        final ANTLRErrorListener errorListener = new ErrorListenerImpl();
+        parser.addErrorListener(errorListener);
+        final ParseTree tree = parser.program();
+        ParseTreeWalker walker = new ParseTreeWalker();
+        final SimpleListener listener = new SimpleListenerImpl();
+        walker.walk(listener, tree);
     }
 
     private static void validateArguments(final String[] args) {

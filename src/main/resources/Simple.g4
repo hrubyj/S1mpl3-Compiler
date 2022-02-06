@@ -3,7 +3,7 @@
 grammar Simple;
 
 program
-    : functionDeclaration*
+    : functionDeclaration* mainFunctionDeclaration
     ;
 
 declaration
@@ -97,6 +97,10 @@ conditionalExpression
 
 functionDeclaration
     : Func baseTypeSpecifier Identifier LeftParen functionDeclParams? RightParen functionScope
+    ;
+
+mainFunctionDeclaration
+    : Func Void 'main' LeftParen RightParen functionScope
     ;
 
 functionDeclParams

@@ -255,6 +255,18 @@ public class SimpleBaseListener implements SimpleListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMainFunctionDeclaration(SimpleParser.MainFunctionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMainFunctionDeclaration(SimpleParser.MainFunctionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFunctionDeclParams(SimpleParser.FunctionDeclParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}

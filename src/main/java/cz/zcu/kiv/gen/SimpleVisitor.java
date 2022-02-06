@@ -1,5 +1,4 @@
-// Generated from /home/markovda/Skola/repos/simple/src/main/resources/Simple.g4 by ANTLR 4.9.2
-package cz.zcu.kiv.gen;
+package cz.zcu.kiv.gen;// Generated from /home/markovda/Skola/repos/simple/src/main/resources/Simple.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -130,6 +129,12 @@ public interface SimpleVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionDeclaration(SimpleParser.FunctionDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SimpleParser#mainFunctionDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMainFunctionDeclaration(SimpleParser.MainFunctionDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SimpleParser#functionDeclParams}.
 	 * @param ctx the parse tree
