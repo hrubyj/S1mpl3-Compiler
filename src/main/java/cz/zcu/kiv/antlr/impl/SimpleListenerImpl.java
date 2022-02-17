@@ -2,7 +2,8 @@ package cz.zcu.kiv.antlr.impl;
 
 import cz.zcu.kiv.gen.SimpleBaseListener;
 import cz.zcu.kiv.gen.SimpleParser;
-import cz.zcu.kiv.simple.Symbol;
+import cz.zcu.kiv.simple.symbol.Symbol;
+import cz.zcu.kiv.simple.symbol.lang.Function;
 import cz.zcu.kiv.utils.AnalysisException;
 import org.antlr.v4.runtime.Token;
 
@@ -17,7 +18,8 @@ import java.util.Map;
 public class SimpleListenerImpl extends SimpleBaseListener {
 
     private final File outputFile;
-    private final Map<String, Symbol> globalSymbolTable = new HashMap<>();
+    private final Map<String, Symbol<Function>> globalSymbolTable = new HashMap<>();
+    private Function currentScope;
 
     public SimpleListenerImpl(final String outputFile) {
         this.outputFile = new File(outputFile);
@@ -28,6 +30,16 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     @Override
     public void enterFunctionDeclaration(final SimpleParser.FunctionDeclarationContext context) {
+        final String functionName = getUniqueFunctionName(context);
+
+        final Function function = new Function();
+        currentScope = function;
+        globalSymbolTable.put(functionName, new Symbol<>(functionName, function));
+
+        // TODO generate PL/0 code to the output file
+    }
+
+    private String getUniqueFunctionName(final SimpleParser.FunctionDeclarationContext context) {
         final Token symbol = context.Identifier().getSymbol();
         final String functionName = symbol.getText();
         if (globalSymbolTable.containsKey(functionName)) {
@@ -35,8 +47,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
                     "Repeated declaration of function '" + functionName + '\'');
         }
 
-        globalSymbolTable.put(functionName, new Symbol(functionName));
-        // TODO generate PL/0 code to the output file
+        return functionName;
     }
 
     @Override
