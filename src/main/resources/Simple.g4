@@ -96,7 +96,12 @@ conditionalExpression
     ;
 
 functionDeclaration
-    : Func baseTypeSpecifier Identifier LeftParen functionDeclParams? RightParen functionScope
+    : Func functionReturnType Identifier LeftParen functionDeclParams? RightParen functionScope
+    ;
+
+functionReturnType
+    : baseTypeSpecifier
+    | arrayFunctionParamTypeSpecifier
     ;
 
 mainFunctionDeclaration
