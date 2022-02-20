@@ -6,8 +6,8 @@ import cz.zcu.kiv.gen.SimpleListener;
 import cz.zcu.kiv.gen.SimpleParser;
 import cz.zcu.kiv.utils.ExitCode;
 import cz.zcu.kiv.utils.IFactory;
+import cz.zcu.kiv.utils.PL0OutputStreamWriter;
 import cz.zcu.kiv.utils.impl.FactoryImpl;
-import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
@@ -38,12 +38,13 @@ public class Simple {
 
     private static void compileSourceFile(final String sourceFile,
                                           final String outputFile) throws IOException {
-        final SimpleParser parser = factory.createParser(sourceFile);
-        final ANTLRErrorListener errorListener = new ErrorListenerImpl();
-        parser.addErrorListener(errorListener);
+        final SimpleParser parser = factory.createParser(sourceFile, new ErrorListenerImpl());
+        final ParseTreeWalker walker = new ParseTreeWalker();
+
+        final PL0OutputStreamWriter writer = factory.createOutputStreamWriter(outputFile);
+        final SimpleListener listener = new SimpleListenerImpl(writer);
+
         final ParseTree tree = parser.program();
-        ParseTreeWalker walker = new ParseTreeWalker();
-        final SimpleListener listener = new SimpleListenerImpl(outputFile);
         walker.walk(listener, tree);
     }
 
