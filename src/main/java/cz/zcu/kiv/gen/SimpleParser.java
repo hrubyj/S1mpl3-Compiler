@@ -1595,8 +1595,8 @@ public class SimpleParser extends Parser {
 		public BaseTypeSpecifierContext baseTypeSpecifier() {
 			return getRuleContext(BaseTypeSpecifierContext.class,0);
 		}
-		public ArrayFunctionParamTypeSpecifierContext arrayFunctionParamTypeSpecifier() {
-			return getRuleContext(ArrayFunctionParamTypeSpecifierContext.class,0);
+		public ArrayTypeSpecifierContext arrayTypeSpecifier() {
+			return getRuleContext(ArrayTypeSpecifierContext.class,0);
 		}
 		public FunctionReturnTypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1635,7 +1635,7 @@ public class SimpleParser extends Parser {
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(236);
-				arrayFunctionParamTypeSpecifier();
+				arrayTypeSpecifier();
 				}
 				break;
 			}
@@ -1782,8 +1782,8 @@ public class SimpleParser extends Parser {
 		public NonVoidTypeSpecifierContext nonVoidTypeSpecifier() {
 			return getRuleContext(NonVoidTypeSpecifierContext.class,0);
 		}
-		public ArrayFunctionParamTypeSpecifierContext arrayFunctionParamTypeSpecifier() {
-			return getRuleContext(ArrayFunctionParamTypeSpecifierContext.class,0);
+		public ArrayTypeSpecifierContext arrayTypeSpecifier() {
+			return getRuleContext(ArrayTypeSpecifierContext.class,0);
 		}
 		public FunctionDeclParamContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1822,7 +1822,7 @@ public class SimpleParser extends Parser {
 			case 2:
 				{
 				setState(255);
-				arrayFunctionParamTypeSpecifier();
+				arrayTypeSpecifier();
 				}
 				break;
 			}
@@ -2874,13 +2874,13 @@ public class SimpleParser extends Parser {
 		"\7\13\2\2\u00e4\u00e5\5*\26\2\u00e5\u00e6\7.\2\2\u00e6\u00e8\7\26\2\2"+
 		"\u00e7\u00e9\5.\30\2\u00e8\u00e7\3\2\2\2\u00e8\u00e9\3\2\2\2\u00e9\u00ea"+
 		"\3\2\2\2\u00ea\u00eb\7\27\2\2\u00eb\u00ec\5 \21\2\u00ec)\3\2\2\2\u00ed"+
-		"\u00f0\5> \2\u00ee\u00f0\5:\36\2\u00ef\u00ed\3\2\2\2\u00ef\u00ee\3\2\2"+
+		"\u00f0\5> \2\u00ee\u00f0\5<\37\2\u00ef\u00ed\3\2\2\2\u00ef\u00ee\3\2\2"+
 		"\2\u00f0+\3\2\2\2\u00f1\u00f2\7\13\2\2\u00f2\u00f3\7\16\2\2\u00f3\u00f4"+
 		"\7\3\2\2\u00f4\u00f5\7\26\2\2\u00f5\u00f6\7\27\2\2\u00f6\u00f7\5 \21\2"+
 		"\u00f7-\3\2\2\2\u00f8\u00fd\5\60\31\2\u00f9\u00fa\7,\2\2\u00fa\u00fc\5"+
 		"\60\31\2\u00fb\u00f9\3\2\2\2\u00fc\u00ff\3\2\2\2\u00fd\u00fb\3\2\2\2\u00fd"+
 		"\u00fe\3\2\2\2\u00fe/\3\2\2\2\u00ff\u00fd\3\2\2\2\u0100\u0103\5@!\2\u0101"+
-		"\u0103\5:\36\2\u0102\u0100\3\2\2\2\u0102\u0101\3\2\2\2\u0103\u0104\3\2"+
+		"\u0103\5<\37\2\u0102\u0100\3\2\2\2\u0102\u0101\3\2\2\2\u0103\u0104\3\2"+
 		"\2\2\u0104\u0105\7.\2\2\u0105\61\3\2\2\2\u0106\u0107\7\26\2\2\u0107\u0109"+
 		"\58\35\2\u0108\u010a\5\64\33\2\u0109\u0108\3\2\2\2\u0109\u010a\3\2\2\2"+
 		"\u010a\u010b\3\2\2\2\u010b\u010c\7\27\2\2\u010c\u011d\3\2\2\2\u010d\u010e"+

@@ -38,7 +38,7 @@ switch(true) {
 return;
 }
 
-func int test(int a, bool[] pole) {
+func int test(int a, bool[4] pole) {
 
 return 1;
 }

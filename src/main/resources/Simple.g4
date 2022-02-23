@@ -101,7 +101,7 @@ functionDeclaration
 
 functionReturnType
     : baseTypeSpecifier
-    | arrayFunctionParamTypeSpecifier
+    | arrayTypeSpecifier
     ;
 
 mainFunctionDeclaration
@@ -113,7 +113,7 @@ functionDeclParams
     ;
 
 functionDeclParam
-    : (nonVoidTypeSpecifier | arrayFunctionParamTypeSpecifier) Identifier
+    : (nonVoidTypeSpecifier | arrayTypeSpecifier) Identifier
     ;
 
 functionCall
