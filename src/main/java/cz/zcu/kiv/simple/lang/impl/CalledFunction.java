@@ -1,13 +1,13 @@
 package cz.zcu.kiv.simple.lang.impl;
 
-import cz.zcu.kiv.simple.lang.EnumDataType;
 import cz.zcu.kiv.simple.lang.Function;
+import cz.zcu.kiv.simple.lang.datatype.EnumDataType;
 
 /**
  * @author <a href="mailto:">David Markov</a>
  * @since 18.02.22
  */
-public class CalledFunction implements Function {
+public class CalledFunction {
 
     private CalledFunction caller;
     private Function state;
@@ -21,8 +21,8 @@ public class CalledFunction implements Function {
         return caller;
     }
 
-    @Override
     public EnumDataType getReturnType() {
         return state.getReturnType();
     }
+
 }

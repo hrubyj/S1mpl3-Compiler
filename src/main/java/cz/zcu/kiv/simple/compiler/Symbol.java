@@ -1,4 +1,4 @@
-package cz.zcu.kiv.simple.symbol;
+package cz.zcu.kiv.simple.compiler;
 
 /**
  * @author <a href="mailto:">David Markov</a>

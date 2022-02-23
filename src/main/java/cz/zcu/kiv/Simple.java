@@ -42,7 +42,7 @@ public class Simple {
         final ParseTreeWalker walker = new ParseTreeWalker();
 
         final PL0OutputStreamWriter writer = factory.createOutputStreamWriter(outputFile);
-        final SimpleListener listener = new SimpleListenerImpl(writer);
+        final SimpleListener listener = new SimpleListenerImpl(writer, factory);
 
         final ParseTree tree = parser.program();
         walker.walk(listener, tree);

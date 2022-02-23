@@ -10,6 +10,8 @@ public interface PL0OutputStreamWriter {
 
     void writeReturn();
 
+    void writeIncrementStackPointer(int amount);
+
     void updateInitialJump(int position);
 
     int getCurrentLineNumber();

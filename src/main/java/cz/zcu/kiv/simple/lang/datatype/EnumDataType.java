@@ -1,4 +1,4 @@
-package cz.zcu.kiv.simple.lang;
+package cz.zcu.kiv.simple.lang.datatype;
 
 import cz.zcu.kiv.gen.SimpleParser;
 

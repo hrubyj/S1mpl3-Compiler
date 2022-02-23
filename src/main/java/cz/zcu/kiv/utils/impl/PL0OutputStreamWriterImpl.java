@@ -29,6 +29,11 @@ public class PL0OutputStreamWriterImpl implements PL0OutputStreamWriter {
     }
 
     @Override
+    public void writeIncrementStackPointer(final int amount) {
+        writeNextInstruction("INT", 0, amount);
+    }
+
+    @Override
     public void updateInitialJump(final int position) {
         try {
             updateInstruction(0, "JMP", 0, position);
@@ -50,7 +55,7 @@ public class PL0OutputStreamWriterImpl implements PL0OutputStreamWriter {
 
     private void writeInstruction(final int lineNumber, final String instruction, final int level, final int param) {
         try {
-            outputFile.write((lineNumber + ' ' + instruction + ' ' + level + ' ' + param + '\n').getBytes());
+            outputFile.write((lineNumber + " " + instruction + " " + level + " " + param + '\n').getBytes());
         } catch (final IOException e) {
             throw new IllegalStateException("Error while writing instruction", e);
         }

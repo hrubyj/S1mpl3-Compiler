@@ -2,6 +2,10 @@ package cz.zcu.kiv.utils.impl;
 
 import cz.zcu.kiv.gen.SimpleLexer;
 import cz.zcu.kiv.gen.SimpleParser;
+import cz.zcu.kiv.simple.compiler.StackRecord;
+import cz.zcu.kiv.simple.compiler.Symbol;
+import cz.zcu.kiv.simple.lang.datatype.impl.Array;
+import cz.zcu.kiv.simple.lang.datatype.impl.Integer;
 import cz.zcu.kiv.utils.IFactory;
 import cz.zcu.kiv.utils.PL0OutputStreamWriter;
 import org.antlr.v4.runtime.ANTLRErrorListener;
@@ -37,5 +41,20 @@ public class FactoryImpl implements IFactory {
     @Override
     public PL0OutputStreamWriter createOutputStreamWriter(final String targetFile) {
         return new PL0OutputStreamWriterImpl(targetFile);
+    }
+
+    @Override
+    public Symbol<StackRecord> createIntegerStackRecordSymbol(final String identifier,
+                                                              final int stackIndex) {
+        final Integer integer = new Integer();
+        return new Symbol<>(identifier, new StackRecord(stackIndex, integer));
+    }
+
+    @Override
+    public Symbol<StackRecord> createArrayStackRecordSymbol(final String identifier,
+                                                            final int stackIndex,
+                                                            final int size) {
+        final Array array = new Array(size);
+        return new Symbol<>(identifier, new StackRecord(stackIndex, array));
     }
 }
