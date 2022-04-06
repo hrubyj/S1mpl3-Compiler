@@ -62,25 +62,32 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         final String functionName = getUniqueFunctionName(context);
         final Function function = new FunctionImpl(EnumDataType.getValueFromFunctionReturnType(context.functionReturnType()));
 
-        // TODO refactor
         int stackIncrementAmount = DEFAULT_STACK_INCREMENT_AMOUNT;
-        if (context.functionDeclParams() != null) {
-            for (final SimpleParser.FunctionDeclParamContext paramContext : context.functionDeclParams().functionDeclParam()) {
-                if (paramContext.nonVoidTypeSpecifier() != null) {
-                    final Symbol<StackRecord> integerStackRecordSymbol = factory.createIntegerStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), stackIncrementAmount);
-                    function.addSymbol(integerStackRecordSymbol);
-                    stackIncrementAmount += integerStackRecordSymbol.getDescribedConstruction().getRecordSize();
-                } else {
-                    final int arraySize = ContextUtils.getArrayTypeParameterSize(paramContext.arrayTypeSpecifier());
-                    final Symbol<StackRecord> arrayStackRecordSymbol = factory.createArrayStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), stackIncrementAmount, arraySize);
-                    function.addSymbol(arrayStackRecordSymbol);
-                    stackIncrementAmount += arrayStackRecordSymbol.getDescribedConstruction().getRecordSize();
-                }
-            }
+        if (ContextUtils.hasFunctionParams(context)) {
+            stackIncrementAmount = processFunctionParams(context, function);
         }
 
         writer.writeIncrementStackPointer(stackIncrementAmount);
         globalSymbolTable.put(functionName, new Symbol<>(functionName, function));
+    }
+
+    private int processFunctionParams(final SimpleParser.FunctionDeclarationContext context, final Function function) {
+        int stackIncrementAmount = DEFAULT_STACK_INCREMENT_AMOUNT;
+        for (final SimpleParser.FunctionDeclParamContext paramContext : context.functionDeclParams().functionDeclParam()) {
+            if (ContextUtils.isParameterArrayType(paramContext)) {
+                final int arraySize = ContextUtils.getArrayTypeParameterSize(paramContext.arrayTypeSpecifier());
+                final Symbol<StackRecord> arrayStackRecordSymbol =
+                        factory.createArrayStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), stackIncrementAmount, arraySize);
+                function.addSymbol(arrayStackRecordSymbol);
+                stackIncrementAmount += arrayStackRecordSymbol.getDescribedConstruction().getRecordSize();
+            } else {
+                final Symbol<StackRecord> integerStackRecordSymbol =
+                        factory.createIntegerStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), stackIncrementAmount);
+                function.addSymbol(integerStackRecordSymbol);
+                stackIncrementAmount += integerStackRecordSymbol.getDescribedConstruction().getRecordSize();
+            }
+        }
+        return stackIncrementAmount;
     }
 
     @Override

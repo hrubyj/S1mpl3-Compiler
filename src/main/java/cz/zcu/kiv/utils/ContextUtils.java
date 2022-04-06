@@ -23,4 +23,20 @@ public class ContextUtils {
 
         return Integer.parseInt(context.NonzeroConstant().getSymbol().getText());
     }
+
+    public static boolean isParameterArrayType(final SimpleParser.FunctionDeclParamContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.arrayTypeSpecifier() != null;
+    }
+
+    public static boolean hasFunctionParams(final SimpleParser.FunctionDeclarationContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.functionDeclParams() != null;
+    }
 }
