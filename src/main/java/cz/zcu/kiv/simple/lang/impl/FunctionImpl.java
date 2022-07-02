@@ -8,10 +8,6 @@ import cz.zcu.kiv.simple.lang.datatype.EnumDataType;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author <a href="mailto:">David Markov</a>
- * @since 17.02.22
- */
 public class FunctionImpl implements Function {
 
     private final EnumDataType returnType;

@@ -2,19 +2,15 @@ package cz.zcu.kiv.simple.compiler;
 
 import cz.zcu.kiv.simple.lang.datatype.NonVoidDataType;
 
-/**
- * @author <a href="mailto:">David Markov</a>
- * @since 23.02.22
- */
+import static cz.zcu.kiv.utils.ValidationUtils.assertNotNull;
+
 public class StackRecord {
 
     private final int relativeStartIndex;
     private final NonVoidDataType dataType;
 
     public StackRecord(final int relativeIndex, final NonVoidDataType dataType) {
-        if (dataType == null) {
-            throw new IllegalArgumentException("Data type on stack may not be null");
-        }
+        assertNotNull(dataType, "Data type on stack may not be null");
 
         this.relativeStartIndex = relativeIndex;
         this.dataType = dataType;

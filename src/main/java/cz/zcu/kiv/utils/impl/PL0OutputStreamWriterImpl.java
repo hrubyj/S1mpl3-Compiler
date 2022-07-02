@@ -6,10 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-/**
- * @author <a href="mailto:">David Markov</a>
- * @since 20.02.22
- */
 public class PL0OutputStreamWriterImpl implements PL0OutputStreamWriter {
 
     private int currentLine = 0;

@@ -6,28 +6,26 @@ import cz.zcu.kiv.simple.compiler.StackRecord;
 import cz.zcu.kiv.simple.compiler.Symbol;
 import cz.zcu.kiv.simple.lang.Function;
 import cz.zcu.kiv.simple.lang.datatype.EnumDataType;
-import cz.zcu.kiv.simple.lang.impl.CalledFunction;
 import cz.zcu.kiv.simple.lang.impl.FunctionImpl;
 import cz.zcu.kiv.utils.AnalysisException;
 import cz.zcu.kiv.utils.ContextUtils;
 import cz.zcu.kiv.utils.IFactory;
 import cz.zcu.kiv.utils.PL0OutputStreamWriter;
+import cz.zcu.kiv.utils.TokenUtils;
 import org.antlr.v4.runtime.Token;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author <a href="mailto:">David Markov</a>
- * @since 06.02.22
- */
+import static cz.zcu.kiv.utils.ValidationUtils.assertNotNull;
+
 public class SimpleListenerImpl extends SimpleBaseListener {
 
     private static final String MAIN_FUNCTION_NAME = "main";
     public static final int DEFAULT_STACK_INCREMENT_AMOUNT = 3;
 
     private final Map<String, Symbol<Function>> globalSymbolTable = new HashMap<>();
-    private CalledFunction currentScope;
+    private Function currentScope;
     private int mainFunctionLineNumber;
 
     private final PL0OutputStreamWriter writer;
@@ -41,17 +39,13 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     }
 
     private void validateDependencies(final PL0OutputStreamWriter writer, final IFactory factory) {
-        if (writer == null) {
-            throw new IllegalArgumentException("Output writer may not be null");
-        }
-        if (factory == null) {
-            throw new IllegalArgumentException("Factory may not be null");
-        }
+        assertNotNull(writer, "Output writer may not be null");
+        assertNotNull(factory, "Factory may not be null");
     }
 
     @Override
     public void enterProgram(final SimpleParser.ProgramContext ctx) {
-        // first line in the program has to be jump to the main function
+        // first line in the program has to be a jump to the main function
         // we do not however know it's position yet, therefore we need to write stub first instruction like '0 JMP 0 X'
         // upon finishing compilation, this first line has to be overwritten by the correct position of the main function
         writer.writeNextInstruction("JMP", 0, 0);
@@ -69,6 +63,29 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
         writer.writeIncrementStackPointer(stackIncrementAmount);
         globalSymbolTable.put(functionName, new Symbol<>(functionName, function));
+        currentScope = function;
+    }
+
+    @Override
+    public void enterReturnStatement(final SimpleParser.ReturnStatementContext context) {
+        final SimpleParser.ExpressionContext returnExpression = context.expression();
+        if (returnExpression == null) {
+            if (currentScope.getReturnType() != EnumDataType.VOID) {
+                final Token returnSymbol = context.Return().getSymbol();
+                throw new AnalysisException(returnSymbol.getLine(), TokenUtils.getTokenEndPositionInLine(returnSymbol),
+                        "Function has to return a non-void value");
+            }
+
+            // TODO what to do? jump somewhere backwards in call stack
+            return;
+        }
+
+        if (currentScope.getReturnType() == EnumDataType.VOID) {
+            throw new AnalysisException(returnExpression.getStart(),
+                    "Function of return type" + currentScope.getReturnType().name() + "may not return a non-void value");
+        }
+
+        // TODO validate expression for all possible return types
     }
 
     private int processFunctionParams(final SimpleParser.FunctionDeclarationContext context, final Function function) {
@@ -92,8 +109,10 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     @Override
     public void enterMainFunctionDeclaration(final SimpleParser.MainFunctionDeclarationContext context) {
-        globalSymbolTable.put(MAIN_FUNCTION_NAME, new Symbol<>(MAIN_FUNCTION_NAME, new FunctionImpl(EnumDataType.VOID)));
+        final Function mainFunction = new FunctionImpl(EnumDataType.VOID);
+        globalSymbolTable.put(MAIN_FUNCTION_NAME, new Symbol<>(MAIN_FUNCTION_NAME, mainFunction));
         mainFunctionLineNumber = writer.getCurrentLineNumber();
+        currentScope = mainFunction;
     }
 
     @Override
@@ -111,7 +130,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         final Token symbol = context.Identifier().getSymbol();
         final String functionName = symbol.getText();
         if (globalSymbolTable.containsKey(functionName)) {
-            throw new AnalysisException(symbol.getLine(), symbol.getStartIndex(),
+            throw new AnalysisException(symbol,
                     "Repeated declaration of function '" + functionName + '\'');
         }
 

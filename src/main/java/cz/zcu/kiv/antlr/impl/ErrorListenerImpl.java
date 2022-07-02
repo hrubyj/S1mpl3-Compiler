@@ -5,10 +5,6 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
-/**
- * @author <a href="mailto:">David Markov</a>
- * @since 06.02.22
- */
 public class ErrorListenerImpl extends BaseErrorListener {
 
     @Override

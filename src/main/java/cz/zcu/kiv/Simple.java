@@ -14,10 +14,6 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * @author <a href="mailto:">David Markov</a>
- * @since 05.02.22
- */
 public class Simple {
 
     public static final int EXPECTED_ARGUMENT_COUNT = 2;

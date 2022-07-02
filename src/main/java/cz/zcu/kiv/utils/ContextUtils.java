@@ -2,10 +2,6 @@ package cz.zcu.kiv.utils;
 
 import cz.zcu.kiv.gen.SimpleParser;
 
-/**
- * @author <a href="mailto:">David Markov</a>
- * @since 23.02.22
- */
 public class ContextUtils {
 
     public static String getParameterIdentifier(final SimpleParser.FunctionDeclParamContext context) {

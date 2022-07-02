@@ -1,9 +1,5 @@
 package cz.zcu.kiv.simple.compiler;
 
-/**
- * @author <a href="mailto:">David Markov</a>
- * @since 17.02.22
- */
 public class Symbol<T> {
 
     private final String name;
