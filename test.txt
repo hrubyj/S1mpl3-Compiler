@@ -1,0 +1,12 @@
+
+func int[5] function() {
+    return 5;
+}
+
+func void main() {
+    int a = 5;
+    int b = true;
+    int[10] c;
+
+    return 10;
+}

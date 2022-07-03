@@ -1,7 +1,7 @@
 package cz.zcu.kiv.simple.lang.impl;
 
 import cz.zcu.kiv.simple.lang.Function;
-import cz.zcu.kiv.simple.lang.datatype.EnumDataType;
+import cz.zcu.kiv.simple.lang.datatype.DataType;
 
 public class CalledFunction {
 
@@ -17,7 +17,7 @@ public class CalledFunction {
         return caller;
     }
 
-    public EnumDataType getReturnType() {
+    public DataType getReturnType() {
         return state.getReturnType();
     }
 

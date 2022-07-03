@@ -5,13 +5,12 @@ import cz.zcu.kiv.gen.SimpleParser;
 import cz.zcu.kiv.simple.compiler.StackRecord;
 import cz.zcu.kiv.simple.compiler.Symbol;
 import cz.zcu.kiv.simple.lang.Function;
-import cz.zcu.kiv.simple.lang.datatype.EnumDataType;
 import cz.zcu.kiv.simple.lang.impl.FunctionImpl;
 import cz.zcu.kiv.utils.AnalysisException;
 import cz.zcu.kiv.utils.ContextUtils;
+import cz.zcu.kiv.utils.DataTypeUtils;
 import cz.zcu.kiv.utils.IFactory;
 import cz.zcu.kiv.utils.PL0OutputStreamWriter;
-import cz.zcu.kiv.utils.TokenUtils;
 import org.antlr.v4.runtime.Token;
 
 import java.util.HashMap;
@@ -54,7 +53,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     @Override
     public void enterFunctionDeclaration(final SimpleParser.FunctionDeclarationContext context) {
         final String functionName = getUniqueFunctionName(context);
-        final Function function = new FunctionImpl(EnumDataType.getValueFromFunctionReturnType(context.functionReturnType()));
+        final Function function = new FunctionImpl(DataTypeUtils.getReturnTypeFromContext(context.functionReturnType()));
 
         int stackIncrementAmount = DEFAULT_STACK_INCREMENT_AMOUNT;
         if (ContextUtils.hasFunctionParams(context)) {
@@ -68,24 +67,29 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     @Override
     public void enterReturnStatement(final SimpleParser.ReturnStatementContext context) {
-        final SimpleParser.ExpressionContext returnExpression = context.expression();
-        if (returnExpression == null) {
-            if (currentScope.getReturnType() != EnumDataType.VOID) {
-                final Token returnSymbol = context.Return().getSymbol();
-                throw new AnalysisException(returnSymbol.getLine(), TokenUtils.getTokenEndPositionInLine(returnSymbol),
-                        "Function has to return a non-void value");
-            }
-
-            // TODO what to do? jump somewhere backwards in call stack
-            return;
+//        final SimpleParser.ExpressionContext returnExpression = context.expression();
+        final boolean returnsSameDataType = currentScope.getReturnType().returnsSameDataType(context);
+        if (!returnsSameDataType) {
+            //TODO throw
         }
 
-        if (currentScope.getReturnType() == EnumDataType.VOID) {
-            throw new AnalysisException(returnExpression.getStart(),
-                    "Function of return type" + currentScope.getReturnType().name() + "may not return a non-void value");
-        }
-
-        // TODO validate expression for all possible return types
+//        if (returnExpression == null) {
+//            if (currentScope.getReturnType() != EnumDataType.VOID) {
+//                final Token returnSymbol = context.Return().getSymbol();
+//                throw new AnalysisException(returnSymbol.getLine(), TokenUtils.getTokenEndPositionInLine(returnSymbol),
+//                        "Function has to return a non-void value");
+//            }
+//
+//            // TODO what to do? jump somewhere backwards in call stack
+//            return;
+//        }
+//
+//        if (currentScope.getReturnType() == EnumDataType.VOID) {
+//            throw new AnalysisException(returnExpression.getStart(),
+//                    "Function of return type" + currentScope.getReturnType().name() + "may not return a non-void value");
+//        }
+//
+//        // TODO validate expression for all possible return types
     }
 
     private int processFunctionParams(final SimpleParser.FunctionDeclarationContext context, final Function function) {
@@ -109,7 +113,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     @Override
     public void enterMainFunctionDeclaration(final SimpleParser.MainFunctionDeclarationContext context) {
-        final Function mainFunction = new FunctionImpl(EnumDataType.VOID);
+        final Function mainFunction = new FunctionImpl(DataTypeUtils.getMainFunctionReturnType());
         globalSymbolTable.put(MAIN_FUNCTION_NAME, new Symbol<>(MAIN_FUNCTION_NAME, mainFunction));
         mainFunctionLineNumber = writer.getCurrentLineNumber();
         currentScope = mainFunction;
