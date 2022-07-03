@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 import static cz.zcu.kiv.utils.ValidationUtils.assertNotNull;
 
+@Deprecated //TODO remove this class
 public enum EnumDataType {
     INTEGRAL(EnumDataType::isIntegral),
     ARRAY(EnumDataType::isArray),
