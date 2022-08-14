@@ -131,6 +131,7 @@ functionCallParam
     | functionCall
     | BooleanLiteral
     | decimalConstant
+    | arrayAccess
     ;
 
 functionIdentifier
