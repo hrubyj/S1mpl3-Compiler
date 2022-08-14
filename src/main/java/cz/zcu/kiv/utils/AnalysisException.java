@@ -20,6 +20,6 @@ public class AnalysisException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return lineNumber + ':' + startIndex + cause;
+        return lineNumber + ":" + startIndex + " " + cause;
     }
 }
