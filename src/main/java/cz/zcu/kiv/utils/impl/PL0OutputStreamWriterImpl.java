@@ -44,6 +44,12 @@ public class PL0OutputStreamWriterImpl implements PL0OutputStreamWriter {
     }
 
     @Override
+    public void writeReturnInstruction() {
+        writeInstruction(currentLine, "RET", 0, 0);
+        currentLine++;
+    }
+
+    @Override
     public void writeNextInstruction(final String instruction, final int level, final int param) {
         writeInstruction(currentLine, instruction, level, param);
         currentLine++;

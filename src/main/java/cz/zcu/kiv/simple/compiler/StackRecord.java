@@ -23,4 +23,8 @@ public class StackRecord {
     public int getRecordSize() {
         return dataType.getSize();
     }
+
+    public NonVoidDataType getDataType() {
+        return dataType;
+    }
 }

@@ -1,6 +1,6 @@
 package cz.zcu.kiv.simple.lang.datatype.impl;
 
-import cz.zcu.kiv.gen.SimpleParser;
+import cz.zcu.kiv.simple.lang.datatype.DataType;
 import cz.zcu.kiv.simple.lang.datatype.NonVoidDataType;
 
 public class Integer extends NonVoidDataType {
@@ -10,8 +10,16 @@ public class Integer extends NonVoidDataType {
     }
 
     @Override
-    public boolean isSameDataType(final SimpleParser.ExpressionContext expression) {
-        return false;
+    public boolean isSameDataType(final DataType dataType) {
+        if (dataType == null) {
+            return false;
+        }
+
+        return dataType instanceof Integer;
     }
 
+    @Override
+    public String toString() {
+        return "Integer";
+    }
 }

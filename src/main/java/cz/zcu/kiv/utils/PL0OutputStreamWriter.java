@@ -11,4 +11,6 @@ public interface PL0OutputStreamWriter {
     void updateInitialJump(int position);
 
     int getCurrentLineNumber();
+
+    void writeReturnInstruction();
 }

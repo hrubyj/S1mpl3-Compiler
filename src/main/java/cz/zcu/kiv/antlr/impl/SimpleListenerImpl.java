@@ -5,6 +5,7 @@ import cz.zcu.kiv.gen.SimpleParser;
 import cz.zcu.kiv.simple.compiler.StackRecord;
 import cz.zcu.kiv.simple.compiler.Symbol;
 import cz.zcu.kiv.simple.lang.Function;
+import cz.zcu.kiv.simple.lang.datatype.DataType;
 import cz.zcu.kiv.simple.lang.impl.FunctionImpl;
 import cz.zcu.kiv.utils.AnalysisException;
 import cz.zcu.kiv.utils.ContextUtils;
@@ -67,29 +68,16 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     @Override
     public void enterReturnStatement(final SimpleParser.ReturnStatementContext context) {
-//        final SimpleParser.ExpressionContext returnExpression = context.expression();
-        final boolean returnsSameDataType = currentScope.getReturnType().returnsSameDataType(context);
+        final DataType returnType = ContextUtils.getExpressionReturnValueType(context.expression(), globalSymbolTable, currentScope);
+        final boolean returnsSameDataType = currentScope.getReturnType().isSameDataType(returnType);
         if (!returnsSameDataType) {
-            //TODO throw
+            throw new AnalysisException(context.Return().getSymbol(),
+                    "Illegal return type. Expected: " + currentScope.getReturnType() + ", got: " + returnType);
         }
 
-//        if (returnExpression == null) {
-//            if (currentScope.getReturnType() != EnumDataType.VOID) {
-//                final Token returnSymbol = context.Return().getSymbol();
-//                throw new AnalysisException(returnSymbol.getLine(), TokenUtils.getTokenEndPositionInLine(returnSymbol),
-//                        "Function has to return a non-void value");
-//            }
-//
-//            // TODO what to do? jump somewhere backwards in call stack
-//            return;
-//        }
-//
-//        if (currentScope.getReturnType() == EnumDataType.VOID) {
-//            throw new AnalysisException(returnExpression.getStart(),
-//                    "Function of return type" + currentScope.getReturnType().name() + "may not return a non-void value");
-//        }
-//
-//        // TODO validate expression for all possible return types
+        //TODO parse the value (if there is one) to be returned
+        writer.writeReturnInstruction();
+        // TODO if there is a value to be returned, store on top of the stack
     }
 
     private int processFunctionParams(final SimpleParser.FunctionDeclarationContext context, final Function function) {

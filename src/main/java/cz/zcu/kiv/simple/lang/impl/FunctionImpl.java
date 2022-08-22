@@ -7,6 +7,7 @@ import cz.zcu.kiv.simple.lang.datatype.DataType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class FunctionImpl implements Function {
 
@@ -29,6 +30,15 @@ public class FunctionImpl implements Function {
         }
 
         scopeSymbolTable.put(symbol.getName(), symbol);
+    }
+
+    @Override
+    public Optional<Symbol<StackRecord>> getSymbol(final String name) {
+        if (name == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(scopeSymbolTable.get(name));
     }
 
 }
