@@ -68,7 +68,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     @Override
     public void enterReturnStatement(final SimpleParser.ReturnStatementContext context) {
-        final DataType returnType = ContextUtils.getExpressionReturnValueType(context.expression(), globalSymbolTable, currentScope);
+        final DataType returnType = DataTypeUtils.getExpressionReturnValueType(context.expression(), globalSymbolTable, currentScope);
         final boolean returnsSameDataType = currentScope.getReturnType().isSameDataType(returnType);
         if (!returnsSameDataType) {
             throw new AnalysisException(context.Return().getSymbol(),
