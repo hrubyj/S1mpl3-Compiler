@@ -86,6 +86,8 @@ public class EvaluationUtils {
             throw new AnalysisException(arrayAccessCtx.LeftBracket().getSymbol(), "Array index has to be an integer, got Array");
         }
 
+        // evaluate conditional exp
+
         // array index assignment
     }
 }

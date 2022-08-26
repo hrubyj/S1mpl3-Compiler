@@ -26,8 +26,6 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     private final Map<String, Symbol<Function>> globalSymbolTable = new HashMap<>();
     private Function currentScope;
-    private int mainFunctionLineNumber;
-
     private final PL0OutputStreamWriter writer;
     private final IFactory factory;
 
@@ -103,14 +101,12 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     public void enterMainFunctionDeclaration(final SimpleParser.MainFunctionDeclarationContext context) {
         final Function mainFunction = new FunctionImpl(DataTypeUtils.getMainFunctionReturnType());
         globalSymbolTable.put(MAIN_FUNCTION_NAME, new Symbol<>(MAIN_FUNCTION_NAME, mainFunction));
-        mainFunctionLineNumber = writer.getCurrentLineNumber();
-        currentScope = mainFunction;
-    }
 
-    @Override
-    public void exitMainFunctionDeclaration(final SimpleParser.MainFunctionDeclarationContext ctx) {
-        // main is always the last function - when we finish its compilation, we may update the initial jump to its position
+        final int mainFunctionLineNumber = writer.getCurrentLineNumber();
+        writer.writeIncrementStackPointer(DEFAULT_STACK_INCREMENT_AMOUNT);
         writer.updateInitialJump(mainFunctionLineNumber);
+
+        currentScope = mainFunction;
     }
 
     @Override
