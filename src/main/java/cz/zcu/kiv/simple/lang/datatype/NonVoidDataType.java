@@ -1,6 +1,6 @@
 package cz.zcu.kiv.simple.lang.datatype;
 
-public class NonVoidDataType {
+public abstract class NonVoidDataType implements DataType {
 
     private final int size;
 
@@ -11,4 +11,5 @@ public class NonVoidDataType {
     public int getSize() {
         return size;
     }
+
 }

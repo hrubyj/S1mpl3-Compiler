@@ -1,13 +1,8 @@
 package cz.zcu.kiv.simple.lang.datatype.impl;
 
 import cz.zcu.kiv.simple.lang.datatype.DataType;
-import cz.zcu.kiv.simple.lang.datatype.NonVoidDataType;
 
-public class Integer extends NonVoidDataType {
-
-    public Integer() {
-        super(1);
-    }
+public class Void implements DataType {
 
     @Override
     public boolean isSameDataType(final DataType dataType) {
@@ -15,11 +10,11 @@ public class Integer extends NonVoidDataType {
             return false;
         }
 
-        return dataType instanceof Integer;
+        return dataType instanceof Void;
     }
 
     @Override
     public String toString() {
-        return "Integer";
+        return "Void";
     }
 }
