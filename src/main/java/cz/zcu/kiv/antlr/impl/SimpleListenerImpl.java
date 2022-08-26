@@ -50,6 +50,16 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     }
 
     @Override
+    public void enterDeclaration(final SimpleParser.DeclarationContext ctx) {
+        if (ctx.arrayTypeSpecifier() != null) {
+            // TODO deklarace pole
+        }
+
+        final boolean isConst = ctx.typeQualifier() != null;
+        // TODO deklarace int/bool
+    }
+
+    @Override
     public void enterFunctionDeclaration(final SimpleParser.FunctionDeclarationContext context) {
         final String functionName = getUniqueFunctionName(context);
         final Function function = new FunctionImpl(DataTypeUtils.getReturnTypeFromContext(context.functionReturnType()));
