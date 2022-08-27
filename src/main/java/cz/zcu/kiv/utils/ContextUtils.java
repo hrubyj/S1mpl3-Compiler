@@ -74,12 +74,30 @@ public class ContextUtils {
         return context.BooleanLiteral() != null;
     }
 
+    public static boolean isBooleanLiteral(final SimpleParser.ExpressionContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.BooleanLiteral() != null ||
+                (context.conditionalExpression() != null && isBooleanLiteral(context.conditionalExpression().nonVoidReturnValue()));
+    }
+
     public static boolean isSignedConstant(final SimpleParser.NonVoidReturnValueContext context) {
         if (context == null) {
             return false;
         }
 
         return context.signedConstant() != null;
+    }
+
+    public static boolean isSignedConstant(final SimpleParser.ExpressionContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.signedConstant() != null ||
+                (context.conditionalExpression() != null && isSignedConstant(context.conditionalExpression().nonVoidReturnValue()));
     }
 
     public static boolean isArrayAccess(final SimpleParser.NonVoidReturnValueContext context) {

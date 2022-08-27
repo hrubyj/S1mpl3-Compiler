@@ -18,7 +18,9 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static cz.zcu.kiv.utils.ContextUtils.isArrayAccess;
 import static cz.zcu.kiv.utils.ContextUtils.isBooleanLiteral;
@@ -26,8 +28,10 @@ import static cz.zcu.kiv.utils.ContextUtils.isIdentifierReference;
 import static cz.zcu.kiv.utils.ContextUtils.isIfStatement;
 import static cz.zcu.kiv.utils.ContextUtils.isSignedConstant;
 import static cz.zcu.kiv.utils.ContextUtils.isTernaryOperator;
+import static cz.zcu.kiv.utils.DataTypeUtils.isInteger;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateBooleanLiteral;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateSignedConstant;
+import static cz.zcu.kiv.utils.EvaluationUtils.evaluateTernaryOperator;
 import static cz.zcu.kiv.utils.ValidationUtils.assertNotNull;
 
 public class SimpleListenerImpl extends SimpleBaseListener {
@@ -39,6 +43,11 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     private Function currentScope;
     private final PL0OutputStreamWriter writer;
     private final IFactory factory;
+
+    private boolean inIfStatementBlock = false;
+    private int ifJmcInstructionAddress = 0;
+    private boolean inElseStatementBlock = false;
+    private int ifEndJmpInstructionAddress = 0;
 
     public SimpleListenerImpl(final PL0OutputStreamWriter writer, final IFactory factory) {
         validateDependencies(writer, factory);
@@ -115,11 +124,11 @@ public class SimpleListenerImpl extends SimpleBaseListener {
             if (ContextUtils.isParameterArrayType(paramContext)) {
                 final int arraySize = ContextUtils.getArrayTypeParameterSize(paramContext.arrayTypeSpecifier());
                 final Symbol<StackRecord> arrayStackRecordSymbol =
-                        factory.createArrayStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), function.getAvailableStackIndex(), arraySize);
+                        factory.createArrayStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), function.getAvailableStackIndex(), arraySize, null);
                 function.addSymbol(arrayStackRecordSymbol);
             } else {
                 final Symbol<StackRecord> integerStackRecordSymbol =
-                        factory.createIntegerStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), function.getAvailableStackIndex(), false);
+                        factory.createIntegerStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), function.getAvailableStackIndex(), false, null);
                 function.addSymbol(integerStackRecordSymbol);
             }
         }
@@ -145,7 +154,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     private void enterIntegerOrBooleanDeclaration(final SimpleParser.DeclarationContext context) {
         final boolean isConst = context.typeQualifier() != null;
         final String identifier = getUniqueVariableName(context.Identifier());
-        final Symbol<StackRecord> stackRecordSymbol = factory.createIntegerStackRecordSymbol(identifier, currentScope.getAvailableStackIndex(), isConst);
+        final Symbol<StackRecord> stackRecordSymbol = factory.createIntegerStackRecordSymbol(identifier, currentScope.getAvailableStackIndex(), isConst, 0);
 
         final DataType leftSideDataType = stackRecordSymbol.getDescribedConstruction().getDataType();
         final DataType rightSideDataType = DataTypeUtils.getConditionalExpressionReturnValueType(context.conditionalExpression(), globalSymbolTable, currentScope);
@@ -165,18 +174,25 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
         final var condExpression = context.conditionalExpression();
         if (isTernaryOperator(condExpression)) {
+            // podminka:
+            // -
+            evaluateTernaryOperator(context.conditionalExpression(), globalSymbolTable, writer, currentScope);
+            // evaluate ternary operator - push value to stack
+            writer.writeStoreStackTopToAddress(stackRecordSymbol.getDescribedConstruction().getRelativeStartIndex());
             // TODO celej ternár (if-else)
         }
 
         final var nonVoidValue = condExpression.nonVoidReturnValue();
         if (isBooleanLiteral(nonVoidValue)) {
             final int value = evaluateBooleanLiteral(nonVoidValue);
+            stackRecordSymbol.getDescribedConstruction().setValue(value);
             saveValueToVariable(value, stackRecordSymbol, 0);
             return;
         }
 
         if (isSignedConstant(nonVoidValue)) {
             final int value = evaluateSignedConstant(nonVoidValue);
+            stackRecordSymbol.getDescribedConstruction().setValue(value);
             saveValueToVariable(value, stackRecordSymbol, 0);
             return;
         }
@@ -188,6 +204,8 @@ public class SimpleListenerImpl extends SimpleBaseListener {
             // same data types already checked above
 
             final int rValueAddress = rValueStackRecordSymbol.getDescribedConstruction().getRelativeStartIndex();
+            final Object value = rValueStackRecordSymbol.getDescribedConstruction().getValue();
+            stackRecordSymbol.getDescribedConstruction().setValue(value);
             writer.writeLoadValueFromAddressOnStackTop(rValueAddress);
             writer.writeStoreStackTopToAddress(stackRecordSymbol.getDescribedConstruction().getRelativeStartIndex());
             return;
@@ -212,7 +230,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         final int arraySize = Integer.parseInt(arrayTypeSpecifier.NonzeroConstant().getText());
         final String identifier = getUniqueVariableName(context.Identifier());
 
-        final Symbol<StackRecord> stackRecordSymbol = factory.createArrayStackRecordSymbol(identifier, currentScope.getAvailableStackIndex(), arraySize);
+        final Symbol<StackRecord> stackRecordSymbol = factory.createArrayStackRecordSymbol(identifier, currentScope.getAvailableStackIndex(), arraySize, new int[arraySize]);
         currentScope.addSymbol(stackRecordSymbol);
         final int stackIncrementAmount = stackRecordSymbol.getDescribedConstruction().getRecordSize();
         writer.writeIncrementStackPointer(stackIncrementAmount);
@@ -222,7 +240,97 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     }
 
     private void enterIfStatement(final SimpleParser.SelectionStatementContext context) {
+        final var expression = context.condition().expression();
+        final DataType dataType = DataTypeUtils.getExpressionReturnValueType(expression, globalSymbolTable, currentScope);
+        if (!isInteger(dataType)) {
+            throw new AnalysisException(context.condition().getStart(),
+                    "Condition has to evaluate into integer or boolean value (got " + dataType + ")");
+        }
 
+        if (isTernaryOperator(expression.conditionalExpression())) {
+            throw new AnalysisException(expression.getStart(), "Condition may not be composed of other conditions");
+        }
+
+        if (isSignedConstant(expression) || isBooleanLiteral(expression)) {
+            final int value = isSignedConstant(expression) ? evaluateSignedConstant(expression) : evaluateBooleanLiteral(expression);
+            handleConditionWithConstantResult(context, value);
+            return;
+        }
+
+        final var nonVoidValue = expression.conditionalExpression().nonVoidReturnValue();
+        if (isIdentifierReference(nonVoidValue)) {
+            final Token identifier = nonVoidValue.Identifier().getSymbol();
+            final var symbol = currentScope.getSymbol(identifier.getText())
+                    .orElseThrow(() -> new AnalysisException(identifier, "Variable '" + identifier.getText() + "' does not exist"));
+            final Optional<Object> value = symbol.getDescribedConstruction().getValue();
+            // if we know the value at compile time, we can immediately evaluate the condition
+            if (value.isPresent()) {
+                handleConditionWithConstantResult(context, (Integer) value.get());
+                return;
+            }
+
+            writer.writeLoadValueFromAddressOnStackTop(symbol.getDescribedConstruction().getRelativeStartIndex());
+            writer.writePushToStack(0);
+            writer.writeDoOperation(PL0Operation.NOT_EQUAL);
+            // ... do if body if true
+
+            inIfStatementBlock = true;
+            ifJmcInstructionAddress = writer.getCurrentLineNumber();
+            writer.writeNextInstruction("JMC", 0, 0);
+            // don't know where to jump yet, will be updated upon exiting
+        }
+
+        // TODO array access
+        // TODO function call
+    }
+
+    private void handleConditionWithConstantResult(final SimpleParser.SelectionStatementContext context,
+                                                   final int value) {
+        if (value == 0) {
+            if (context.Else() == null) {
+                context.children = List.of();
+                return;
+            }
+
+            context.scope(0).children = List.of();  // if there is an else branch we execute it always
+            return;
+        }
+
+
+        if (context.Else() != null) {
+            // if the condition is always true, we execute it always and possible else branch is ignored
+            context.scope(1).children = List.of();
+        }
+    }
+
+    @Override
+    public void exitScope(final SimpleParser.ScopeContext ctx) {
+        if (!(ctx.getParent() instanceof SimpleParser.SelectionStatementContext ifContext)) {
+            return;
+        }
+
+        // TODO doplnit switch logiku
+        if (inIfStatementBlock) {
+            if (ifContext.Else() != null) {
+                // if there is an else branch, we need to avoid its code with a jump, but we don't know where yet
+                ifEndJmpInstructionAddress = writer.getCurrentLineNumber();
+                writer.writeNextInstruction("JMP", 0, 0);
+                inElseStatementBlock = true;
+            }
+
+            // we need to update the JNE instruction to jump behind the if scope logic
+            // therefore we set the target address to here - the next instruction address
+            writer.updateInstruction(ifJmcInstructionAddress, "JMC", 0, writer.getCurrentLineNumber());
+            inIfStatementBlock = false;
+            return;
+        }
+
+        if (inElseStatementBlock) {
+            // we need to update the JMP instruction at the end of an if block to jump behind the else scope logic
+            // therefore we set the target address to here - the next instruction address
+            writer.updateInstruction(ifEndJmpInstructionAddress, "JMP", 0, writer.getCurrentLineNumber());
+            inElseStatementBlock = false;
+        }
     }
 
     private void enterSwitchStatement(final SimpleParser.SelectionStatementContext context) {

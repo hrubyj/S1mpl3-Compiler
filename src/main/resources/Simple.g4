@@ -37,7 +37,7 @@ expressionStatement
     ;
 
 labeledStatement
-    :   Case conditionalExpression Colon scope
+    :   Case signedConstant Colon scope
     |   Default Colon scope
     ;
 
@@ -47,7 +47,7 @@ returnStatement
 
 selectionStatement
     : If condition scope (Else scope)?
-    | Switch condition LeftBrace labeledStatement+ RightBrace
+    | Switch nonVoidReturnValue LeftBrace labeledStatement+ RightBrace
     ;
 
 blockItemList

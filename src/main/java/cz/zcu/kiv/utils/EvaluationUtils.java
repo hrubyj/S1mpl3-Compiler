@@ -1,111 +1,135 @@
 package cz.zcu.kiv.utils;
 
 import cz.zcu.kiv.gen.SimpleParser;
-import cz.zcu.kiv.simple.compiler.StackRecord;
 import cz.zcu.kiv.simple.compiler.Symbol;
 import cz.zcu.kiv.simple.lang.Function;
-import cz.zcu.kiv.simple.lang.datatype.DataType;
-import cz.zcu.kiv.simple.lang.datatype.impl.Array;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Stack;
+import java.util.Optional;
 
-import static cz.zcu.kiv.utils.ValidationUtils.assertNotNull;
+import static cz.zcu.kiv.utils.ContextUtils.isBooleanLiteral;
+import static cz.zcu.kiv.utils.ContextUtils.isIdentifierReference;
+import static cz.zcu.kiv.utils.ContextUtils.isSignedConstant;
+import static cz.zcu.kiv.utils.ContextUtils.isTernaryOperator;
 
 public class EvaluationUtils {
 
-    public static void evaluateExpression(final SimpleParser.ExpressionContext expressionCtx,
-                                          final Map<String, Symbol<Function>> globalSymbolTable,
-                                          final PL0OutputStreamWriter writer,
-                                          final Function currentScope) {
-        assertNotNull(expressionCtx, "Expression context may not be null");
-        assertNotNull(globalSymbolTable, "Global symbol table may not be null");
-        assertNotNull(writer, "Output stream writer may not be null");
-        assertNotNull(currentScope, "Current scope may not be null");
-
-        final Stack<SimpleParser.ExpressionContext> expressionContexts = new Stack<>();
-        expressionContexts.push(expressionCtx);
-        while (!expressionContexts.isEmpty()) {
-            final var topExpressionContext = expressionContexts.pop();
-            if (topExpressionContext == null) {
-                throw new NullPointerException("Expression context is null");
-            }
-
-            if (topExpressionContext.conditionalExpression() == null) {
-                if (topExpressionContext.assignment() != null) {
-                    // assignment
-                    evaluateAssignment(topExpressionContext.assignment(), globalSymbolTable, writer, currentScope);
-                }
-                // nejakej integer
-            }
-        }
-    }
 
     public static int evaluateBooleanLiteral(final SimpleParser.NonVoidReturnValueContext context) {
-        if (context == null || context.BooleanLiteral() == null) {
-            throw new IllegalArgumentException("Boolean literal may not be null");
+        if (!isBooleanLiteral(context)) {
+            throw new IllegalArgumentException("Context may not be null and has to be a boolean literal");
         }
 
         return context.BooleanLiteral().getText().equals("true") ? 1 : 0;
     }
 
-    public static int evaluateSignedConstant(final SimpleParser.NonVoidReturnValueContext context) {
-        if (context == null || context.signedConstant() == null) {
-            throw new IllegalArgumentException("Signed constant may not be null");
+    public static int evaluateBooleanLiteral(final SimpleParser.ExpressionContext context) {
+        if (!isBooleanLiteral(context)) {
+            throw new IllegalArgumentException("Context may not be null and has to be a boolean literal");
         }
 
-        final var signedConstant = context.signedConstant();
-        final int absoluteValue = Integer.parseInt(signedConstant.decimalConstant().getText());
-        return signedConstant.Minus() != null ? -absoluteValue : absoluteValue;
+        return context.BooleanLiteral() != null ?
+                context.BooleanLiteral().getText().equals("true") ? 1 : 0 :
+                evaluateBooleanLiteral(context.conditionalExpression().nonVoidReturnValue());
     }
 
-    private static void evaluateAssignment(final SimpleParser.AssignmentContext assignmentCtx,
-                                           final Map<String, Symbol<Function>> globalSymbolTable,
-                                           final PL0OutputStreamWriter writer,
-                                           final Function currentScope) {
-        if (assignmentCtx.Identifier() != null) {
-            evaluateVariableAssignment(assignmentCtx.Identifier(), globalSymbolTable, writer, currentScope);
+    public static int evaluateSignedConstant(final SimpleParser.NonVoidReturnValueContext context) {
+        if (!isSignedConstant(context)) {
+            throw new IllegalArgumentException("Context may not be null and has to be a signed constant");
+        }
+
+        return evaluateSignedConstant(context.signedConstant());
+    }
+
+    public static int evaluateSignedConstant(final SimpleParser.ExpressionContext context) {
+        if (!isSignedConstant(context)) {
+            throw new IllegalArgumentException("Context may not be null and has to be a signed constant");
+        }
+
+        return context.signedConstant() != null ?
+                evaluateSignedConstant(context.signedConstant()) :
+                evaluateSignedConstant(context.conditionalExpression().nonVoidReturnValue());
+    }
+
+    public static void evaluateTernaryOperator(final SimpleParser.ConditionalExpressionContext context,
+                                               final Map<String, Symbol<Function>> globalSymbolTable,
+                                               final PL0OutputStreamWriter writer,
+                                               final Function currentScope) {
+        final var nonVoidValue = context.nonVoidReturnValue();
+        if (isSignedConstant(nonVoidValue) || isBooleanLiteral(nonVoidValue)) {
+            final int conditionValue = isSignedConstant(nonVoidValue) ? evaluateSignedConstant(nonVoidValue) : evaluateBooleanLiteral(nonVoidValue);
+            // always executing the ? or the : part
+            evaluateTernaryOperatorWithConstantCondition(context, globalSymbolTable, writer, currentScope, conditionValue);
             return;
         }
 
-        evaluateArrayIndexAssignment(assignmentCtx.arrayAccess(), globalSymbolTable, writer, currentScope);
+        if (isIdentifierReference(nonVoidValue)) {
+            final Token identifier = nonVoidValue.Identifier().getSymbol();
+            final var symbol = currentScope.getSymbol(identifier.getText())
+                    .orElseThrow(() -> new AnalysisException(identifier, "Variable '" + identifier.getText() + "' does not exist"));
+            final Optional<Object> value = symbol.getDescribedConstruction().getValue();
+            // if we know the value at compile time, we can immediately evaluate the condition
+            if (value.isPresent()) {
+                evaluateTernaryOperatorWithConstantCondition(context, globalSymbolTable, writer, currentScope, (Integer) value.get());
+                return;
+            }
+
+
+
+        }
+        // array access
+        // function call
     }
 
-    private static void evaluateVariableAssignment(final TerminalNode identifier,
-                                                   final Map<String, Symbol<Function>> globalSymbolTable,
-                                                   final PL0OutputStreamWriter writer,
-                                                   final Function currentScope) {
-        // assignment into a variable
-        final Token identifierToken = identifier.getSymbol();
-        final Symbol<StackRecord> stackRecordSymbol = currentScope.getSymbol(identifier.getText())
-                .orElseThrow(() -> new AnalysisException(identifierToken, "Variable with name " + identifier.getText() + " not found"));
-        // TODO check data type and size
+    private static void evaluateTernaryOperatorWithConstantCondition(final SimpleParser.ConditionalExpressionContext context,
+                                                                     final Map<String, Symbol<Function>> globalSymbolTable,
+                                                                     final PL0OutputStreamWriter writer,
+                                                                     final Function currentScope,
+                                                                     final int conditionValue) {
+        final int expressionIndexToClear = conditionValue == 0 ? 0 : 1;
+        context.expression(expressionIndexToClear).children = List.of();
+        if (conditionValue == 0) {
+            evaluateTernaryOperatorBranch(context.expression(1), globalSymbolTable, writer, currentScope);
+            return;
+        }
 
+        evaluateTernaryOperatorBranch(context.expression(0), globalSymbolTable, writer, currentScope);
     }
 
-    private static void evaluateArrayIndexAssignment(final SimpleParser.ArrayAccessContext arrayAccessCtx,
-                                                     final Map<String, Symbol<Function>> globalSymbolTable,
-                                                     final PL0OutputStreamWriter writer,
-                                                     final Function currentScope) {
-        final DataType assignedType = DataTypeUtils.getConditionalExpressionReturnValueType(arrayAccessCtx.conditionalExpression(), globalSymbolTable, currentScope);
-        if (assignedType instanceof Array) {
-            throw new AnalysisException(arrayAccessCtx.getStart(),
-                    "Attempting to assign an array into an array index. Only integers and booleans permitted");
+    private static void evaluateTernaryOperatorBranch(final SimpleParser.ExpressionContext expression,
+                                                      final Map<String, Symbol<Function>> globalSymbolTable,
+                                                      final PL0OutputStreamWriter writer,
+                                                      final Function currentScope) {
+        if (isSignedConstant(expression) || isBooleanLiteral(expression)) {
+            final int value = isSignedConstant(expression) ? evaluateSignedConstant(expression) : evaluateBooleanLiteral(expression);
+            writer.writePushToStack(value);
+            return;
         }
 
-        final Token identifier = arrayAccessCtx.Identifier().getSymbol();
-        final Symbol<StackRecord> stackRecordSymbol = currentScope.getSymbol(identifier.getText())
-                .orElseThrow(() -> new AnalysisException(identifier, "Variable with name " + identifier.getText() + " not found"));
-
-        final DataType arrayIndexResultType = DataTypeUtils.getConditionalExpressionReturnValueType(arrayAccessCtx.conditionalExpression(), globalSymbolTable, currentScope);
-        if (arrayIndexResultType instanceof Array) {
-            throw new AnalysisException(arrayAccessCtx.LeftBracket().getSymbol(), "Array index has to be an integer, got Array");
+        if (isTernaryOperator(expression.conditionalExpression())) {
+            evaluateTernaryOperator(expression.conditionalExpression(), globalSymbolTable, writer, currentScope);
+            return;
         }
 
-        // evaluate conditional exp
+        final var nonVoidValue = expression.conditionalExpression().nonVoidReturnValue();
+        if (isIdentifierReference(nonVoidValue)) {
+            final Token identifier = nonVoidValue.Identifier().getSymbol();
+            final var symbol = currentScope.getSymbol(identifier.getText())
+                    .orElseThrow(() -> new AnalysisException(identifier, "Variable '" + identifier.getText() + "' does not exist"));
+            writer.writeLoadValueFromAddressOnStackTop(symbol.getDescribedConstruction().getRelativeStartIndex());
+            // TODO muze byt pole dopice
+            // jako pri inicializaci pole, ale jenom se ulozi na stack
+            return;
+        }
 
-        // array index assignment
+        // TODO array access
+        // TODO function call
+    }
+
+    private static int evaluateSignedConstant(final SimpleParser.SignedConstantContext context) {
+        final int absoluteValue = Integer.parseInt(context.decimalConstant().getText());
+        return context.Minus() != null ? -absoluteValue : absoluteValue;
     }
 }

@@ -13,7 +13,7 @@ public interface IFactory {
 
     PL0OutputStreamWriter createOutputStreamWriter(String targetFile);
 
-    Symbol<StackRecord> createIntegerStackRecordSymbol(final String identifier, final int stackIndex, final boolean isConst);
+    Symbol<StackRecord> createIntegerStackRecordSymbol(String identifier, int stackIndex, boolean isConst, Object value);
 
-    Symbol<StackRecord> createArrayStackRecordSymbol(final String identifier, final int stackIndex, final int size);
+    Symbol<StackRecord> createArrayStackRecordSymbol(String identifier, int stackIndex, int size, Object value);
 }

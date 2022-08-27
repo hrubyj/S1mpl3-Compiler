@@ -41,16 +41,19 @@ public class FactoryImpl implements IFactory {
 
     @Override
     public Symbol<StackRecord> createIntegerStackRecordSymbol(final String identifier,
-                                                              final int stackIndex, final boolean isConst) {
+                                                              final int stackIndex,
+                                                              final boolean isConst,
+                                                              final Object value) {
         final Integer integer = new Integer();
-        return new Symbol<>(identifier, new StackRecord(stackIndex, integer, isConst));
+        return new Symbol<>(identifier, new StackRecord(stackIndex, integer, isConst, value));
     }
 
     @Override
     public Symbol<StackRecord> createArrayStackRecordSymbol(final String identifier,
                                                             final int stackIndex,
-                                                            final int size) {
+                                                            final int size,
+                                                            final Object value) {
         final Array array = new Array(size);
-        return new Symbol<>(identifier, new StackRecord(stackIndex, array, false)); //TODO isConst
+        return new Symbol<>(identifier, new StackRecord(stackIndex, array, false, value)); //TODO isConst
     }
 }

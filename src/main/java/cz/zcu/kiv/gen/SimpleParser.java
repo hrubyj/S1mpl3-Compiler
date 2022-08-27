@@ -165,7 +165,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitProgram(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitProgram(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -180,7 +180,7 @@ public class SimpleParser extends Parser {
 			setState(81);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -237,7 +237,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitDeclaration(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -326,7 +326,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitAssignment(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitAssignment(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -394,7 +394,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitArrayAccess(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitArrayAccess(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -450,7 +450,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitStatement(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -538,7 +538,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitIterationStatement(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitIterationStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -630,7 +630,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitExpressionStatement(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitExpressionStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -669,8 +669,8 @@ public class SimpleParser extends Parser {
 
 	public static class LabeledStatementContext extends ParserRuleContext {
 		public TerminalNode Case() { return getToken(SimpleParser.Case, 0); }
-		public ConditionalExpressionContext conditionalExpression() {
-			return getRuleContext(ConditionalExpressionContext.class,0);
+		public SignedConstantContext signedConstant() {
+			return getRuleContext(SignedConstantContext.class,0);
 		}
 		public TerminalNode Colon() { return getToken(SimpleParser.Colon, 0); }
 		public ScopeContext scope() {
@@ -691,7 +691,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitLabeledStatement(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitLabeledStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -709,7 +709,7 @@ public class SimpleParser extends Parser {
 				setState(139);
 				match(Case);
 				setState(140);
-				conditionalExpression();
+				signedConstant();
 				setState(141);
 				match(Colon);
 				setState(142);
@@ -762,7 +762,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitReturnStatement(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitReturnStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -814,6 +814,9 @@ public class SimpleParser extends Parser {
 		}
 		public TerminalNode Else() { return getToken(SimpleParser.Else, 0); }
 		public TerminalNode Switch() { return getToken(SimpleParser.Switch, 0); }
+		public NonVoidReturnValueContext nonVoidReturnValue() {
+			return getRuleContext(NonVoidReturnValueContext.class,0);
+		}
 		public TerminalNode LeftBrace() { return getToken(SimpleParser.LeftBrace, 0); }
 		public TerminalNode RightBrace() { return getToken(SimpleParser.RightBrace, 0); }
 		public List<LabeledStatementContext> labeledStatement() {
@@ -836,7 +839,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitSelectionStatement(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitSelectionStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -878,7 +881,7 @@ public class SimpleParser extends Parser {
 				setState(162);
 				match(Switch);
 				setState(163);
-				condition();
+				nonVoidReturnValue();
 				setState(164);
 				match(LeftBrace);
 				setState(166); 
@@ -935,7 +938,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitBlockItemList(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitBlockItemList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -966,7 +969,7 @@ public class SimpleParser extends Parser {
 				setState(177); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
-			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+			} while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -1004,7 +1007,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitBlockItem(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitBlockItem(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1091,7 +1094,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitExpression(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1170,7 +1173,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitNonVoidReturnValue(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitNonVoidReturnValue(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1250,7 +1253,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitScope(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitScope(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1312,7 +1315,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionScope(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitFunctionScope(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1372,7 +1375,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitCondition(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitCondition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1421,7 +1424,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitWhileCondition(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitWhileCondition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1475,7 +1478,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitConditionalExpression(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitConditionalExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1546,7 +1549,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionDeclaration(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitFunctionDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1614,7 +1617,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionReturnType(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitFunctionReturnType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1675,7 +1678,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitMainFunctionDeclaration(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitMainFunctionDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1736,7 +1739,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionDeclParams(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitFunctionDeclParams(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1801,7 +1804,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionDeclParam(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitFunctionDeclParam(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1880,7 +1883,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionCall(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitFunctionCall(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1996,7 +1999,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionCallParams(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitFunctionCallParams(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2065,7 +2068,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionCallParam(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitFunctionCallParam(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2150,7 +2153,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitFunctionIdentifier(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitFunctionIdentifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2234,7 +2237,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitArrayFunctionParamTypeSpecifier(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitArrayFunctionParamTypeSpecifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2285,7 +2288,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitArrayTypeSpecifier(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitArrayTypeSpecifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2336,7 +2339,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitBaseTypeSpecifier(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitBaseTypeSpecifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2395,7 +2398,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitNonVoidTypeSpecifier(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitNonVoidTypeSpecifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2446,7 +2449,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitTypeQualifier(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitTypeQualifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2488,7 +2491,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitUnaryOperator(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitUnaryOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2543,7 +2546,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitComparisonOperator(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitComparisonOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2598,7 +2601,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitArithmeticOperator(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitArithmeticOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2650,7 +2653,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitLogicalOperator(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitLogicalOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2705,7 +2708,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitSignedConstant(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitSignedConstant(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2766,7 +2769,7 @@ public class SimpleParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SimpleVisitor ) return ((SimpleVisitor<? extends T>)visitor).visitDecimalConstant(this);
+			if ( visitor instanceof SimpleVisitor) return ((SimpleVisitor<? extends T>)visitor).visitDecimalConstant(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2902,7 +2905,7 @@ public class SimpleParser extends Parser {
 		"\u0086\u0001\u0000\u0000\u0000\u0087\u0088\u0001\u0000\u0000\u0000\u0088"+
 		"\u0089\u0001\u0000\u0000\u0000\u0089\u008a\u0005)\u0000\u0000\u008a\r"+
 		"\u0001\u0000\u0000\u0000\u008b\u008c\u0005\u0007\u0000\u0000\u008c\u008d"+
-		"\u0003$\u0012\u0000\u008d\u008e\u0005(\u0000\u0000\u008e\u008f\u0003\u001c"+
+		"\u0003J%\u0000\u008d\u008e\u0005(\u0000\u0000\u008e\u008f\u0003\u001c"+
 		"\u000e\u0000\u008f\u0094\u0001\u0000\u0000\u0000\u0090\u0091\u0005\b\u0000"+
 		"\u0000\u0091\u0092\u0005(\u0000\u0000\u0092\u0094\u0003\u001c\u000e\u0000"+
 		"\u0093\u008b\u0001\u0000\u0000\u0000\u0093\u0090\u0001\u0000\u0000\u0000"+
@@ -2914,7 +2917,7 @@ public class SimpleParser extends Parser {
 		"\u001c\u000e\u0000\u009e\u009f\u0005\u0010\u0000\u0000\u009f\u00a1\u0003"+
 		"\u001c\u000e\u0000\u00a0\u009e\u0001\u0000\u0000\u0000\u00a0\u00a1\u0001"+
 		"\u0000\u0000\u0000\u00a1\u00ad\u0001\u0000\u0000\u0000\u00a2\u00a3\u0005"+
-		"\u0006\u0000\u0000\u00a3\u00a4\u0003 \u0010\u0000\u00a4\u00a6\u0005\u0018"+
+		"\u0006\u0000\u0000\u00a3\u00a4\u0003\u001a\r\u0000\u00a4\u00a6\u0005\u0018"+
 		"\u0000\u0000\u00a5\u00a7\u0003\u000e\u0007\u0000\u00a6\u00a5\u0001\u0000"+
 		"\u0000\u0000\u00a7\u00a8\u0001\u0000\u0000\u0000\u00a8\u00a6\u0001\u0000"+
 		"\u0000\u0000\u00a8\u00a9\u0001\u0000\u0000\u0000\u00a9\u00aa\u0001\u0000"+
