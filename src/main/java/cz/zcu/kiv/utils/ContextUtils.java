@@ -49,4 +49,60 @@ public class ContextUtils {
 
         return context.functionDeclParams() != null;
     }
+
+    public static boolean isTernaryOperator(final SimpleParser.ConditionalExpressionContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.Colon() != null;
+    }
+
+    public static boolean isFunctionCall(final SimpleParser.NonVoidReturnValueContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.functionCall() != null;
+    }
+
+    public static boolean isBooleanLiteral(final SimpleParser.NonVoidReturnValueContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.BooleanLiteral() != null;
+    }
+
+    public static boolean isSignedConstant(final SimpleParser.NonVoidReturnValueContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.signedConstant() != null;
+    }
+
+    public static boolean isArrayAccess(final SimpleParser.NonVoidReturnValueContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.arrayAccess() != null;
+    }
+
+    public static boolean isIdentifierReference(final SimpleParser.NonVoidReturnValueContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.Identifier() != null;
+    }
+
+    public static boolean isIfStatement(final SimpleParser.SelectionStatementContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.If() != null;
+    }
 }

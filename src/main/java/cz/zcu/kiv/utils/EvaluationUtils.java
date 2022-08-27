@@ -43,6 +43,24 @@ public class EvaluationUtils {
         }
     }
 
+    public static int evaluateBooleanLiteral(final SimpleParser.NonVoidReturnValueContext context) {
+        if (context == null || context.BooleanLiteral() == null) {
+            throw new IllegalArgumentException("Boolean literal may not be null");
+        }
+
+        return context.BooleanLiteral().getText().equals("true") ? 1 : 0;
+    }
+
+    public static int evaluateSignedConstant(final SimpleParser.NonVoidReturnValueContext context) {
+        if (context == null || context.signedConstant() == null) {
+            throw new IllegalArgumentException("Signed constant may not be null");
+        }
+
+        final var signedConstant = context.signedConstant();
+        final int absoluteValue = Integer.parseInt(signedConstant.decimalConstant().getText());
+        return signedConstant.Minus() != null ? -absoluteValue : absoluteValue;
+    }
+
     private static void evaluateAssignment(final SimpleParser.AssignmentContext assignmentCtx,
                                            final Map<String, Symbol<Function>> globalSymbolTable,
                                            final PL0OutputStreamWriter writer,

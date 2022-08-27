@@ -12,6 +12,11 @@ import org.antlr.v4.runtime.Token;
 
 import java.util.Map;
 
+import static cz.zcu.kiv.utils.ContextUtils.isArrayAccess;
+import static cz.zcu.kiv.utils.ContextUtils.isBooleanLiteral;
+import static cz.zcu.kiv.utils.ContextUtils.isFunctionCall;
+import static cz.zcu.kiv.utils.ContextUtils.isSignedConstant;
+import static cz.zcu.kiv.utils.ContextUtils.isTernaryOperator;
 import static cz.zcu.kiv.utils.ValidationUtils.assertNotNull;
 
 public class DataTypeUtils {
@@ -40,14 +45,11 @@ public class DataTypeUtils {
     public static DataType getNonVoidReturnValueType(final SimpleParser.NonVoidReturnValueContext context,
                                                      final Map<String, Symbol<Function>> globalSymbolTable,
                                                      final Function currentScope) {
-        // array may only be returned from function call or by an identifier
-        // array access and boolean literal do not allow this
-        if (context.functionCall() == null && context.Identifier() == null) {
-            if (context.BooleanLiteral() != null) {
-                return new Integer();   // boolean is internally an integer
-            }
+        if (isBooleanLiteral(context) || isSignedConstant(context)) {
+            return new Integer();   // boolean is internally an integer
+        }
 
-            // now we know it's an array, so we might as well just return it - no need to create new instance
+        if (isArrayAccess(context)) {
             final Token identifier = context.arrayAccess().Identifier().getSymbol();
             final Symbol<StackRecord> stackRecordSymbol = currentScope.getSymbol(identifier.getText())
                     .orElseThrow(() -> new AnalysisException(identifier, "Stack record for identifier " + identifier.getText() + " not found"));
@@ -55,7 +57,7 @@ public class DataTypeUtils {
             return stackRecordSymbol.getDescribedConstruction().getDataType();
         }
 
-        if (context.functionCall() != null) {
+        if (isFunctionCall(context)) {
             final var functionCall = context.functionCall();
             // instance of and unary operator functions return boolean or integer
             if (functionCall.Instanceof() != null || functionCall.unaryOperator() != null) {
@@ -71,6 +73,7 @@ public class DataTypeUtils {
             return globalSymbolTable.get(functionName).getDescribedConstruction().getReturnType();
         }
 
+        // identifier reference
         final String identifier = context.Identifier().getText();
         final Symbol<StackRecord> symbol = currentScope.getSymbol(identifier)
                 .orElseThrow(() -> new AnalysisException(context.Identifier().getSymbol(), "Symbol for identifier '" + identifier + "' not found"));
@@ -102,8 +105,7 @@ public class DataTypeUtils {
         assertNotNull(globalSymbolTable, "Global symbol table may not be null");
         assertNotNull(currentScope, "Current scope may not be null");
 
-        // without colon, we know the expression is not the entire ternary operator
-        if (condExpression.Colon() == null) {
+        if (!isTernaryOperator(condExpression)) {
             return getNonVoidReturnValueType(condExpression.nonVoidReturnValue(), globalSymbolTable, currentScope);
         }
 
@@ -127,4 +129,16 @@ public class DataTypeUtils {
         return firstExpressionDataType;
     }
 
+    public static boolean isSameDataType(final Symbol<StackRecord> stackRecordSymbol, final DataType dataType) {
+        assertNotNull(stackRecordSymbol, "Stack record symbol may not be null");
+        assertNotNull(dataType, "Data type may not be null");
+
+        return stackRecordSymbol.getDescribedConstruction().getDataType().isSameDataType(dataType);
+    }
+
+    public static boolean isInteger(final DataType dataType) {
+        assertNotNull(dataType, "Data type may not be null");
+
+        return dataType.isSameDataType(new Integer());
+    }
 }

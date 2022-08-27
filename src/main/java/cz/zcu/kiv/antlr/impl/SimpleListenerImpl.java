@@ -6,17 +6,28 @@ import cz.zcu.kiv.simple.compiler.StackRecord;
 import cz.zcu.kiv.simple.compiler.Symbol;
 import cz.zcu.kiv.simple.lang.Function;
 import cz.zcu.kiv.simple.lang.datatype.DataType;
+import cz.zcu.kiv.simple.lang.datatype.impl.Void;
 import cz.zcu.kiv.simple.lang.impl.FunctionImpl;
 import cz.zcu.kiv.utils.AnalysisException;
 import cz.zcu.kiv.utils.ContextUtils;
 import cz.zcu.kiv.utils.DataTypeUtils;
 import cz.zcu.kiv.utils.IFactory;
+import cz.zcu.kiv.utils.PL0Operation;
 import cz.zcu.kiv.utils.PL0OutputStreamWriter;
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static cz.zcu.kiv.utils.ContextUtils.isArrayAccess;
+import static cz.zcu.kiv.utils.ContextUtils.isBooleanLiteral;
+import static cz.zcu.kiv.utils.ContextUtils.isIdentifierReference;
+import static cz.zcu.kiv.utils.ContextUtils.isIfStatement;
+import static cz.zcu.kiv.utils.ContextUtils.isSignedConstant;
+import static cz.zcu.kiv.utils.ContextUtils.isTernaryOperator;
+import static cz.zcu.kiv.utils.EvaluationUtils.evaluateBooleanLiteral;
+import static cz.zcu.kiv.utils.EvaluationUtils.evaluateSignedConstant;
 import static cz.zcu.kiv.utils.ValidationUtils.assertNotNull;
 
 public class SimpleListenerImpl extends SimpleBaseListener {
@@ -52,11 +63,11 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     @Override
     public void enterDeclaration(final SimpleParser.DeclarationContext ctx) {
         if (ctx.arrayTypeSpecifier() != null) {
-            // TODO deklarace pole
+            enterArrayDeclaration(ctx);
+            return;
         }
 
-        final boolean isConst = ctx.typeQualifier() != null;
-        // TODO deklarace int/bool
+        enterIntegerOrBooleanDeclaration(ctx);
     }
 
     @Override
@@ -66,7 +77,8 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
         int stackIncrementAmount = DEFAULT_STACK_INCREMENT_AMOUNT;
         if (ContextUtils.hasFunctionParams(context)) {
-            stackIncrementAmount = processFunctionParams(context, function);
+            processFunctionParams(context, function);
+            stackIncrementAmount = function.getStackTopIndex() + 1; // + 1, because index is starting at 0
         }
 
         writer.writeIncrementStackPointer(stackIncrementAmount);
@@ -75,8 +87,18 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     }
 
     @Override
+    public void enterSelectionStatement(final SimpleParser.SelectionStatementContext context) {
+        if (isIfStatement(context)) {
+            enterIfStatement(context);
+            return;
+        }
+
+        enterSwitchStatement(context);
+    }
+
+    @Override
     public void enterReturnStatement(final SimpleParser.ReturnStatementContext context) {
-        final DataType returnType = DataTypeUtils.getExpressionReturnValueType(context.expression(), globalSymbolTable, currentScope);
+        final DataType returnType = context.expression() == null ? new Void() : DataTypeUtils.getExpressionReturnValueType(context.expression(), globalSymbolTable, currentScope);
         final boolean returnsSameDataType = currentScope.getReturnType().isSameDataType(returnType);
         if (!returnsSameDataType) {
             throw new AnalysisException(context.Return().getSymbol(),
@@ -88,23 +110,19 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         // TODO if there is a value to be returned, store on top of the stack
     }
 
-    private int processFunctionParams(final SimpleParser.FunctionDeclarationContext context, final Function function) {
-        int stackIncrementAmount = DEFAULT_STACK_INCREMENT_AMOUNT;
+    private void processFunctionParams(final SimpleParser.FunctionDeclarationContext context, final Function function) {
         for (final SimpleParser.FunctionDeclParamContext paramContext : context.functionDeclParams().functionDeclParam()) {
             if (ContextUtils.isParameterArrayType(paramContext)) {
                 final int arraySize = ContextUtils.getArrayTypeParameterSize(paramContext.arrayTypeSpecifier());
                 final Symbol<StackRecord> arrayStackRecordSymbol =
-                        factory.createArrayStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), stackIncrementAmount, arraySize);
+                        factory.createArrayStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), function.getAvailableStackIndex(), arraySize);
                 function.addSymbol(arrayStackRecordSymbol);
-                stackIncrementAmount += arrayStackRecordSymbol.getDescribedConstruction().getRecordSize();
             } else {
                 final Symbol<StackRecord> integerStackRecordSymbol =
-                        factory.createIntegerStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), stackIncrementAmount);
+                        factory.createIntegerStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), function.getAvailableStackIndex(), false);
                 function.addSymbol(integerStackRecordSymbol);
-                stackIncrementAmount += integerStackRecordSymbol.getDescribedConstruction().getRecordSize();
             }
         }
-        return stackIncrementAmount;
     }
 
     @Override
@@ -120,8 +138,95 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     }
 
     @Override
-    public void enterFunctionDeclParam(final SimpleParser.FunctionDeclParamContext ctx) {
-        super.enterFunctionDeclParam(ctx);
+    public void exitMainFunctionDeclaration(final SimpleParser.MainFunctionDeclarationContext ignored) {
+        writer.flush();
+    }
+
+    private void enterIntegerOrBooleanDeclaration(final SimpleParser.DeclarationContext context) {
+        final boolean isConst = context.typeQualifier() != null;
+        final String identifier = getUniqueVariableName(context.Identifier());
+        final Symbol<StackRecord> stackRecordSymbol = factory.createIntegerStackRecordSymbol(identifier, currentScope.getAvailableStackIndex(), isConst);
+
+        final DataType leftSideDataType = stackRecordSymbol.getDescribedConstruction().getDataType();
+        final DataType rightSideDataType = DataTypeUtils.getConditionalExpressionReturnValueType(context.conditionalExpression(), globalSymbolTable, currentScope);
+        if (!rightSideDataType.isSameDataType(leftSideDataType)) {
+            throw new AnalysisException(context.conditionalExpression().getStart(),
+                    "Value of type '" + rightSideDataType + "' not assignable to type '" + rightSideDataType +  "'");
+        }
+
+        currentScope.addSymbol(stackRecordSymbol);
+        final int stackIncrementAmount = stackRecordSymbol.getDescribedConstruction().getRecordSize();
+        writer.writeIncrementStackPointer(stackIncrementAmount);
+
+        if (context.conditionalExpression() == null) {
+            saveValueToVariable(0, stackRecordSymbol, 0);
+            return;
+        }
+
+        final var condExpression = context.conditionalExpression();
+        if (isTernaryOperator(condExpression)) {
+            // TODO celej ternár (if-else)
+        }
+
+        final var nonVoidValue = condExpression.nonVoidReturnValue();
+        if (isBooleanLiteral(nonVoidValue)) {
+            final int value = evaluateBooleanLiteral(nonVoidValue);
+            saveValueToVariable(value, stackRecordSymbol, 0);
+            return;
+        }
+
+        if (isSignedConstant(nonVoidValue)) {
+            final int value = evaluateSignedConstant(nonVoidValue);
+            saveValueToVariable(value, stackRecordSymbol, 0);
+            return;
+        }
+
+        if (isIdentifierReference(nonVoidValue)) {
+            final Token rValueIdentifier = nonVoidValue.Identifier().getSymbol();
+            final var rValueStackRecordSymbol = currentScope.getSymbol(rValueIdentifier.getText())
+                    .orElseThrow(() -> new AnalysisException(rValueIdentifier, "Variable '" + rValueIdentifier.getText() + "' does not exist"));
+            // same data types already checked above
+
+            final int rValueAddress = rValueStackRecordSymbol.getDescribedConstruction().getRelativeStartIndex();
+            writer.writeLoadValueFromAddressOnStackTop(rValueAddress);
+            writer.writeStoreStackTopToAddress(stackRecordSymbol.getDescribedConstruction().getRelativeStartIndex());
+            return;
+        }
+
+        if (isArrayAccess(nonVoidValue)) {
+            final var arrayAccess = nonVoidValue.arrayAccess();
+            arrayAccess.Identifier().getSymbol();
+
+            final Token rValueIdentifier = nonVoidValue.Identifier().getSymbol();
+            final var rValueStackRecordSymbol = currentScope.getSymbol(rValueIdentifier.getText())
+                    .orElseThrow(() -> new AnalysisException(rValueIdentifier, "Variable '" + rValueIdentifier.getText() + "' does not exist"));
+
+            // TODO array access
+        }
+        // TODO ?? jeste neco - jo, function call
+
+    }
+
+    private void enterArrayDeclaration(final SimpleParser.DeclarationContext context) {
+        final var arrayTypeSpecifier = context.arrayTypeSpecifier();
+        final int arraySize = Integer.parseInt(arrayTypeSpecifier.NonzeroConstant().getText());
+        final String identifier = getUniqueVariableName(context.Identifier());
+
+        final Symbol<StackRecord> stackRecordSymbol = factory.createArrayStackRecordSymbol(identifier, currentScope.getAvailableStackIndex(), arraySize);
+        currentScope.addSymbol(stackRecordSymbol);
+        final int stackIncrementAmount = stackRecordSymbol.getDescribedConstruction().getRecordSize();
+        writer.writeIncrementStackPointer(stackIncrementAmount);
+
+        // TODO kdyz zbyde cas tak do gramatiky pridat moznost "int[5] a = b;"
+        initializeArray(stackRecordSymbol);
+    }
+
+    private void enterIfStatement(final SimpleParser.SelectionStatementContext context) {
+
+    }
+
+    private void enterSwitchStatement(final SimpleParser.SelectionStatementContext context) {
+
     }
 
     private String getUniqueFunctionName(final SimpleParser.FunctionDeclarationContext context) {
@@ -135,5 +240,67 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         return functionName;
     }
 
+    private String getUniqueVariableName(final TerminalNode identifier) {
+        final Token symbol = identifier.getSymbol();
+        if (currentScope.getSymbol(symbol.getText()).isPresent()) {
+            // here we take into consideration the entire scope (entire function scope)
+            throw new AnalysisException(symbol, "Variable '" + symbol.getText() + "' already defined in scope");
+        }
 
+        return symbol.getText();
+    }
+
+    private void saveValueToVariable(final int value, final Symbol<StackRecord> stackRecordSymbol, final int level) {
+        saveValueToIndex(value, stackRecordSymbol.getDescribedConstruction().getRelativeStartIndex(), level);
+    }
+
+    private void saveValueToIndex(final int value, final int index, final int level) {
+        writer.writePushToStack(value);
+        writer.writeNextInstruction("STO", level, index);
+    }
+
+    private void initializeArray(final Symbol<StackRecord> arraySymbol) {
+        final int startIndex = arraySymbol.getDescribedConstruction().getRelativeStartIndex();
+        final int size = arraySymbol.getDescribedConstruction().getRecordSize();
+
+        // logic to implement for-loop is approx. 10 lines
+        // logic to manually push values into each index is 2 lines per index
+        // we check which one produces less code
+        if (size * 2 < 10) {
+            for (int i = 0; i < size; i++) {
+                saveValueToIndex(0, startIndex + size, 0);
+            }
+            return;
+        }
+
+        final int tempVariableIndex = currentScope.getAvailableStackIndex();
+
+        writer.writeIncrementStackPointer(1);
+        saveValueToIndex(0, tempVariableIndex, 0);
+        //TODO cut out for loop into it's own method and take the loop body logic as a callback
+        final int loopBeginAddress = writer.getCurrentLineNumber();
+        writer.writeLoadValueFromAddressOnStackTop(tempVariableIndex);
+        writer.writePushToStack(size);
+        writer.writeDoOperation(PL0Operation.LESS_THAN);
+
+        final int jumpCompareInstructionAddress = writer.getCurrentLineNumber();
+        writer.writeNextInstruction("JMC", 0, 0);   // we don't know where to jump yet, will update later
+
+        writer.writePushToStack(0);
+        writer.writePushToStack(0);
+        writer.writeNextInstruction("LIT", 0, startIndex);
+        writer.writeLoadValueFromAddressOnStackTop(tempVariableIndex);
+        writer.writeDoOperation(PL0Operation.ADD);
+        writer.writeNextInstruction("PST", 0, 0);
+
+        // end of loop logic
+        writer.writeLoadValueFromAddressOnStackTop(tempVariableIndex);
+        writer.writePushToStack(1);
+        writer.writeDoOperation(PL0Operation.ADD);
+        writer.writeStoreStackTopToAddress(tempVariableIndex);  // saving incremented value back to temp
+        writer.writeNextInstruction("JMP", 0, loopBeginAddress); // at the end of loop scope we jump back to start
+
+        final int endOfLoopIndex = writer.getCurrentLineNumber();   // now we know where we should jump - updating
+        writer.updateInstruction(jumpCompareInstructionAddress, "JMC", 0, endOfLoopIndex);
+    }
 }

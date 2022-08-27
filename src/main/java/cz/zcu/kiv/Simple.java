@@ -27,7 +27,7 @@ public class Simple {
             compileSourceFile(args[0], args[1]);
         } catch (final Exception e) {
             System.out.format("Compilation error:\n" +
-                    "\t%s", e.getMessage());
+                    "\t%s\n", e.getMessage());
             System.exit(ExitCode.COMPILATION_ERROR.getValue());
         }
     }

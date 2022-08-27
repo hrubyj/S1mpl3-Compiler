@@ -41,9 +41,9 @@ public class FactoryImpl implements IFactory {
 
     @Override
     public Symbol<StackRecord> createIntegerStackRecordSymbol(final String identifier,
-                                                              final int stackIndex) {
+                                                              final int stackIndex, final boolean isConst) {
         final Integer integer = new Integer();
-        return new Symbol<>(identifier, new StackRecord(stackIndex, integer));
+        return new Symbol<>(identifier, new StackRecord(stackIndex, integer, isConst));
     }
 
     @Override
@@ -51,6 +51,6 @@ public class FactoryImpl implements IFactory {
                                                             final int stackIndex,
                                                             final int size) {
         final Array array = new Array(size);
-        return new Symbol<>(identifier, new StackRecord(stackIndex, array));
+        return new Symbol<>(identifier, new StackRecord(stackIndex, array, false)); //TODO isConst
     }
 }
