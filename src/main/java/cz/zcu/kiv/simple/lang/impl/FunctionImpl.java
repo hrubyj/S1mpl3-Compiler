@@ -53,6 +53,15 @@ public class FunctionImpl implements Function {
     }
 
     @Override
+    public void removeSymbol(final String name) {
+        if (name == null) {
+            return;
+        }
+
+        scopeSymbolTable.remove(name);
+    }
+
+    @Override
     public int getStackTopIndex() {
         return this.stackTopIndex;
     }

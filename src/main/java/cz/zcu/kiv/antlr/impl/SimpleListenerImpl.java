@@ -30,8 +30,11 @@ import static cz.zcu.kiv.utils.ContextUtils.isSignedConstant;
 import static cz.zcu.kiv.utils.ContextUtils.isTernaryOperator;
 import static cz.zcu.kiv.utils.DataTypeUtils.isInteger;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateBooleanLiteral;
+import static cz.zcu.kiv.utils.EvaluationUtils.evaluateForLoop;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateSignedConstant;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateTernaryOperator;
+import static cz.zcu.kiv.utils.EvaluationUtils.initializeArray;
+import static cz.zcu.kiv.utils.EvaluationUtils.saveValueToVariable;
 import static cz.zcu.kiv.utils.ValidationUtils.assertNotNull;
 
 public class SimpleListenerImpl extends SimpleBaseListener {
@@ -168,7 +171,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         writer.writeIncrementStackPointer(stackIncrementAmount);
 
         if (context.conditionalExpression() == null) {
-            saveValueToVariable(0, stackRecordSymbol, 0);
+            saveValueToVariable(0, stackRecordSymbol, 0, writer);
             return;
         }
 
@@ -179,21 +182,21 @@ public class SimpleListenerImpl extends SimpleBaseListener {
             evaluateTernaryOperator(context.conditionalExpression(), globalSymbolTable, writer, currentScope);
             // evaluate ternary operator - push value to stack
             writer.writeStoreStackTopToAddress(stackRecordSymbol.getDescribedConstruction().getRelativeStartIndex());
-            // TODO celej ternár (if-else)
+            return;
         }
 
         final var nonVoidValue = condExpression.nonVoidReturnValue();
         if (isBooleanLiteral(nonVoidValue)) {
             final int value = evaluateBooleanLiteral(nonVoidValue);
             stackRecordSymbol.getDescribedConstruction().setValue(value);
-            saveValueToVariable(value, stackRecordSymbol, 0);
+            saveValueToVariable(value, stackRecordSymbol, 0, writer);
             return;
         }
 
         if (isSignedConstant(nonVoidValue)) {
             final int value = evaluateSignedConstant(nonVoidValue);
             stackRecordSymbol.getDescribedConstruction().setValue(value);
-            saveValueToVariable(value, stackRecordSymbol, 0);
+            saveValueToVariable(value, stackRecordSymbol, 0, writer);
             return;
         }
 
@@ -236,7 +239,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         writer.writeIncrementStackPointer(stackIncrementAmount);
 
         // TODO kdyz zbyde cas tak do gramatiky pridat moznost "int[5] a = b;"
-        initializeArray(stackRecordSymbol);
+        initializeArray(stackRecordSymbol, currentScope, writer);
     }
 
     private void enterIfStatement(final SimpleParser.SelectionStatementContext context) {
@@ -358,57 +361,4 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         return symbol.getText();
     }
 
-    private void saveValueToVariable(final int value, final Symbol<StackRecord> stackRecordSymbol, final int level) {
-        saveValueToIndex(value, stackRecordSymbol.getDescribedConstruction().getRelativeStartIndex(), level);
-    }
-
-    private void saveValueToIndex(final int value, final int index, final int level) {
-        writer.writePushToStack(value);
-        writer.writeNextInstruction("STO", level, index);
-    }
-
-    private void initializeArray(final Symbol<StackRecord> arraySymbol) {
-        final int startIndex = arraySymbol.getDescribedConstruction().getRelativeStartIndex();
-        final int size = arraySymbol.getDescribedConstruction().getRecordSize();
-
-        // logic to implement for-loop is approx. 10 lines
-        // logic to manually push values into each index is 2 lines per index
-        // we check which one produces less code
-        if (size * 2 < 10) {
-            for (int i = 0; i < size; i++) {
-                saveValueToIndex(0, startIndex + size, 0);
-            }
-            return;
-        }
-
-        final int tempVariableIndex = currentScope.getAvailableStackIndex();
-
-        writer.writeIncrementStackPointer(1);
-        saveValueToIndex(0, tempVariableIndex, 0);
-        //TODO cut out for loop into it's own method and take the loop body logic as a callback
-        final int loopBeginAddress = writer.getCurrentLineNumber();
-        writer.writeLoadValueFromAddressOnStackTop(tempVariableIndex);
-        writer.writePushToStack(size);
-        writer.writeDoOperation(PL0Operation.LESS_THAN);
-
-        final int jumpCompareInstructionAddress = writer.getCurrentLineNumber();
-        writer.writeNextInstruction("JMC", 0, 0);   // we don't know where to jump yet, will update later
-
-        writer.writePushToStack(0);
-        writer.writePushToStack(0);
-        writer.writeNextInstruction("LIT", 0, startIndex);
-        writer.writeLoadValueFromAddressOnStackTop(tempVariableIndex);
-        writer.writeDoOperation(PL0Operation.ADD);
-        writer.writeNextInstruction("PST", 0, 0);
-
-        // end of loop logic
-        writer.writeLoadValueFromAddressOnStackTop(tempVariableIndex);
-        writer.writePushToStack(1);
-        writer.writeDoOperation(PL0Operation.ADD);
-        writer.writeStoreStackTopToAddress(tempVariableIndex);  // saving incremented value back to temp
-        writer.writeNextInstruction("JMP", 0, loopBeginAddress); // at the end of loop scope we jump back to start
-
-        final int endOfLoopIndex = writer.getCurrentLineNumber();   // now we know where we should jump - updating
-        writer.updateInstruction(jumpCompareInstructionAddress, "JMC", 0, endOfLoopIndex);
-    }
 }

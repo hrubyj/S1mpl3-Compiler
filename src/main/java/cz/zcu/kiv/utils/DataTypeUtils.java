@@ -118,7 +118,7 @@ public class DataTypeUtils {
         }
 
         final DataType firstExpressionDataType = getExpressionReturnValueType(condExpression.expression(0), globalSymbolTable, currentScope);
-        final DataType secondExpressionDataType = getExpressionReturnValueType(condExpression.expression(2), globalSymbolTable, currentScope);
+        final DataType secondExpressionDataType = getExpressionReturnValueType(condExpression.expression(1), globalSymbolTable, currentScope);
         if (!firstExpressionDataType.isSameDataType(secondExpressionDataType)) {
             throw new AnalysisException(condExpression.getStart(),
                     "Conditional expression has to return equal data types in all cases. " +
