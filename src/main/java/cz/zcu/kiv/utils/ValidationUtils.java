@@ -7,4 +7,10 @@ public class ValidationUtils {
             throw new IllegalArgumentException(message);
         }
     }
+
+    public static void assertNotEmpty(final String string, final String message) {
+        if (string == null || string.isEmpty() || string.isBlank()) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 }

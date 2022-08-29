@@ -13,4 +13,12 @@ public interface Function {
     void addSymbol(Symbol<StackRecord> symbol);
 
     Optional<Symbol<StackRecord>> getSymbol(String name);
+
+    void removeSymbol(String name);
+
+    int getStackTopIndex();
+
+//    void incrementStackTopIndex(int amount);
+
+    int getAvailableStackIndex();
 }

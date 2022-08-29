@@ -3,6 +3,7 @@ package cz.zcu.kiv.utils;
 import cz.zcu.kiv.gen.SimpleParser;
 import cz.zcu.kiv.simple.compiler.StackRecord;
 import cz.zcu.kiv.simple.compiler.Symbol;
+import cz.zcu.kiv.utils.pl0.PL0OutputStreamWriter;
 import org.antlr.v4.runtime.ANTLRErrorListener;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ public interface IFactory {
 
     PL0OutputStreamWriter createOutputStreamWriter(String targetFile);
 
-    Symbol<StackRecord> createIntegerStackRecordSymbol(final String identifier, final int stackIndex);
+    Symbol<StackRecord> createIntegerStackRecordSymbol(String identifier, int stackIndex, boolean isConst, Object value);
 
-    Symbol<StackRecord> createArrayStackRecordSymbol(final String identifier, final int stackIndex, final int size);
+    Symbol<StackRecord> createArrayStackRecordSymbol(String identifier, int stackIndex, int size, Object value);
 }

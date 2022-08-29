@@ -24,7 +24,7 @@ for a in 15 {
     const int c = 5;
 }
 
-switch(true) {
+switch true {
     case 15: {
         return 15;
      }

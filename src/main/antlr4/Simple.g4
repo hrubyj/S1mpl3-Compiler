@@ -1,6 +1,10 @@
-// test file
-
 grammar Simple;
+
+@header {
+    package cz.zcu.kiv.gen;
+    import cz.zcu.kiv.gen.SimpleParser;
+    import cz.zcu.kiv.gen.SimpleListener;
+}
 
 program
     : functionDeclaration* mainFunctionDeclaration
@@ -29,7 +33,11 @@ statement
 iterationStatement
     :   whileCondition scope
     |   Do scope whileCondition Semi
-    |   For Identifier In (Identifier | NonzeroConstant) scope
+    |   forLoop
+    ;
+
+forLoop
+    : For Identifier In (Identifier | NonzeroConstant) scope
     ;
 
 expressionStatement
@@ -37,7 +45,7 @@ expressionStatement
     ;
 
 labeledStatement
-    :   Case conditionalExpression Colon scope
+    :   Case signedConstant Colon scope
     |   Default Colon scope
     ;
 
@@ -47,7 +55,7 @@ returnStatement
 
 selectionStatement
     : If condition scope (Else scope)?
-    | Switch condition LeftBrace labeledStatement+ RightBrace
+    | Switch nonVoidReturnValue LeftBrace labeledStatement+ RightBrace
     ;
 
 blockItemList
@@ -164,7 +172,7 @@ typeQualifier
     ;
 
 unaryOperator
-    : '!'
+    : Negate
     | Minus
     ;
 
@@ -239,6 +247,7 @@ Mod : '%';
 
 And : 'AND';
 Or : 'OR';
+Negate: '!';
 
 Question : '?';
 Colon : ':';

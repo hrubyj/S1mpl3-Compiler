@@ -7,7 +7,7 @@ import cz.zcu.kiv.simple.compiler.Symbol;
 import cz.zcu.kiv.simple.lang.datatype.impl.Array;
 import cz.zcu.kiv.simple.lang.datatype.impl.Integer;
 import cz.zcu.kiv.utils.IFactory;
-import cz.zcu.kiv.utils.PL0OutputStreamWriter;
+import cz.zcu.kiv.utils.pl0.PL0OutputStreamWriter;
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -41,16 +41,19 @@ public class FactoryImpl implements IFactory {
 
     @Override
     public Symbol<StackRecord> createIntegerStackRecordSymbol(final String identifier,
-                                                              final int stackIndex) {
+                                                              final int stackIndex,
+                                                              final boolean isConst,
+                                                              final Object value) {
         final Integer integer = new Integer();
-        return new Symbol<>(identifier, new StackRecord(stackIndex, integer));
+        return new Symbol<>(identifier, new StackRecord(stackIndex, integer, isConst, value));
     }
 
     @Override
     public Symbol<StackRecord> createArrayStackRecordSymbol(final String identifier,
                                                             final int stackIndex,
-                                                            final int size) {
+                                                            final int size,
+                                                            final Object value) {
         final Array array = new Array(size);
-        return new Symbol<>(identifier, new StackRecord(stackIndex, array));
+        return new Symbol<>(identifier, new StackRecord(stackIndex, array, false, value));
     }
 }
