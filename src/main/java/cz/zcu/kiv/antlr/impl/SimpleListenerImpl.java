@@ -30,7 +30,6 @@ import static cz.zcu.kiv.utils.ContextUtils.isSignedConstant;
 import static cz.zcu.kiv.utils.ContextUtils.isTernaryOperator;
 import static cz.zcu.kiv.utils.DataTypeUtils.isInteger;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateBooleanLiteral;
-import static cz.zcu.kiv.utils.EvaluationUtils.evaluateForLoop;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateSignedConstant;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateTernaryOperator;
 import static cz.zcu.kiv.utils.EvaluationUtils.initializeArray;
@@ -163,7 +162,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         final DataType rightSideDataType = DataTypeUtils.getConditionalExpressionReturnValueType(context.conditionalExpression(), globalSymbolTable, currentScope);
         if (!rightSideDataType.isSameDataType(leftSideDataType)) {
             throw new AnalysisException(context.conditionalExpression().getStart(),
-                    "Value of type '" + rightSideDataType + "' not assignable to type '" + rightSideDataType +  "'");
+                    "Value of type '" + rightSideDataType + "' not assignable to type '" + rightSideDataType + "'");
         }
 
         currentScope.addSymbol(stackRecordSymbol);

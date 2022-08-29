@@ -133,8 +133,7 @@ public class EvaluationUtils {
 
         // end of loop logic
         tempVariableStackRecord.ifPresent(stackRecordSymbol -> {
-            @SuppressWarnings("OptionalGetWithoutIsPresent")
-            final int previousValue = (int) stackRecordSymbol.getDescribedConstruction().getValue().get();
+            @SuppressWarnings("OptionalGetWithoutIsPresent") final int previousValue = (int) stackRecordSymbol.getDescribedConstruction().getValue().get();
             stackRecordSymbol.getDescribedConstruction().setValue(previousValue + 1);
         });
 
@@ -229,7 +228,7 @@ public class EvaluationUtils {
     }
 
     public static void saveValueToVariable(final int value, final Symbol<StackRecord> stackRecordSymbol,
-                                     final int level, final PL0OutputStreamWriter writer) {
+                                           final int level, final PL0OutputStreamWriter writer) {
         saveValueToIndex(value, stackRecordSymbol.getDescribedConstruction().getRelativeStartIndex(), level, writer);
     }
 

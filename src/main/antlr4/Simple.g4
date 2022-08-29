@@ -1,6 +1,10 @@
-// test file
-
 grammar Simple;
+
+@header {
+    package cz.zcu.kiv.gen;
+    import cz.zcu.kiv.gen.SimpleParser;
+    import cz.zcu.kiv.gen.SimpleListener;
+}
 
 program
     : functionDeclaration* mainFunctionDeclaration
