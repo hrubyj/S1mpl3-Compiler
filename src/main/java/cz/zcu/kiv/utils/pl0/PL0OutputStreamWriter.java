@@ -1,4 +1,4 @@
-package cz.zcu.kiv.utils;
+package cz.zcu.kiv.utils.pl0;
 
 public interface PL0OutputStreamWriter {
 

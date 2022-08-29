@@ -7,7 +7,7 @@ import cz.zcu.kiv.simple.compiler.Symbol;
 import cz.zcu.kiv.simple.lang.datatype.impl.Array;
 import cz.zcu.kiv.simple.lang.datatype.impl.Integer;
 import cz.zcu.kiv.utils.IFactory;
-import cz.zcu.kiv.utils.PL0OutputStreamWriter;
+import cz.zcu.kiv.utils.pl0.PL0OutputStreamWriter;
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;

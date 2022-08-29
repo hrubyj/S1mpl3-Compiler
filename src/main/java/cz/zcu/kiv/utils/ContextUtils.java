@@ -94,6 +94,14 @@ public class ContextUtils {
         return context.arrayAccess() != null;
     }
 
+    public static boolean isArrayAccess(final SimpleParser.AssignmentContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.arrayAccess() != null;
+    }
+
     public static boolean isIdentifierReference(final SimpleParser.NonVoidReturnValueContext context) {
         if (context == null) {
             return false;

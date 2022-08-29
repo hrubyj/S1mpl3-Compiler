@@ -9,11 +9,9 @@ import cz.zcu.kiv.simple.lang.datatype.DataType;
 import cz.zcu.kiv.simple.lang.datatype.impl.Void;
 import cz.zcu.kiv.simple.lang.impl.FunctionImpl;
 import cz.zcu.kiv.utils.AnalysisException;
-import cz.zcu.kiv.utils.ContextUtils;
-import cz.zcu.kiv.utils.DataTypeUtils;
 import cz.zcu.kiv.utils.IFactory;
-import cz.zcu.kiv.utils.PL0Operation;
-import cz.zcu.kiv.utils.PL0OutputStreamWriter;
+import cz.zcu.kiv.utils.pl0.PL0Operation;
+import cz.zcu.kiv.utils.pl0.PL0OutputStreamWriter;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -22,16 +20,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static cz.zcu.kiv.utils.ContextUtils.getArrayTypeParameterSize;
+import static cz.zcu.kiv.utils.ContextUtils.getParameterIdentifier;
+import static cz.zcu.kiv.utils.ContextUtils.hasFunctionParams;
 import static cz.zcu.kiv.utils.ContextUtils.isArrayAccess;
 import static cz.zcu.kiv.utils.ContextUtils.isBooleanLiteral;
 import static cz.zcu.kiv.utils.ContextUtils.isIdentifierReference;
 import static cz.zcu.kiv.utils.ContextUtils.isIfStatement;
+import static cz.zcu.kiv.utils.ContextUtils.isParameterArrayType;
 import static cz.zcu.kiv.utils.ContextUtils.isSignedConstant;
 import static cz.zcu.kiv.utils.ContextUtils.isTernaryOperator;
+import static cz.zcu.kiv.utils.DataTypeUtils.getConditionalExpressionReturnValueType;
+import static cz.zcu.kiv.utils.DataTypeUtils.getExpressionReturnValueType;
+import static cz.zcu.kiv.utils.DataTypeUtils.getMainFunctionReturnType;
+import static cz.zcu.kiv.utils.DataTypeUtils.getReturnTypeFromContext;
 import static cz.zcu.kiv.utils.DataTypeUtils.isInteger;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateBooleanLiteral;
+import static cz.zcu.kiv.utils.EvaluationUtils.evaluateConditionalExpressionAssignment;
+import static cz.zcu.kiv.utils.EvaluationUtils.evaluateConditionalExpressionDeclaration;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateSignedConstant;
-import static cz.zcu.kiv.utils.EvaluationUtils.evaluateTernaryOperator;
 import static cz.zcu.kiv.utils.EvaluationUtils.initializeArray;
 import static cz.zcu.kiv.utils.EvaluationUtils.saveValueToVariable;
 import static cz.zcu.kiv.utils.ValidationUtils.assertNotNull;
@@ -84,10 +91,10 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     @Override
     public void enterFunctionDeclaration(final SimpleParser.FunctionDeclarationContext context) {
         final String functionName = getUniqueFunctionName(context);
-        final Function function = new FunctionImpl(DataTypeUtils.getReturnTypeFromContext(context.functionReturnType()));
+        final Function function = new FunctionImpl(getReturnTypeFromContext(context.functionReturnType()));
 
         int stackIncrementAmount = DEFAULT_STACK_INCREMENT_AMOUNT;
-        if (ContextUtils.hasFunctionParams(context)) {
+        if (hasFunctionParams(context)) {
             processFunctionParams(context, function);
             stackIncrementAmount = function.getStackTopIndex() + 1; // + 1, because index is starting at 0
         }
@@ -109,7 +116,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     @Override
     public void enterReturnStatement(final SimpleParser.ReturnStatementContext context) {
-        final DataType returnType = context.expression() == null ? new Void() : DataTypeUtils.getExpressionReturnValueType(context.expression(), globalSymbolTable, currentScope);
+        final DataType returnType = context.expression() == null ? new Void() : getExpressionReturnValueType(context.expression(), globalSymbolTable, currentScope);
         final boolean returnsSameDataType = currentScope.getReturnType().isSameDataType(returnType);
         if (!returnsSameDataType) {
             throw new AnalysisException(context.Return().getSymbol(),
@@ -123,14 +130,14 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     private void processFunctionParams(final SimpleParser.FunctionDeclarationContext context, final Function function) {
         for (final SimpleParser.FunctionDeclParamContext paramContext : context.functionDeclParams().functionDeclParam()) {
-            if (ContextUtils.isParameterArrayType(paramContext)) {
-                final int arraySize = ContextUtils.getArrayTypeParameterSize(paramContext.arrayTypeSpecifier());
+            if (isParameterArrayType(paramContext)) {
+                final int arraySize = getArrayTypeParameterSize(paramContext.arrayTypeSpecifier());
                 final Symbol<StackRecord> arrayStackRecordSymbol =
-                        factory.createArrayStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), function.getAvailableStackIndex(), arraySize, null);
+                        factory.createArrayStackRecordSymbol(getParameterIdentifier(paramContext), function.getAvailableStackIndex(), arraySize, null);
                 function.addSymbol(arrayStackRecordSymbol);
             } else {
                 final Symbol<StackRecord> integerStackRecordSymbol =
-                        factory.createIntegerStackRecordSymbol(ContextUtils.getParameterIdentifier(paramContext), function.getAvailableStackIndex(), false, null);
+                        factory.createIntegerStackRecordSymbol(getParameterIdentifier(paramContext), function.getAvailableStackIndex(), false, null);
                 function.addSymbol(integerStackRecordSymbol);
             }
         }
@@ -138,7 +145,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     @Override
     public void enterMainFunctionDeclaration(final SimpleParser.MainFunctionDeclarationContext context) {
-        final Function mainFunction = new FunctionImpl(DataTypeUtils.getMainFunctionReturnType());
+        final Function mainFunction = new FunctionImpl(getMainFunctionReturnType());
         globalSymbolTable.put(MAIN_FUNCTION_NAME, new Symbol<>(MAIN_FUNCTION_NAME, mainFunction));
 
         final int mainFunctionLineNumber = writer.getCurrentLineNumber();
@@ -150,7 +157,21 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     @Override
     public void exitMainFunctionDeclaration(final SimpleParser.MainFunctionDeclarationContext ignored) {
+        // on exiting main we know it's over - flushing the contents of the writer buffer into a file
         writer.flush();
+    }
+
+    @Override
+    public void enterAssignment(final SimpleParser.AssignmentContext context) {
+        if (isArrayAccess(context)) {
+            throw new AnalysisException(context.getStart(), "Array access is unsupported operation at the moment");
+        }
+
+        final Token identifier = context.Identifier().getSymbol();
+        final var symbol = currentScope.getSymbol(identifier.getText())
+                .orElseThrow(() -> new AnalysisException(identifier, "Variable '" + identifier.getText() + "' does not exist"));
+
+        evaluateConditionalExpressionAssignment(context.conditionalExpression(), symbol, globalSymbolTable, writer, currentScope);
     }
 
     private void enterIntegerOrBooleanDeclaration(final SimpleParser.DeclarationContext context) {
@@ -159,7 +180,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         final Symbol<StackRecord> stackRecordSymbol = factory.createIntegerStackRecordSymbol(identifier, currentScope.getAvailableStackIndex(), isConst, 0);
 
         final DataType leftSideDataType = stackRecordSymbol.getDescribedConstruction().getDataType();
-        final DataType rightSideDataType = DataTypeUtils.getConditionalExpressionReturnValueType(context.conditionalExpression(), globalSymbolTable, currentScope);
+        final DataType rightSideDataType = getConditionalExpressionReturnValueType(context.conditionalExpression(), globalSymbolTable, currentScope);
         if (!rightSideDataType.isSameDataType(leftSideDataType)) {
             throw new AnalysisException(context.conditionalExpression().getStart(),
                     "Value of type '" + rightSideDataType + "' not assignable to type '" + rightSideDataType + "'");
@@ -174,57 +195,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
             return;
         }
 
-        final var condExpression = context.conditionalExpression();
-        if (isTernaryOperator(condExpression)) {
-            // podminka:
-            // -
-            evaluateTernaryOperator(context.conditionalExpression(), globalSymbolTable, writer, currentScope);
-            // evaluate ternary operator - push value to stack
-            writer.writeStoreStackTopToAddress(stackRecordSymbol.getDescribedConstruction().getRelativeStartIndex());
-            return;
-        }
-
-        final var nonVoidValue = condExpression.nonVoidReturnValue();
-        if (isBooleanLiteral(nonVoidValue)) {
-            final int value = evaluateBooleanLiteral(nonVoidValue);
-            stackRecordSymbol.getDescribedConstruction().setValue(value);
-            saveValueToVariable(value, stackRecordSymbol, 0, writer);
-            return;
-        }
-
-        if (isSignedConstant(nonVoidValue)) {
-            final int value = evaluateSignedConstant(nonVoidValue);
-            stackRecordSymbol.getDescribedConstruction().setValue(value);
-            saveValueToVariable(value, stackRecordSymbol, 0, writer);
-            return;
-        }
-
-        if (isIdentifierReference(nonVoidValue)) {
-            final Token rValueIdentifier = nonVoidValue.Identifier().getSymbol();
-            final var rValueStackRecordSymbol = currentScope.getSymbol(rValueIdentifier.getText())
-                    .orElseThrow(() -> new AnalysisException(rValueIdentifier, "Variable '" + rValueIdentifier.getText() + "' does not exist"));
-            // same data types already checked above
-
-            final int rValueAddress = rValueStackRecordSymbol.getDescribedConstruction().getRelativeStartIndex();
-            final Object value = rValueStackRecordSymbol.getDescribedConstruction().getValue();
-            stackRecordSymbol.getDescribedConstruction().setValue(value);
-            writer.writeLoadValueFromAddressOnStackTop(rValueAddress);
-            writer.writeStoreStackTopToAddress(stackRecordSymbol.getDescribedConstruction().getRelativeStartIndex());
-            return;
-        }
-
-        if (isArrayAccess(nonVoidValue)) {
-            final var arrayAccess = nonVoidValue.arrayAccess();
-            arrayAccess.Identifier().getSymbol();
-
-            final Token rValueIdentifier = nonVoidValue.Identifier().getSymbol();
-            final var rValueStackRecordSymbol = currentScope.getSymbol(rValueIdentifier.getText())
-                    .orElseThrow(() -> new AnalysisException(rValueIdentifier, "Variable '" + rValueIdentifier.getText() + "' does not exist"));
-
-            // TODO array access
-        }
-        // TODO ?? jeste neco - jo, function call
-
+        evaluateConditionalExpressionDeclaration(context.conditionalExpression(), stackRecordSymbol, globalSymbolTable, writer, currentScope);
     }
 
     private void enterArrayDeclaration(final SimpleParser.DeclarationContext context) {
@@ -243,7 +214,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
 
     private void enterIfStatement(final SimpleParser.SelectionStatementContext context) {
         final var expression = context.condition().expression();
-        final DataType dataType = DataTypeUtils.getExpressionReturnValueType(expression, globalSymbolTable, currentScope);
+        final DataType dataType = getExpressionReturnValueType(expression, globalSymbolTable, currentScope);
         if (!isInteger(dataType)) {
             throw new AnalysisException(context.condition().getStart(),
                     "Condition has to evaluate into integer or boolean value (got " + dataType + ")");
@@ -259,9 +230,9 @@ public class SimpleListenerImpl extends SimpleBaseListener {
             return;
         }
 
-        final var nonVoidValue = expression.conditionalExpression().nonVoidReturnValue();
-        if (isIdentifierReference(nonVoidValue)) {
-            final Token identifier = nonVoidValue.Identifier().getSymbol();
+        final var nonVoidValueInCondition = expression.conditionalExpression().nonVoidReturnValue();
+        if (isIdentifierReference(nonVoidValueInCondition)) {
+            final Token identifier = nonVoidValueInCondition.Identifier().getSymbol();
             final var symbol = currentScope.getSymbol(identifier.getText())
                     .orElseThrow(() -> new AnalysisException(identifier, "Variable '" + identifier.getText() + "' does not exist"));
             final Optional<Object> value = symbol.getDescribedConstruction().getValue();
@@ -282,7 +253,32 @@ public class SimpleListenerImpl extends SimpleBaseListener {
             // don't know where to jump yet, will be updated upon exiting
         }
 
-        // TODO array access
+        if (isArrayAccess(nonVoidValueInCondition)) {
+            final var arrayAccess = nonVoidValueInCondition.arrayAccess();
+            // TODO array access
+            final Token identifier = arrayAccess.Identifier().getSymbol();
+            final var symbol = currentScope.getSymbol(identifier.getText())
+                    .orElseThrow(() -> new AnalysisException(identifier, "Variable '" + identifier.getText() + "' does not exist"));
+            final Optional<Object> value = symbol.getDescribedConstruction().getValue();
+
+            final var conditionalExpression = arrayAccess.conditionalExpression();
+            if (isSignedConstant(conditionalExpression.nonVoidReturnValue()) || isBooleanLiteral(conditionalExpression.nonVoidReturnValue())) {
+                final int index = isSignedConstant(expression) ? evaluateSignedConstant(expression) : evaluateBooleanLiteral(expression);
+                if (index < 0) {
+                    throw new AnalysisException(conditionalExpression.getStart(), "Cannot access on negative array index");
+                }
+                final int arraySize = symbol.getDescribedConstruction().getRecordSize();
+                if (index >= arraySize) {
+                    throw new AnalysisException(conditionalExpression.getStart(),
+                            "Accessing index out of array bounds (accessed: " + index + ", arraySize: " + arraySize);
+                }
+            }
+            // if we know the value at compile time, we can immediately evaluate the condition
+            if (value.isPresent()) {
+                final int[] arrayValue = (int[]) value.get();
+            }
+        }
+
         // TODO function call
     }
 

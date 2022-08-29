@@ -6,7 +6,7 @@ import cz.zcu.kiv.gen.SimpleListener;
 import cz.zcu.kiv.gen.SimpleParser;
 import cz.zcu.kiv.utils.ExitCode;
 import cz.zcu.kiv.utils.IFactory;
-import cz.zcu.kiv.utils.PL0OutputStreamWriter;
+import cz.zcu.kiv.utils.pl0.PL0OutputStreamWriter;
 import cz.zcu.kiv.utils.impl.FactoryImpl;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;

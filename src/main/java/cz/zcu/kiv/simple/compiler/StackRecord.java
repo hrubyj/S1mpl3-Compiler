@@ -42,4 +42,8 @@ public class StackRecord {
     public void setValue(final Object value) {
         this.value = value;
     }
+
+    public boolean isConst() {
+        return isConst;
+    }
 }

@@ -3,6 +3,7 @@ package cz.zcu.kiv.utils;
 import cz.zcu.kiv.gen.SimpleParser;
 import cz.zcu.kiv.simple.compiler.StackRecord;
 import cz.zcu.kiv.simple.compiler.Symbol;
+import cz.zcu.kiv.utils.pl0.PL0OutputStreamWriter;
 import org.antlr.v4.runtime.ANTLRErrorListener;
 
 import java.io.IOException;

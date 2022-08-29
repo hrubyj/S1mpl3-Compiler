@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.Token;
 
 import java.util.Map;
 
+import static cz.zcu.kiv.utils.ContextUtils.getArrayTypeParameterSize;
 import static cz.zcu.kiv.utils.ContextUtils.isArrayAccess;
 import static cz.zcu.kiv.utils.ContextUtils.isBooleanLiteral;
 import static cz.zcu.kiv.utils.ContextUtils.isFunctionCall;
@@ -28,7 +29,7 @@ public class DataTypeUtils {
 
         if (returnsArray(context)) {
             final var arrayContext = context.arrayTypeSpecifier();
-            return new Array(ContextUtils.getArrayTypeParameterSize(arrayContext));
+            return new Array(getArrayTypeParameterSize(arrayContext));
         }
 
         return context.baseTypeSpecifier().Void() == null ? new Integer() : new Void();
@@ -129,6 +130,7 @@ public class DataTypeUtils {
         return firstExpressionDataType;
     }
 
+    // TODO smazat
     public static boolean isSameDataType(final Symbol<StackRecord> stackRecordSymbol, final DataType dataType) {
         assertNotNull(stackRecordSymbol, "Stack record symbol may not be null");
         assertNotNull(dataType, "Data type may not be null");

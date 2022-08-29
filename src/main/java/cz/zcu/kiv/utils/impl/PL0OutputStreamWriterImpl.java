@@ -1,12 +1,12 @@
 package cz.zcu.kiv.utils.impl;
 
-import cz.zcu.kiv.utils.PL0Instruction;
-import cz.zcu.kiv.utils.PL0Operation;
-import cz.zcu.kiv.utils.PL0OutputStreamWriter;
+import cz.zcu.kiv.utils.pl0.PL0Instruction;
+import cz.zcu.kiv.utils.pl0.PL0Operation;
+import cz.zcu.kiv.utils.pl0.PL0OutputStreamWriter;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +20,9 @@ public class PL0OutputStreamWriterImpl implements PL0OutputStreamWriter {
 
     public PL0OutputStreamWriterImpl(final String file) {
         try {
-            final var outputFile = new RandomAccessFile(file, "rw");
-             outputFile.close();
-             outputFileName = file;
+            final var outputFile = new FileOutputStream(file);
+            outputFile.close();
+            outputFileName = file;
         } catch (final FileNotFoundException e) {
             throw new IllegalArgumentException("Illegal file name " + file, e);
         } catch (IOException e) {
@@ -33,7 +33,7 @@ public class PL0OutputStreamWriterImpl implements PL0OutputStreamWriter {
 
     @Override
     public void flush() {
-        try (final var outputFile = new RandomAccessFile(outputFileName, "rw")) {
+        try (final var outputFile = new FileOutputStream(outputFileName)) {
             for (final var instruction : instructions) {
                 outputFile.write(instruction.getBytes());
             }
