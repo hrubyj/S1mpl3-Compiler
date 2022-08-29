@@ -136,14 +136,6 @@ public class DataTypeUtils {
         return firstExpressionDataType;
     }
 
-    // TODO smazat
-    public static boolean isSameDataType(final Symbol<StackRecord> stackRecordSymbol, final DataType dataType) {
-        assertNotNull(stackRecordSymbol, "Stack record symbol may not be null");
-        assertNotNull(dataType, "Data type may not be null");
-
-        return stackRecordSymbol.getDescribedConstruction().getDataType().isSameDataType(dataType);
-    }
-
     public static boolean isInteger(final DataType dataType) {
         assertNotNull(dataType, "Data type may not be null");
 

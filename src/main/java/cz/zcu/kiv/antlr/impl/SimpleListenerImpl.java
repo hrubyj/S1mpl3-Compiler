@@ -129,9 +129,7 @@ public class SimpleListenerImpl extends SimpleBaseListener {
                     "Illegal return type. Expected: " + currentScope.getReturnType() + ", got: " + returnType);
         }
 
-        //TODO parse the value (if there is one) to be returned
         writer.writeReturnInstruction();
-        // TODO if there is a value to be returned, store on top of the stack
     }
 
     private void processFunctionParams(final SimpleParser.FunctionDeclarationContext context, final Function function) {
@@ -292,41 +290,15 @@ public class SimpleListenerImpl extends SimpleBaseListener {
             ifJmcInstructionAddress = writer.getCurrentLineNumber();
             writer.writeNextInstruction("JMC", 0, 0);
             // don't know where to jump yet, will be updated upon exiting
+            
+            return;
         }
 
         if (isArrayAccess(nonVoidValueInCondition)) {
             throw new AnalysisException(nonVoidValueInCondition.getStart(), "Array access is unsupported operation at the moment");
-//            final var arrayAccess = nonVoidValueInCondition.arrayAccess();
-//            // TODO array access
-//            final Token identifier = arrayAccess.Identifier().getSymbol();
-//            final var symbol = currentScope.getSymbol(identifier.getText())
-//                    .orElseThrow(() -> new AnalysisException(identifier, "Variable '" + identifier.getText() + "' does not exist"));
-//            final Optional<Object> value = symbol.getDescribedConstruction().getValue();
-//
-//            final var conditionalExpression = arrayAccess.conditionalExpression();
-//            if (isSignedConstant(conditionalExpression.nonVoidReturnValue()) || isBooleanLiteral(conditionalExpression.nonVoidReturnValue())) {
-//                final int index = isSignedConstant(expression) ? evaluateSignedConstant(expression) : evaluateBooleanLiteral(expression);
-//                if (index < 0) {
-//                    throw new AnalysisException(conditionalExpression.getStart(), "Cannot access on negative array index");
-//                }
-//                final int arraySize = symbol.getDescribedConstruction().getRecordSize();
-//                if (index >= arraySize) {
-//                    throw new AnalysisException(conditionalExpression.getStart(),
-//                            "Accessing index out of array bounds (accessed: " + index + ", arraySize: " + arraySize);
-//                }
-//            }
-//            // if we know the value at compile time, we can immediately evaluate the condition
-//            if (value.isPresent()) {
-//                final int[] arrayValue = (int[]) value.get();
-//            }
         }
 
-        final var functionCall = nonVoidValueInCondition.functionCall();
-        if (functionCall.Instanceof() != null) {
-            throw new AnalysisException(functionCall.getStart(), "Instanceof is an unsupported operation at the moment");
-        }
-
-        // TODO function call
+        throw new AnalysisException(nonVoidValueInCondition.getStart(), "Function call in condition is not supported at the moment");
     }
 
     private void handleConditionWithConstantResult(final SimpleParser.SelectionStatementContext context,
@@ -354,7 +326,6 @@ public class SimpleListenerImpl extends SimpleBaseListener {
             return;
         }
 
-        // TODO doplnit switch logiku
         if (inIfStatementBlock) {
             if (ifContext.Else() != null) {
                 // if there is an else branch, we need to avoid its code with a jump, but we don't know where yet

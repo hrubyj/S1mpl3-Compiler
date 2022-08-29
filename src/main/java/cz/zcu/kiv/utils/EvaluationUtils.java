@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static cz.zcu.kiv.simple.lang.impl.NativeFunction.getNativeFunction;
 import static cz.zcu.kiv.utils.ContextUtils.isArrayAccess;
 import static cz.zcu.kiv.utils.ContextUtils.isBooleanLiteral;
 import static cz.zcu.kiv.utils.ContextUtils.isIdentifierReference;
@@ -93,7 +94,26 @@ public class EvaluationUtils {
             return;
         }
 
-        // TODO function call
+        evaluateFunctionCall(nonVoidValue.functionCall(), leftSideSymbol, globalSymbolTable, writer, currentScope);
+    }
+
+    private static void evaluateFunctionCall(final SimpleParser.FunctionCallContext functionCall,
+                                             final Symbol<StackRecord> leftSideSymbol,
+                                             final Map<String, Symbol<Function>> globalSymbolTable,
+                                             final PL0OutputStreamWriter writer,
+                                             final Function currentScope) {
+        if (functionCall.functionIdentifier() == null) {
+            throw new AnalysisException(functionCall.getStart(), "Instanceof and unary function calls ar not supported at the moment");
+        }
+
+        final var identifier = functionCall.functionIdentifier();
+        if (identifier.Identifier() != null) {
+            throw new AnalysisException(functionCall.getStart(), "Non-native function calls ar not supported at the moment");
+        }
+
+        final String functionName = identifier.getText();
+        getNativeFunction(functionName)
+                .evaluate(functionCall, leftSideSymbol, globalSymbolTable, writer, currentScope);
     }
 
     public static int evaluateBooleanLiteral(final SimpleParser.NonVoidReturnValueContext context) {
@@ -172,9 +192,10 @@ public class EvaluationUtils {
             writer.updateInstruction(jmcInstructionAddress, "JMC", 0, elseBranchAddress);
 
             evaluateTernaryOperatorBranch(context.expression(1), leftSideSymbol, globalSymbolTable, writer, currentScope);
+            return;
         }
 
-        // TODO function call
+        evaluateFunctionCall(nonVoidValue.functionCall(), leftSideSymbol, globalSymbolTable, writer, currentScope);
     }
 
     public static void evaluateForLoop(final String tempVariableName, final int stopIndex,
@@ -205,7 +226,7 @@ public class EvaluationUtils {
         Optional<Symbol<StackRecord>> tempVariableStackRecord = Optional.empty();
         if (tempVariableName != null) {
             assertNotEmpty(tempVariableName, "Variable name may not be empty");
-            final var stackRecord = factory.createIntegerStackRecordSymbol(tempVariableName, tempVariableIndex, false, 0);
+            final var stackRecord = factory.createIntegerStackRecordSymbol(tempVariableName, tempVariableIndex, false, null);
             currentScope.addSymbol(stackRecord);
             tempVariableStackRecord = Optional.of(stackRecord);
         }
@@ -230,10 +251,6 @@ public class EvaluationUtils {
         assertNotNull(currentScope, "Current scope may not be null");
 
         final var tempVariableStackRecord = interState.tempVariableStackRecord();
-        if (tempVariableStackRecord != null) {
-            @SuppressWarnings("OptionalGetWithoutIsPresent") final int previousValue = (int) tempVariableStackRecord.getDescribedConstruction().getValue().get();
-            tempVariableStackRecord.getDescribedConstruction().setValue(previousValue + 1);
-        }
 
         writer.writeLoadValueFromAddressOnStackTop(interState.tempVariableAddress());
         writer.writePushToStack(1);
@@ -326,7 +343,7 @@ public class EvaluationUtils {
             return;
         }
 
-        // TODO function call
+        evaluateFunctionCall(nonVoidValue.functionCall(), leftSideSymbol, globalSymbolTable, writer, currentScope);
     }
 
     private static int evaluateSignedConstant(final SimpleParser.SignedConstantContext context) {
@@ -372,59 +389,6 @@ public class EvaluationUtils {
                     writer.writeNextInstruction("LIT", 0, leftSideStartIndex);
                     writer.writeLoadValueFromAddressOnStackTop(tempVariableIndex);
                     writer.writeDoOperation(PL0Operation.ADD);  // iterating from array end to start
-                    writer.writeNextInstruction("PST", 0, 0);   // reads from stack and stores to stack
-                });
-    }
-
-    private static void pushArrayToStack(final Symbol<StackRecord> arraySymbol,
-                                         final Function currentScope,
-                                         final PL0OutputStreamWriter writer) {
-        final int startIndex = arraySymbol.getDescribedConstruction().getRelativeStartIndex();
-        final int size = arraySymbol.getDescribedConstruction().getRecordSize();
-
-        // logic to implement for-loop is approx. 10 lines
-        // logic to manually push values into each index is 2 lines per index
-        // we check which one produces less code
-        if (shouldArrayBeQuickProcessed(size)) {
-            for (int i = 0; i < size; i++) {
-                writer.writeLoadValueFromAddressOnStackTop(startIndex + i);
-            }
-            return;
-        }
-
-        evaluateForLoop(null, size, writer, currentScope, null,
-                (tempVariableIndex, tempVariableStackRecord) -> {
-                    writer.writePushToStack(0); // level
-                    writer.writeNextInstruction("LIT", 0, startIndex);
-                    writer.writeLoadValueFromAddressOnStackTop(tempVariableIndex);
-                    writer.writeDoOperation(PL0Operation.ADD);
-                    writer.writeNextInstruction("PLD", 0, 0);   // reads from stack and stores to stack
-                });
-    }
-
-    private static void popArrayFromStackToVariable(final Symbol<StackRecord> arraySymbol,
-                                                    final Function currentScope,
-                                                    final PL0OutputStreamWriter writer) {
-        final int startIndex = arraySymbol.getDescribedConstruction().getRelativeStartIndex();
-        final int size = arraySymbol.getDescribedConstruction().getRecordSize();
-
-        // logic to implement for-loop is approx. 10 lines
-        // logic to manually push values into each index is 2 lines per index
-        // we check which one produces less code
-        if (shouldArrayBeQuickProcessed(size)) {
-            for (int i = size - 1; i >= 0; i--) {
-                writer.writeStoreStackTopToAddress(startIndex + i);
-            }
-            return;
-        }
-
-
-        evaluateForLoop(null, size, writer, currentScope, null,
-                (tempVariableIndex, tempVariableStackRecord) -> {
-                    writer.writePushToStack(0); // level
-                    writer.writeNextInstruction("LIT", 0, startIndex + (size - 1));
-                    writer.writeLoadValueFromAddressOnStackTop(tempVariableIndex);
-                    writer.writeDoOperation(PL0Operation.SUB);  // iterating from array end to start
                     writer.writeNextInstruction("PST", 0, 0);   // reads from stack and stores to stack
                 });
     }

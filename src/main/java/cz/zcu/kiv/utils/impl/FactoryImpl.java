@@ -54,6 +54,6 @@ public class FactoryImpl implements IFactory {
                                                             final int size,
                                                             final Object value) {
         final Array array = new Array(size);
-        return new Symbol<>(identifier, new StackRecord(stackIndex, array, false, value)); //TODO isConst
+        return new Symbol<>(identifier, new StackRecord(stackIndex, array, false, value));
     }
 }

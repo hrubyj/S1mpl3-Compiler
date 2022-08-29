@@ -4,6 +4,8 @@ public enum PL0Operation {
     LESS_THAN(10),
     ADD(2),
     SUB(3),
+    MULTIPLY(4),
+    DIV(5),
     NOT_EQUAL(9);
 
     private static final String INSTRUCTION_NAME = "OPR";
