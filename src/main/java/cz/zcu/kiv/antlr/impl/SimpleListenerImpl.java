@@ -9,6 +9,7 @@ import cz.zcu.kiv.simple.lang.datatype.DataType;
 import cz.zcu.kiv.simple.lang.datatype.impl.Void;
 import cz.zcu.kiv.simple.lang.impl.FunctionImpl;
 import cz.zcu.kiv.utils.AnalysisException;
+import cz.zcu.kiv.utils.EvaluationUtils;
 import cz.zcu.kiv.utils.IFactory;
 import cz.zcu.kiv.utils.pl0.PL0Operation;
 import cz.zcu.kiv.utils.pl0.PL0OutputStreamWriter;
@@ -25,6 +26,7 @@ import static cz.zcu.kiv.utils.ContextUtils.getParameterIdentifier;
 import static cz.zcu.kiv.utils.ContextUtils.hasFunctionParams;
 import static cz.zcu.kiv.utils.ContextUtils.isArrayAccess;
 import static cz.zcu.kiv.utils.ContextUtils.isBooleanLiteral;
+import static cz.zcu.kiv.utils.ContextUtils.isForLoop;
 import static cz.zcu.kiv.utils.ContextUtils.isIdentifierReference;
 import static cz.zcu.kiv.utils.ContextUtils.isIfStatement;
 import static cz.zcu.kiv.utils.ContextUtils.isParameterArrayType;
@@ -38,6 +40,8 @@ import static cz.zcu.kiv.utils.DataTypeUtils.isInteger;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateBooleanLiteral;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateConditionalExpressionAssignment;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateConditionalExpressionDeclaration;
+import static cz.zcu.kiv.utils.EvaluationUtils.evaluateForLoopEnd;
+import static cz.zcu.kiv.utils.EvaluationUtils.evaluateForLoopStart;
 import static cz.zcu.kiv.utils.EvaluationUtils.evaluateSignedConstant;
 import static cz.zcu.kiv.utils.EvaluationUtils.initializeArray;
 import static cz.zcu.kiv.utils.EvaluationUtils.saveValueToVariable;
@@ -57,6 +61,8 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     private int ifJmcInstructionAddress = 0;
     private boolean inElseStatementBlock = false;
     private int ifEndJmpInstructionAddress = 0;
+
+    private EvaluationUtils.ForLoopInterState forLoopInterState;
 
     public SimpleListenerImpl(final PL0OutputStreamWriter writer, final IFactory factory) {
         validateDependencies(writer, factory);
@@ -162,6 +168,42 @@ public class SimpleListenerImpl extends SimpleBaseListener {
     }
 
     @Override
+    public void enterIterationStatement(final SimpleParser.IterationStatementContext context) {
+        if (!isForLoop(context)) {
+            throw new AnalysisException(context.getStart(), "Other loops other than for loop are not supported at the moment");
+        }
+    }
+
+    @Override
+    public void enterForLoop(final SimpleParser.ForLoopContext context) {
+        final String tempVariableName = getUniqueVariableName(context.Identifier(0));
+        if (context.NonzeroConstant() != null) {
+            final int stopIndex = Integer.parseInt(context.NonzeroConstant().getText());
+            forLoopInterState = evaluateForLoopStart(tempVariableName, stopIndex, writer, currentScope, factory);
+            return;
+        }
+
+        final Token loopedVariableIdentifier = context.Identifier(1).getSymbol();
+        final var loopedSymbol = currentScope.getSymbol(loopedVariableIdentifier.getText())
+                .orElseThrow(() -> new AnalysisException(loopedVariableIdentifier, "Variable '" + loopedVariableIdentifier.getText() + "' not found"));
+
+        if (!isInteger(loopedSymbol.getDescribedConstruction().getDataType())) {
+            throw new AnalysisException(loopedVariableIdentifier, "Iterating over array is unsupported operation at the moment");
+        }
+
+        // we do not support calling of user defined functions yet, therefore we should always know the value at compile time
+        final int stopIndex = (int) loopedSymbol.getDescribedConstruction().getValue()
+                .orElseThrow(() -> new AnalysisException(loopedVariableIdentifier, "Unknown value at compile time"));
+
+        forLoopInterState = evaluateForLoopStart(tempVariableName, stopIndex, writer, currentScope, factory);
+    }
+
+    @Override
+    public void exitForLoop(final SimpleParser.ForLoopContext context) {
+        evaluateForLoopEnd(forLoopInterState, writer, currentScope);
+    }
+
+    @Override
     public void enterAssignment(final SimpleParser.AssignmentContext context) {
         if (isArrayAccess(context)) {
             throw new AnalysisException(context.getStart(), "Array access is unsupported operation at the moment");
@@ -208,7 +250,6 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         final int stackIncrementAmount = stackRecordSymbol.getDescribedConstruction().getRecordSize();
         writer.writeIncrementStackPointer(stackIncrementAmount);
 
-        // TODO kdyz zbyde cas tak do gramatiky pridat moznost "int[5] a = b;"
         initializeArray(stackRecordSymbol, currentScope, writer);
     }
 
@@ -254,29 +295,35 @@ public class SimpleListenerImpl extends SimpleBaseListener {
         }
 
         if (isArrayAccess(nonVoidValueInCondition)) {
-            final var arrayAccess = nonVoidValueInCondition.arrayAccess();
-            // TODO array access
-            final Token identifier = arrayAccess.Identifier().getSymbol();
-            final var symbol = currentScope.getSymbol(identifier.getText())
-                    .orElseThrow(() -> new AnalysisException(identifier, "Variable '" + identifier.getText() + "' does not exist"));
-            final Optional<Object> value = symbol.getDescribedConstruction().getValue();
+            throw new AnalysisException(nonVoidValueInCondition.getStart(), "Array access is unsupported operation at the moment");
+//            final var arrayAccess = nonVoidValueInCondition.arrayAccess();
+//            // TODO array access
+//            final Token identifier = arrayAccess.Identifier().getSymbol();
+//            final var symbol = currentScope.getSymbol(identifier.getText())
+//                    .orElseThrow(() -> new AnalysisException(identifier, "Variable '" + identifier.getText() + "' does not exist"));
+//            final Optional<Object> value = symbol.getDescribedConstruction().getValue();
+//
+//            final var conditionalExpression = arrayAccess.conditionalExpression();
+//            if (isSignedConstant(conditionalExpression.nonVoidReturnValue()) || isBooleanLiteral(conditionalExpression.nonVoidReturnValue())) {
+//                final int index = isSignedConstant(expression) ? evaluateSignedConstant(expression) : evaluateBooleanLiteral(expression);
+//                if (index < 0) {
+//                    throw new AnalysisException(conditionalExpression.getStart(), "Cannot access on negative array index");
+//                }
+//                final int arraySize = symbol.getDescribedConstruction().getRecordSize();
+//                if (index >= arraySize) {
+//                    throw new AnalysisException(conditionalExpression.getStart(),
+//                            "Accessing index out of array bounds (accessed: " + index + ", arraySize: " + arraySize);
+//                }
+//            }
+//            // if we know the value at compile time, we can immediately evaluate the condition
+//            if (value.isPresent()) {
+//                final int[] arrayValue = (int[]) value.get();
+//            }
+        }
 
-            final var conditionalExpression = arrayAccess.conditionalExpression();
-            if (isSignedConstant(conditionalExpression.nonVoidReturnValue()) || isBooleanLiteral(conditionalExpression.nonVoidReturnValue())) {
-                final int index = isSignedConstant(expression) ? evaluateSignedConstant(expression) : evaluateBooleanLiteral(expression);
-                if (index < 0) {
-                    throw new AnalysisException(conditionalExpression.getStart(), "Cannot access on negative array index");
-                }
-                final int arraySize = symbol.getDescribedConstruction().getRecordSize();
-                if (index >= arraySize) {
-                    throw new AnalysisException(conditionalExpression.getStart(),
-                            "Accessing index out of array bounds (accessed: " + index + ", arraySize: " + arraySize);
-                }
-            }
-            // if we know the value at compile time, we can immediately evaluate the condition
-            if (value.isPresent()) {
-                final int[] arrayValue = (int[]) value.get();
-            }
+        final var functionCall = nonVoidValueInCondition.functionCall();
+        if (functionCall.Instanceof() != null) {
+            throw new AnalysisException(functionCall.getStart(), "Instanceof is an unsupported operation at the moment");
         }
 
         // TODO function call

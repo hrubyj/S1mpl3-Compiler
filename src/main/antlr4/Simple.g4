@@ -33,7 +33,11 @@ statement
 iterationStatement
     :   whileCondition scope
     |   Do scope whileCondition Semi
-    |   For Identifier In (Identifier | NonzeroConstant) scope
+    |   forLoop
+    ;
+
+forLoop
+    : For Identifier In (Identifier | NonzeroConstant) scope
     ;
 
 expressionStatement
@@ -168,7 +172,7 @@ typeQualifier
     ;
 
 unaryOperator
-    : '!'
+    : Negate
     | Minus
     ;
 
@@ -243,6 +247,7 @@ Mod : '%';
 
 And : 'AND';
 Or : 'OR';
+Negate: '!';
 
 Question : '?';
 Colon : ':';

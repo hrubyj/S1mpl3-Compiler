@@ -117,4 +117,12 @@ public class ContextUtils {
 
         return context.If() != null;
     }
+
+    public static boolean isForLoop(final SimpleParser.IterationStatementContext context) {
+        if (context == null) {
+            return false;
+        }
+
+        return context.forLoop() != null;
+    }
 }

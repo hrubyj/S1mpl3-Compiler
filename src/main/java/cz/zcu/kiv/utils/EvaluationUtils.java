@@ -180,11 +180,23 @@ public class EvaluationUtils {
     public static void evaluateForLoop(final String tempVariableName, final int stopIndex,
                                        final PL0OutputStreamWriter writer, final Function currentScope,
                                        final IFactory factory,
-                                       final java.util.function.BiConsumer<Integer, Optional<Symbol<StackRecord>>> loopBody) {
+                                       final java.util.function.BiConsumer<Integer, Symbol<StackRecord>> loopBody) {
         if (loopBody == null) {
             return; // if loop body is empty, we might as well just ignore the whole loop
         }
+
+        final var loopInterState = evaluateForLoopStart(tempVariableName, stopIndex, writer, currentScope, factory);
+
+        loopBody.accept(loopInterState.tempVariableAddress(), loopInterState.tempVariableStackRecord());
+
+        evaluateForLoopEnd(loopInterState, writer, currentScope);
+    }
+
+    public static ForLoopInterState evaluateForLoopStart(final String tempVariableName, final int stopIndex,
+                                                         final PL0OutputStreamWriter writer, final Function currentScope,
+                                                         final IFactory factory) {
         assertNotNull(writer, "Writer may not be null");
+        assertNotNull(currentScope, "Current scope may not be null");
         if (tempVariableName != null) {
             assertNotNull(factory, "Factory may not be null");
         }
@@ -209,23 +221,32 @@ public class EvaluationUtils {
         final int jumpCompareInstructionAddress = writer.getCurrentLineNumber();
         writer.writeNextInstruction("JMC", 0, 0);   // we don't know where to jump yet, will update later
 
-        loopBody.accept(tempVariableIndex, tempVariableStackRecord);
+        return new ForLoopInterState(tempVariableIndex, tempVariableStackRecord.orElse(null), loopBeginAddress, jumpCompareInstructionAddress);
+    }
 
-        // end of loop logic
-        tempVariableStackRecord.ifPresent(stackRecordSymbol -> {
-            @SuppressWarnings("OptionalGetWithoutIsPresent") final int previousValue = (int) stackRecordSymbol.getDescribedConstruction().getValue().get();
-            stackRecordSymbol.getDescribedConstruction().setValue(previousValue + 1);
-        });
+    public static void evaluateForLoopEnd(final ForLoopInterState interState, final PL0OutputStreamWriter writer, final Function currentScope) {
+        assertNotNull(interState, "Intermediate loop state may not be null");
+        assertNotNull(writer, "Writer may not be null");
+        assertNotNull(currentScope, "Current scope may not be null");
 
-        writer.writeLoadValueFromAddressOnStackTop(tempVariableIndex);
+        final var tempVariableStackRecord = interState.tempVariableStackRecord();
+        if (tempVariableStackRecord != null) {
+            @SuppressWarnings("OptionalGetWithoutIsPresent") final int previousValue = (int) tempVariableStackRecord.getDescribedConstruction().getValue().get();
+            tempVariableStackRecord.getDescribedConstruction().setValue(previousValue + 1);
+        }
+
+        writer.writeLoadValueFromAddressOnStackTop(interState.tempVariableAddress());
         writer.writePushToStack(1);
         writer.writeDoOperation(PL0Operation.ADD);
-        writer.writeStoreStackTopToAddress(tempVariableIndex);  // saving incremented value back to temp
-        writer.writeNextInstruction("JMP", 0, loopBeginAddress); // at the end of loop scope we jump back to start
+        writer.writeStoreStackTopToAddress(interState.tempVariableAddress());  // saving incremented value back to temp
+        writer.writeNextInstruction("JMP", 0, interState.loopBeginAddress()); // at the end of loop scope we jump back to start
 
         final int endOfLoopIndex = writer.getCurrentLineNumber();   // now we know where we should jump - updating
-        writer.updateInstruction(jumpCompareInstructionAddress, "JMC", 0, endOfLoopIndex);
-        currentScope.removeSymbol(tempVariableName);
+        writer.updateInstruction(interState.jmcInstructionAddress(), "JMC", 0, endOfLoopIndex);
+
+        if (tempVariableStackRecord != null) {
+            currentScope.removeSymbol(tempVariableStackRecord.getName());
+        }
     }
 
     public static void initializeArray(final Symbol<StackRecord> arraySymbol, final Function currentScope, final PL0OutputStreamWriter writer) {
@@ -413,5 +434,13 @@ public class EvaluationUtils {
         // logic to manually push values into each index is 2 lines per index
         // we check which one produces less code
         return size * 2 < 10;
+    }
+
+    public record ForLoopInterState(
+            int tempVariableAddress,
+            Symbol<StackRecord> tempVariableStackRecord,
+            int loopBeginAddress,
+            int jmcInstructionAddress
+    ) {
     }
 }

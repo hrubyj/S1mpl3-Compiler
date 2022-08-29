@@ -86,10 +86,21 @@ Za tři body:
 - [x] ternární operátor
 - [x] definice funkcí
 - [ ] volání uživatelských funkcí
-- [ ] volání vestavěných funkcí (+, -, /, AND, OR, !)
+- [ ] volání vestavěných funkcí (+, -, /, AND, OR, !, ...)
 - [ ] switch statement
 - [ ] instanceof
-- [ ] for cyklus pro rozsah (analogie `for (int i = 0; i < X; i++)`)
+- [x] for cyklus pro rozsah (analogie `for (int i = 0; i < X; i++)`)
 - [ ] for-each
 - [ ] while cyklus
 - [ ] do-while cyklus
+
+- při nalezení nefunkční konstrukce překlad skončí s chybou, "Unsupported operation"
+
+## Známé chyby
+
+### Nevymazání lokální proměnné z lokálního rozsahu
+
+- momentálně při opuštění nejnižšího vnořeného rozsahu nedojde k uvolnění názvu identifikátoru z lokílní tabulky symbolů
+- v praxi, pokud je uvnitř for cyklu deklarována proměnná `d`, po ukončení cyklu je jméno `d` i dále obsazeno a nelze
+  již deklarovat jinou proměnnou se stejným jménem, obdobně to platí pro `if-else` bloky
+    - výjimkou je dočasná proměnná v hlavičce for cyklu

@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.Token;
 
 import java.util.Map;
 
+import static cz.zcu.kiv.simple.lang.impl.NativeFunction.isNativeFunctionName;
 import static cz.zcu.kiv.utils.ContextUtils.getArrayTypeParameterSize;
 import static cz.zcu.kiv.utils.ContextUtils.isArrayAccess;
 import static cz.zcu.kiv.utils.ContextUtils.isBooleanLiteral;
@@ -67,6 +68,11 @@ public class DataTypeUtils {
 
             final var functionIdentifier = context.functionCall().functionIdentifier();
             final String functionName = functionIdentifier.getText();
+            if (isNativeFunctionName(functionName)) {
+                // every native function is a math operation or boolean operation
+                return new Integer();
+            }
+
             if (globalSymbolTable.get(functionName) == null) {
                 throw new AnalysisException(functionIdentifier.getStart(), "Function " + functionName + " not found");
             }
